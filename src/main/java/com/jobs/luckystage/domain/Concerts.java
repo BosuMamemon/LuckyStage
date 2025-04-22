@@ -18,12 +18,14 @@ public class Concerts {
     @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
-    @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
     private String performanceTime;
     @Column(nullable = false)
     private String location;
+    private String ageRate;
+    @Column(nullable = false)
+    private String paymentLink;
     @OneToMany(mappedBy = "concerts", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ConcertImages> concertImage;
 }
