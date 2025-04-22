@@ -8,7 +8,7 @@ class LuckyStageApplicationTests {
 
     @Test
     void contextLoads() {
-        int i = 111;
+        int i = 112;
     }
 
 }
