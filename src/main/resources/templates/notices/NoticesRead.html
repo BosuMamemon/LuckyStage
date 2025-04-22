@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      layout:decorate="~{layout/layout.html}" lang="en">
+<div layout:fragment="content">
+    <div class="card">
+
+        <div class="card-title">Notices Register</div>
+<!-- /*       <form action="/board/register" method="post"> */-->
+        <div class="input-group mb-3">
+            <span class="input-group-text">Num</span>
+            <input type="text" name="notice_num" class="form-controller" th:value="${notices.notice_num}">
+        </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Title</span>
+                <input type="text" name="title" class="form-controller" th:value="${notices.title}">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Content</span>
+                <textarea name="content" class="form-controller col-sm-5" rows="5">[[${notices.content}]]</textarea>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">UserName</span>
+                <input type="text" name="members_username" class="form-controller" th:value="${notices.members_username}">
+            </div>
+<!--            <div class="input-group mb-3">-->
+<!--                <span class="input-group-text">HitCount</span>-->
+<!--                <input type="text" name="hitcount" class="form-controller" th:value="${notices.hitcount}">-->
+<!--            </div>-->
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">Register Date</span>
+                <input type="text" name="reg_date" class="form-controller" th:value="${notices.reg_date}">
+            </div>
+
+            <div class="input-group mb-3">
+                <span sec:authorize="isAuthenticated()"
+                      th:if="${#authentication.principal.username==notices.getMembers_username()}">
+                    <a th:href="@{/notices/modify(num=${notices.notice_num})}">
+                        <button type="button" class="btn btn-primary">Modify</button>
+                    </a>
+                    <a th:href="@{/notices/remove(num=${notices.notice_num})}">
+                        <button type="button" class="btn btn-danger">Remove</button>
+                    </a>
+                </span>
+                <a th:href="@{/notices/list}">
+                    <button type="button" class="btn btn-secondary">List</button>
+                </a>
+            </div>
+<!--/*        </form> */-->
+    </div>
+</div>
