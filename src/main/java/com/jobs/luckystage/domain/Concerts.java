@@ -23,6 +23,9 @@ public class Concerts {
     private String performanceTime;
     @Column(nullable = false)
     private String location;
+    private String ageRate;
+    @Column(nullable = false)
+    private String paymentLink;
     @OneToMany(mappedBy = "concerts", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ConcertImages> concertImage;
 }
