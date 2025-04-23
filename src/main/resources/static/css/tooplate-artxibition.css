@@ -1296,7 +1296,116 @@ home.html
   font-weight: 700;
   margin: 50px 0 20px;
 }
+.main-list {
+  margin: 150px;
+  text-align: left; /* 전체 가운데 정렬 */
+}
 
+.concert-box img {
+  width: 200px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.concert-box p {
+  font-size: 14px;
+  margin-top: 5px;
+}
+.concert-wrapper {
+  margin-top: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.concert-box {
+  text-align: center;
+  width: 200px;
+}
+
+.concert-box img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+.concert-box img:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s;
+}
+.button-category {
+  text-align: center;
+  margin-top: 30px;
+}
+.round-button {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 16px;
+  color: #222;
+  text-decoration: none;
+  border: 1px solid #ddd;
+  border-radius: 999px; /* 완전 둥글게 */
+  background-color: white;
+  transition: all 0.3s ease;
+}
+.round-button a{
+  font-family:'Pretendard', sans-serif;
+  font-weight: 700;
+  color: #222;
+  text-decoration: none;
+}
+.round-button:hover {
+  background-color: #f5f5f5;
+  border-color: #aaa;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.review-preview-section {
+  padding: 40px 20px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.review-preview-section h2 {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+.review-cards {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.review-card {
+  background-color: white;
+  padding: 15px 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  width: 260px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.review-content {
+  margin-bottom: 10px;
+  font-style: italic;
+  color: #333;
+}
+
+.review-meta {
+  color: #666;
+  font-size: 13px;
+}
+
+.view-all-reviews {
+  display: inline-block;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #006242;
+  font-weight: 500;
+  text-decoration: none;
+}
 
 
 @-webkit-keyframes move-up-down {
