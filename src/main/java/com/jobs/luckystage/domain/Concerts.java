@@ -13,8 +13,8 @@ public class Concerts {
     private long concertNum;
     @Column(nullable = false)
     private String title;
-    @Column(nullable = false)
-    private String content;
+    @OneToMany(mappedBy = "concerts", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ConcertContents> concertContent;
     @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
@@ -27,5 +27,5 @@ public class Concerts {
     @Column(nullable = false)
     private String paymentLink;
     @OneToMany(mappedBy = "concerts", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ConcertImages> concertImage;
+    private Set<ConcertPosters> concertPoster;
 }
