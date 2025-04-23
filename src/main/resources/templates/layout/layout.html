@@ -17,7 +17,6 @@
     <title></title>
 
 </head>
-
 <body>
 <!-- ***** Preloader Start ***** -->
 <div id="js-preloader" class="js-preloader">
@@ -42,6 +41,7 @@
             <div class="col-lg-6 col-sm-6">
                 <div class="text-button">
                     <a href="#">LOGIN</a>
+                    <a href="#">JOIN</a>
                 </div>
             </div>
         </div>
@@ -80,7 +80,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-4">
-                <p class="nav_title">Concert Ticket Reservation Site</p>
+                <p class="nav_title"></p>
             </div>
             <div class="col-lg-8">
                 <form id="subscribe" action="" method="get">
@@ -140,24 +140,18 @@
     </div>
 </footer>
 
-<!-- jQuery -->
-<script src="/js/jquery-2.1.0.min.js"></script>
 
 <!-- Bootstrap -->
 <script src="/js/popper.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 
-<!-- Plugins -->
-<script src="/js/scrollreveal.min.js"></script>
-<script src="/js/waypoints.min.js"></script>
-<script src="/js/jquery.counterup.min.js"></script>
-<script src="/js/imgfix.min.js"></script>
-<script src="/js/mixitup.js"></script>
-<script src="/js/accordions.js"></script>
-<script src="/js/owl-carousel.js"></script>
-
-<!-- Global Init -->
-<script src="/js/custom.js"></script>
-
+<script>
+$(document).ready(function () {
+$('.main-nav .nav li a').on('click', function (e) {
+$('.main-nav .nav li a').removeClass('active'); // 기존 active 제거
+$(this).addClass('active'); // 클릭된 항목에 active 부여
+});
+});
+</script>
 </body>
 </html>
