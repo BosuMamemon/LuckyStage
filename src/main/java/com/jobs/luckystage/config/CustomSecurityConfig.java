@@ -22,7 +22,7 @@ public class CustomSecurityConfig {
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
                         authorizationManagerRequestMatcherRegistry
                                 .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                                .requestMatchers("/").permitAll()
+                                .requestMatchers("/**").permitAll()
                 ).build();
     }
 
