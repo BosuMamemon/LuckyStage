@@ -1,42 +1,29 @@
-package com.jobs.luckystage.domain;
+package com.jobs.luckystage.dto;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.BatchSize;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
-@Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Data
-public class Concerts {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ConcertDTO {
     private long concertNum;
     private String posterFileName;
-    @Column(nullable = false)
     private String title;
-    @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
     private String performanceTime;
-    @Column(nullable = false)
     private String location;
     private String ageRate;
-    @Column(nullable = false)
     private String paymentLink;
-    @OneToMany(mappedBy = "concerts", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    @BatchSize(size = 20)
-    private Set<ConcertImages> concertImage = new HashSet<>();
+    private List<String> concertImage;
 }

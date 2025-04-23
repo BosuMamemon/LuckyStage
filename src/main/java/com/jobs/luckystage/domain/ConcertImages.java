@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ConcertImages {
+public class ConcertImages implements Comparable<ConcertImages> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -20,4 +20,8 @@ public class ConcertImages {
     private int ord;
     @ManyToOne(fetch = FetchType.LAZY)
     private Concerts concerts;
+
+    public int compareTo(ConcertImages other) {
+        return this.ord - other.getOrd();
+    }
 }

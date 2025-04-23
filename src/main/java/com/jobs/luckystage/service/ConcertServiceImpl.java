@@ -1,0 +1,27 @@
+package com.jobs.luckystage.service;
+
+import com.jobs.luckystage.domain.Concerts;
+import com.jobs.luckystage.dto.ConcertDTO;
+import com.jobs.luckystage.repository.ConcertRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+@Log4j2
+public class ConcertServiceImpl implements ConcertService {
+    private final ConcertRepository concertRepository;
+
+    @Override
+    public List<ConcertDTO> list() {
+        List<Concerts> entityList = concertRepository.findAll();
+        List<ConcertDTO> dtoList = entityList.stream().map(entity -> {
+            return entityToDto(entity);
+        }).collect(Collectors.toList());
+        return dtoList;
+    }
+}
