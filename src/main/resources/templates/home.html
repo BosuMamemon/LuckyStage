@@ -4,16 +4,21 @@
       layout:decorate="~{layout/layout.html}" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>LuckyStage</title>
+    <title></title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="/css/owl-carousel.css">
+    <link rel="stylesheet" href="/css/tooplate-artxibition.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 </head>
 
 <body>
 <div layout:fragment="content">
+
     <div class="main-banner">
         <img src="/images/banner.png" alt="메인 배너">
     </div>
@@ -33,7 +38,7 @@
                 <p class="review-content">"공평하게 예매할 수 있어서 좋아요"</p>
                 <p class="review-meta">- 토리아빠 ⭐⭐⭐⭐☆</p>
             </div>
-<!--            <a href="/reviews" class="view-all-reviews">후기 전체보기 ></a>-->
+            <a href="/reviews/reviews" class="view-all-reviews">후기 전체보기 ></a>
         </div>
     </div>
 
@@ -94,8 +99,10 @@
                 콘서트 전체보기 &gt;
             </a>
         </div>
-
-
+    </div>
+</div>
+</body>
+</html>
     <script>
         $(function () {
             if ($('.slider').length) {
@@ -113,6 +120,3 @@
             }
         });
     </script>
-</div>
-</body>
-</html>
