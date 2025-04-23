@@ -1,4 +1,4 @@
 package com.jobs.luckystage.controller;
 
-public class NoticeCommentsController {
+public class NoticesCommentsController {
 }

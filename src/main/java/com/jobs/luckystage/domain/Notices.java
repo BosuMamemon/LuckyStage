@@ -1,9 +1,7 @@
 package com.jobs.luckystage.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.Date;
 import java.util.Set;
@@ -12,6 +10,9 @@ import java.util.Set;
 @Setter
 @ToString
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Notices {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,4 +28,25 @@ public class Notices {
     private Set<NoticeImages> noticeImages;
     @OneToMany(mappedBy = "notices", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<NoticeComments> noticeComments;
+
+    public void addImage(String uuid, String fileName) {
+        NoticeImages image=NoticeImages.builder()
+                .uuid(uuid)
+                .filename(fileName)
+                .notices(this)
+                .ord(noticeImages.size())
+                .build();
+        noticeImages.add(image);
+    }
+    public void clearImages() {
+        noticeImages.forEach(noticesImage -> noticesImage.changeNotices(null));
+        this.noticeImages.clear();
+    }
+//    public void updateReadcount(){ readcount = readcount +1; }
+    public void change(String title, String content){
+        this.title = title;
+        this.content = content;
+    }
+
+
 }
