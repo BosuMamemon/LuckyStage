@@ -36,23 +36,22 @@ import java.util.UUID;
 @RequestMapping("/notices")
 public class NoticesController {
 
-//    @Value("${com.pgm.upload.path}")
-//    private String uploadPath;
-    private String uploadPath = "";
+    @Value("${com.pgm.upload.path}")
+    private String uploadPath;
 
     @Autowired
     private NoticesService noticesService;
 
-    @GetMapping("noticesList")
+    @GetMapping("/list")
     public void listNotices(NoticesPageRequestDTO noticesPageRequestDTO, Model model) {
         NoticesPageResponseDTO<NoticesDTO> responseDTO = noticesService.list(noticesPageRequestDTO);
         model.addAttribute("responseDTO", responseDTO);
         model.addAttribute("pageRequest", noticesPageRequestDTO);
     }
-    @GetMapping("/noticesRegister")
+    @GetMapping("/register")
     public void register(){
     }
-    @PostMapping("/noticesRegister")
+    @PostMapping("/register")
     public String register(NoticesUploadFileDTO noticesUploadFileDTO, NoticesDTO noticesDTO){
         List<String> strFileNames=null;
         if(noticesUploadFileDTO.getFiles()!=null &&
@@ -62,7 +61,7 @@ public class NoticesController {
         }
         noticesDTO.setFileNames(strFileNames);
         noticesService.registerNotices(noticesDTO);
-        return "redirect:/notices/noticesList";
+        return "redirect:/notices/list";
     }
     @GetMapping({"/noticesRead","/noticesModify"})
     public void read_modify(NoticesPageRequestDTO pageRequestDTO, Long notice_num, Model model){

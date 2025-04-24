@@ -4,26 +4,25 @@ import com.jobs.luckystage.domain.Notices;
 import com.jobs.luckystage.dto.NoticesDTO;
 import com.jobs.luckystage.dto.NoticesPageRequestDTO;
 import com.jobs.luckystage.dto.NoticesPageResponseDTO;
-import com.jobs.luckystage.repository.NoticesCommentsRepository;
 import com.jobs.luckystage.repository.NoticesRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.jaxb.SpringDataJaxb;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @Log4j2
-@RequiredArgsConstructor
 public class NoticesServiceImpl implements NoticesService {
 //    private final NoticesCommentsRepository noticesCommentsRepository;
-    private final NoticesRepository noticesRepository;
+    @Autowired
+    private NoticesRepository noticesRepository;
 
     @Override
     public void registerNotices(NoticesDTO noticesDTO) {
@@ -57,28 +56,32 @@ public class NoticesServiceImpl implements NoticesService {
     }
 
     @Override
-    public void deleteNotices(Long notice_num) {
-        noticesRepository.deleteById(notice_num);
+    public void deleteNotices(Long noticeNum) {
+        noticesRepository.deleteById(noticeNum);
     }
+
+
 
     @Override
     public NoticesPageResponseDTO<NoticesDTO> list(NoticesPageRequestDTO noticesPageRequestDTO) {
-        Pageable pageable = noticesPageRequestDTO.getPageable("notice_num");
-//        Page<Notices> result = noticesRepository.searchAll(
-//                noticesPageRequestDTO.getTypes(),
-//                noticesPageRequestDTO.getKeyword(),
-//                pageable);
-//        List<NoticesDTO> dtoList = result.stream()
-//                .map(notices -> entityToDto(notices))
-//                .collect(Collectors.toList());
+        Pageable pageable = noticesPageRequestDTO.getPageable("noticeNum");
+        Page<Notices> result = noticesRepository.searchAll(
+                noticesPageRequestDTO.getTypes(),
+                noticesPageRequestDTO.getKeyword(),
+                pageable);
+        if (result == null) {
+           // throw new IllegalStateException("검색 결과가 없습니다.");
+            return  null;
+        }
 
+        List<NoticesDTO> dtoList = result.stream()
+                .map(notices -> entityToDto(notices))
+                .collect(Collectors.toList());
 
-
-
-
-
-        return null;
-    }
-
-
+        return NoticesPageResponseDTO.<NoticesDTO>withAll()
+                .noticesPageRequestDTO(noticesPageRequestDTO)
+                .dtoList(dtoList)
+                .total((int) result.getTotalElements())
+                .build();
+   }
 }

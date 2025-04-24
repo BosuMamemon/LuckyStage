@@ -17,7 +17,7 @@ public class NoticesPageResponseDTO<E> {
     private boolean prev; // 이전페이지 존재 여부
     private boolean next; // 다음 페이지 존재 여부
     private List<E> dtoList; // 페이징할 dto 리스트
-    @Builder(builderClassName = "withAll")
+    @Builder(builderMethodName = "withAll")
     public NoticesPageResponseDTO(NoticesPageRequestDTO noticesPageRequestDTO,
                                   List<E> dtoList,
                                   int total) {

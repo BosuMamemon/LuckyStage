@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout.html}"
+      lang="en">
+
+<div layout:fragment="content">
+
+    <div class="card">
+        <div class="card-title">공지사항 </div>
+        <form action="/register" method="post">
+            <div class="input-group mb-3">
+                <span class="input-group-text">제목</span>
+                <input type="text" name="title" class="form-controller" placeholder="Title">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">내용</span>
+                <textarea name="noticesContent" class="form-controller col-sm-5" rows="5"></textarea>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">작성자</span>
+<!--                <input type="text" name="notices-members_username" class="form-controller" th:value="${#authentication.principal.username}">-->
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">FileUpload</span>
+                <input type="file" name="noticesFiles" class="form-control" multiple>
+            </div>
+            <div class="input-group mb-3">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="reset" class="btn btn-success">Reset</button>
+            </div>
+        </form>
+    </div>
+</div>

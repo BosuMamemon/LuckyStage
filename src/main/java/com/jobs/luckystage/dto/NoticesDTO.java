@@ -23,5 +23,6 @@ public class NoticesDTO {
     @NotEmpty
     private Members members;
     private LocalDateTime regDate;
+    private LocalDateTime updateDate;
     private List<String> fileNames;
 }
