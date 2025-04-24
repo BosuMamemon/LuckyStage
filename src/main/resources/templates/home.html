@@ -2,21 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout.html}" lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/font-awesome.css">
-    <link rel="stylesheet" type="text/css" href="/css/owl-carousel.css">
-    <link rel="stylesheet" href="/css/tooplate-artxibition.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-</head>
 
-<body>
 <div layout:fragment="content">
 
     <div class="main-banner">
@@ -101,22 +87,18 @@
         </div>
     </div>
 </div>
-</body>
 </html>
-    <script>
-        $(function () {
-            if ($('.slider').length) {
-                $('.slider').slick({
-                    autoplay: true,
-                    dots: true,
-                    arrows: true,
-                    infinite: true,
-                    slidesToShow: 4,
-                    slidesToScroll: 1,
-                    centerMode:false,
-                    prevArrow: '<button type="button" class="slick-prev">&lt;</button>',
-                    nextArrow: '<button type="button" class="slick-next">&gt;</button>'
-                });
-            }
-        });
-    </script>
+<script>
+    $(function () {
+        if ($('.slider').length) {
+            $('.slider').slick({
+                autoplay: true,
+                dots: true,
+                arrows: true,
+                infinite: true,
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                centerMode:false,
+                prevArrow: '<button type="button" class="slick-prev">&lt;</button>',
+                nextArrow: '<button type="button" class="slick-next">&gt;</button>'});}});
+</script>

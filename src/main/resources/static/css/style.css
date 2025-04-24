@@ -32,6 +32,7 @@ body {
     font-weight: bold;
 }
 
+/* main */
 .main-banner img {
     width: 100%;
     max-height: 300px;
@@ -72,4 +73,85 @@ body {
     top: 50%;
     transform: translateY(-50%);
 }
+
+
+/* list.html*/
+.concert-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.concert-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+}
+
+.concert-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    transition: 0.3s ease;
+
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* 카드가 전체 높이 채우도록 */
+}
+
+.card-img-top {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    flex-grow: 1;
+}
+
+.card-title {
+    font-size: 15px;
+    font-weight: bold;
+    margin: 10px 0 5px;
+    flex-grow: 1; /* 여백 생기면 타이틀이 늘어남 */
+}
+
+.card-text {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.rating {
+    color: gold;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.reserve-btn {
+    margin-top: 10px;
+    padding: 6px 12px;
+    font-size: 12px;
+    background-color: #006242;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-block;
+    width: 80px;
+    text-align: center;
+    align-self: center;
+}
+
+.reserve-btn:hover {
+    background-color: #004f34;
+}
+
+
+
 

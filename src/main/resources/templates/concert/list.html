@@ -1,29 +1,22 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org/"
+<html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout.html}"
       lang="en">
 
 <div layout:fragment="content">
-    <div class="container mt-3">
-        <div class="row">
-            <div class="col mt-3 mb-3" th:each="concert:${dtoList}">
-                <a th:href="@{/concert/read(concertNum=${concert.concertNum})}">
-                    <div class="card text-center" style="width: 19rem; height: 40rem;">
-                        <img th:src="|/concert/img/${concert.posterFileName}|" class="card-img-top">
-                        <div class="card-body align-middle">
-                            <h5 class="card-title">[[${concert.title}]]</h5>
-                            <p class="card-text" style="color: #1e1e1e;">
-                                [[${concert.startDate}]]
-                                <br>
-                                -
-                                <br>
-                                [[${concert.endDate}]]
-                            </p>
-                        </div>
-                    </div>
-                </a>
+    <h1 class="section-title">공연목록</h1>
+    <div class="concert-wrapper">
+        <div class="concert-grid">
+            <div class="card" th:each="concert : ${dtoList}">
+                <img th:src="|/concert/img/${concert.posterFileName}|" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">[[${concert.title}]]</h5>
+                    <p class="card-text">[[${concert.startDate}]] ~ [[${concert.endDate}]]</p>
+                    <div class="rating">★★★★☆</div>
+                    <a th:href="@{/concert/read(concertNum=${concert.concertNum})}" class="reserve-btn">예약하기</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
+</html>
