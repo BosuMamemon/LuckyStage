@@ -3,5 +3,8 @@ package com.jobs.luckystage.repository;
 import com.jobs.luckystage.domain.Reviews;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ReviewsRepository extends JpaRepository<Reviews, Long> {
+import java.util.List;
+
+public interface ReviewRepository extends JpaRepository<Reviews, Long> {
+    List<Reviews> findAllByOrderByReviewNumDesc();
 }
