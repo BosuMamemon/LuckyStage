@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/reviews")
-public class ReviewsController {
+public class ReviewController {
     @GetMapping("/reviews")
     public void addReview(){}
 }
+
