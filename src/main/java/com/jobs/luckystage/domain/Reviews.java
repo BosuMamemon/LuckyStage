@@ -19,6 +19,7 @@ public class Reviews {
     @OneToMany(mappedBy = "reviews", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ReviewComments> reviewComments;
     private Date regDate;
+    private double rating;
     @OneToMany(mappedBy = "reviews", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ReviewImages> reviewImages;
 }

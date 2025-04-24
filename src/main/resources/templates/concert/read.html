@@ -5,6 +5,7 @@
       lang="en">
 
 <div layout:fragment="content">
+  <h1 class="section-title">공연 상세</h1>
   <div class="container mt-5">
     <div class="row">
       <div class="col">
@@ -18,11 +19,11 @@
           </tr>
           <tr>
             <th class="table-success">공연 시작 날짜</th>
-            <td>[[${concert.startDate}]]</td>
+            <td>[[${#dates.format(concert.startDate, 'yyyy-MM-dd')}]]</td>
           </tr>
           <tr>
             <th class="table-success">공연 종료 날짜</th>
-            <td>[[${concert.endDate}]]</td>
+            <td>[[${#dates.format(concert.endDate, 'yyyy-MM-dd')}]]</td>
           </tr>
           <tr>
             <th class="table-success">공연 시간</th>
@@ -47,7 +48,7 @@
         </p>
 
         <!-- 관람일 선택 + 예약 버튼 -->
-        <form th:action="@{/reservation/start}" method="post" class="mt-4">
+        <form th:action="@{/mypage/reservation}" method="post" class="mt-4">
           <div class="card shadow-sm p-4" style="max-width: 320px; border-radius: 16px; border: 1px solid #eee;">
             <label for="selectedDate" class="form-label mb-2" style="font-weight: bold; font-size: 15px;">
               🎟️ 관람일 선택
@@ -76,7 +77,7 @@
     </div>
     <div class="mt-5 text-center">
       <th:block th:each="filename:${concert.filenames}">
-        <img th:src="|/concert/img/${filename}|">
+        <img th:src="|/concert/img/${filename}|" th:if="${filename!=''}">
       </th:block>
     </div>
   </div>
