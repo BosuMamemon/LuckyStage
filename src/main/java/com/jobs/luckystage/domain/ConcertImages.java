@@ -17,6 +17,7 @@ public class ConcertImages implements Comparable<ConcertImages> {
     private long id;
     private String uuid;
     private String filename;
+    @Column(nullable = true)
     private int ord;
     @ManyToOne(fetch = FetchType.LAZY)
     private Concerts concerts;
