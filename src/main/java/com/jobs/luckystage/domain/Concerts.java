@@ -21,6 +21,7 @@ public class Concerts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long concertNum;
+    private double rating;
     private String posterFileName;
     @Column(nullable = false)
     private String title;
