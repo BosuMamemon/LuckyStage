@@ -11,7 +11,7 @@
                 <img th:src="|/concert/img/${concert.posterFileName}|" class="card-img-top">
                 <div class="card-body">
                     <h5 class="card-title">[[${concert.title}]]</h5>
-                    <p class="card-text">[[${concert.startDate}]] ~ [[${concert.endDate}]]</p>
+                    <p class="card-text">[[${#dates.format(concert.startDate, 'yyyy-MM-dd')}]] ~ [[${#dates.format(concert.endDate, 'yyyy-MM-dd')}]]</p>
                     <div class="rating">★★★★☆</div>
                     <a th:href="@{/concert/read(concertNum=${concert.concertNum})}" class="reserve-btn">예약하기</a>
                 </div>
