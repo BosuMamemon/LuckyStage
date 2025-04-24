@@ -8,18 +8,21 @@
     <div class="container mt-3">
         <div class="row">
             <div class="col mt-3 mb-3" th:each="concert:${dtoList}">
-                <div class="card" style="width: 18rem; height: 38rem;">
-                    <img th:src="|/concert/img/${concert.posterFileName}|" class="card-img-top">
-                    <div class="card-body">
-                        <a th:href="@{/concert/read(concertNum=${concert.concertNum})}"><h5 class="card-title">[[${concert.title}]]</h5></a>
-                        <p class="card-text">
-                            [[${concert.startDate}]]
-                        </p>
-                        <p class="card-text">
-                            [[${concert.endDate}]]
-                        </p>
+                <a th:href="@{/concert/read(concertNum=${concert.concertNum})}">
+                    <div class="card text-center" style="width: 19rem; height: 40rem;">
+                        <img th:src="|/concert/img/${concert.posterFileName}|" class="card-img-top">
+                        <div class="card-body align-middle">
+                            <h5 class="card-title">[[${concert.title}]]</h5>
+                            <p class="card-text" style="color: #1e1e1e;">
+                                [[${concert.startDate}]]
+                                <br>
+                                -
+                                <br>
+                                [[${concert.endDate}]]
+                            </p>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
     </div>
