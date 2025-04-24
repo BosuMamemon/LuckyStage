@@ -79,7 +79,7 @@ body {
 .concert-wrapper {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 40px 20px;
+    padding: 0;
 }
 
 .concert-grid {
@@ -151,7 +151,37 @@ body {
 .reserve-btn:hover {
     background-color: #004f34;
 }
+.concert-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+    padding: 0 20px; /* 살짝 들여쓰기만 */
+}
 
+.sort-tabs {
+    margin-left: auto;   /* 오른쪽으로 붙이기 */
+    margin-right: 300px;  /* 너무 붙지 않게 들여쓰기 */
+    display: flex;
+    gap: 10px;
+}
+
+.sort-tab {
+    padding: 6px 14px;
+    font-size: 14px;
+    border: 1px solid #006242;
+    border-radius: 20px;
+    color: #006242;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.sort-tab:hover,
+.sort-tab.active {
+    background-color: #006242;
+    color: white;
+}
 
 
 

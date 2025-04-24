@@ -5,6 +5,15 @@
 
 <div layout:fragment="content">
     <h1 class="section-title">공연목록</h1>
+
+    <div class="concert-header">
+        <div class="sort-tabs">
+            <a href="#" class="sort-tab active">최신순</a>
+            <a href="#" class="sort-tab">인기순</a>
+            <a href="#" class="sort-tab">조회순</a>
+        </div>
+    </div>
+
     <div class="concert-wrapper">
         <div class="concert-grid">
             <div class="card" th:each="concert : ${dtoList}">
