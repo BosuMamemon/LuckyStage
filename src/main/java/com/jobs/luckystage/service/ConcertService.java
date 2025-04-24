@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface ConcertService {
     List<ConcertDTO> list();
+    ConcertDTO findById(long concertNum);
 
     default ConcertDTO entityToDto(Concerts entity) {
         ConcertDTO dto = ConcertDTO.builder()

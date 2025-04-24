@@ -11,8 +11,13 @@
                 <div class="card" style="width: 18rem; height: 38rem;">
                     <img th:src="|/concert/img/${concert.posterFileName}|" class="card-img-top">
                     <div class="card-body">
-                        <a href="#"><h5 class="card-title">[[${concert.title}]]</h5></a>
-                        <p class="card-text">[[${concert.startDate}]] - [[${concert.endDate}]]</p>
+                        <a th:href="@{/concert/read(concertNum=${concert.concertNum})}"><h5 class="card-title">[[${concert.title}]]</h5></a>
+                        <p class="card-text">
+                            [[${concert.startDate}]]
+                        </p>
+                        <p class="card-text">
+                            [[${concert.endDate}]]
+                        </p>
                     </div>
                 </div>
             </div>

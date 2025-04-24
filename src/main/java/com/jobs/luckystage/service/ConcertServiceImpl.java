@@ -24,4 +24,10 @@ public class ConcertServiceImpl implements ConcertService {
         }).collect(Collectors.toList());
         return dtoList;
     }
+
+    @Override
+    public ConcertDTO findById(long concertNum) {
+        Concerts entity = concertRepository.findById(concertNum).orElse(null);
+        return entityToDto(entity != null ? entity : null);
+    }
 }

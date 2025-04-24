@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout.html}"
+      lang="en">
+
+<div layout:fragment="content">
+  <div class="container">
+    <table class="table table-warning table-hover">
+      <tr>
+        <th>제목</th>
+        <td>[[${concert.title}]]</td>
+      </tr>
+      <tr>
+        <th>공연 시작 날짜</th>
+        <td>[[${concert.startDate}]]</td>
+      </tr>
+      <tr>
+        <th>공연 종료 날짜</th>
+        <td>[[${concert.endDate}]]</td>
+      </tr>
+      <tr>
+        <th>공연 시간</th>
+        <td>[[${concert.performanceTime}]]</td>
+      </tr>
+      <tr>
+        <th>공연 장소</th>
+        <td>[[${concert.location}]]</td>
+      </tr>
+      <tr>
+        <th>이용 가능 연령</th>
+        <td>${concert.}</td>
+      </tr>
+    </table>
+  </div>
+</div>

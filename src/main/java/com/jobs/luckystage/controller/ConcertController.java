@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -26,6 +27,7 @@ public class ConcertController {
     private final ConcertService concertService;
     private String uploadPath = new File("src/main/resources/static/images/concerts").getAbsolutePath();
 
+//    list - get
     @GetMapping("/list")
     public void list(Model model) {
         List<ConcertDTO> dtoList = concertService.list();
@@ -33,6 +35,7 @@ public class ConcertController {
         model.addAttribute("dtoList", dtoList);
     }
 
+//    static/images/concerts에서 이미지 불러오기
     @GetMapping("/img/{filename}")
     public ResponseEntity<Resource> getImage(@PathVariable("filename") String filename) {
         log.info("path: " + uploadPath);
@@ -45,5 +48,11 @@ public class ConcertController {
             return ResponseEntity.internalServerError().build();
         }
         return ResponseEntity.ok().headers(headers).body(resource);
+    }
+
+    @GetMapping("/read")
+    public void getRead(@RequestParam("concertNum") long concertNum, Model model) {
+        ConcertDTO dto = concertService.findById(concertNum);
+        model.addAttribute("concert", dto);
     }
 }
