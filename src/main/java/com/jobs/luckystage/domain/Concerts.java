@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -21,6 +22,7 @@ public class Concerts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long concertNum;
+    @ColumnDefault("0")
     private double rating;
     private String posterFileName;
     @Column(nullable = false)
