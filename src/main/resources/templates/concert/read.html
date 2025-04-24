@@ -74,5 +74,10 @@
 
       </div>
     </div>
+    <div class="mt-5 text-center">
+      <th:block th:each="filename:${concert.filenames}">
+        <img th:src="|/concert/img/${filename}|">
+      </th:block>
+    </div>
   </div>
 </div>

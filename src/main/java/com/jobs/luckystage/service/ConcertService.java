@@ -5,13 +5,14 @@ import com.jobs.luckystage.dto.ConcertDTO;
 
 import java.util.List;
 
+
 public interface ConcertService {
     List<ConcertDTO> list();
     ConcertDTO findById(long concertNum);
 
+
     default ConcertDTO entityToDto(Concerts entity) {
         ConcertDTO dto = ConcertDTO.builder()
-//                .concertImage(entity.getConcertImage())
                 .posterFileName(entity.getPosterFileName())
                 .title(entity.getTitle())
                 .concertNum(entity.getConcertNum())
@@ -27,7 +28,6 @@ public interface ConcertService {
 
     default Concerts dtoToEntity(ConcertDTO dto) {
         Concerts entity = Concerts.builder()
-//                .concertImage(dto.getConcertImage())
                 .posterFileName(dto.getPosterFileName())
                 .ageRate(dto.getAgeRate())
                 .concertNum(dto.getConcertNum())

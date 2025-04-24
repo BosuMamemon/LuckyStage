@@ -5,24 +5,20 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ConcertImages implements Comparable<ConcertImages> {
+public class ConcertImages {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String uuid;
     private String filename;
-    @Column(nullable = true)
+    @ColumnDefault("0")
     private int ord;
     @ManyToOne(fetch = FetchType.LAZY)
     private Concerts concerts;
-
-    public int compareTo(ConcertImages other) {
-        return this.ord - other.getOrd();
-    }
 }

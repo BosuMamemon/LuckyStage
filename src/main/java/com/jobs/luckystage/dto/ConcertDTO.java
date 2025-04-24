@@ -25,5 +25,5 @@ public class ConcertDTO {
     private String location;
     private String ageRate;
     private String paymentLink;
-    private List<String> concertImage;
+    private List<String> filenames;
 }
