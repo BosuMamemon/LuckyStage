@@ -8,6 +8,7 @@ import com.jobs.luckystage.dto.NoticesPageResponseDTO;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 public interface NoticesService {
     void registerNotices(NoticesDTO noticesDTO);
     NoticesDTO readNotices(Long notice_num);
@@ -39,8 +40,8 @@ public interface NoticesService {
 //                .regDate(noticesEntity.getRegDate())
                 .build();
         List<String> fileNames =
-                noticesEntity.getImageSet().stream().sorted().map(noticeImage ->
-                                noticeImages.getUuid()+"_"+noticeImages.getFileName())
+                noticesEntity.getNoticeImages().stream().sorted().map(noticeImage ->
+                        noticeImage.getUuid()+"_"+noticeImage.getFilename())
                         .collect(Collectors.toList());
         noticesDTO.setFileNames(fileNames);
         return noticesDTO;
