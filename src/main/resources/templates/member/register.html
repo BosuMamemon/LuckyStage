@@ -4,36 +4,36 @@
       layout:decorate="~{layout/layout.html}" lang="en">
 
 <div layout:fragment="content">
-  <div class="card">
-    <div class="card-title">회원가입</div>
+  <div class="register-card">
+    <div class="register-title">회원가입</div>
     <form action="/member/register" method="post">
-      <div class="input-group mb-3">
-        <span class="input-group-text">아이디</span>
-        <input type="text" name="username" class="form-controller" placeholder="아이디를 입력하세요.">
+      <div class="register-input-group">
+        <label class="register-label">아이디</label>
+        <input type="text" name="username" class="register-input" placeholder="아이디를 입력하세요.">
       </div>
-      <div class="input-group mb-3">
-        <span class="input-group-text">비밀번호</span>
-        <input type="password" name="password" class="form-controller" placeholder="비밀번호를 입력하세요.">
+      <div class="register-input-group">
+        <label class="register-label">비밀번호</label>
+        <input type="password" name="password" class="register-input" placeholder="비밀번호를 입력하세요.">
       </div>
-      <div class="input-group mb-3">
-        <span class="input-group-text">이름</span>
-        <input type="text" name="name" class="form-controller" placeholder="이름을 입력하세요.">
+      <div class="register-input-group">
+        <label class="register-label">이름</label>
+        <input type="text" name="name" class="register-input" placeholder="이름을 입력하세요.">
       </div>
-      <div class="input-group mb-3">
-        <span class="input-group-text">주소</span>
-        <input type="text" name="address" class="form-controller" placeholder="주소를 입력하세요.">
+      <div class="register-input-group">
+        <label class="register-label">주소</label>
+        <input type="text" name="address" class="register-input" placeholder="주소를 입력하세요.">
       </div>
-      <div class="input-group mb-3">
-        <span class="input-group-text">전화번호</span>
-        <input type="tel" name="tel" class="form-controller" placeholder="전화번호를 입력하세요.">
+      <div class="register-input-group">
+        <label class="register-label">전화번호</label>
+        <input type="tel" name="tel" class="register-input" placeholder="전화번호를 입력하세요.">
       </div>
-      <div class="input-group mb-3">
-        <span class="input-group-text">이메일</span>
-        <input type="email" name="email" class="form-controller" placeholder="이메일을 입력하세요.">
+      <div class="register-input-group">
+        <label class="register-label">이메일</label>
+        <input type="email" name="email" class="register-input" placeholder="이메일을 입력하세요.">
       </div>
-      <div class="input-group mb-3">
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <button type="reset" class="btn btn-secondary">Reset</button>
+      <div class="register-btn-group">
+        <button type="submit" class="register-btn register-btn-submit">가입</button>
+        <button type="reset" class="register-btn register-btn-cancel">초기화</button>
       </div>
     </form>
   </div>

@@ -24,4 +24,5 @@ public class Reviews extends BaseEntity {
     private double rating;
     @OneToMany(mappedBy = "reviews", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ReviewImages> reviewImages;
+
 }

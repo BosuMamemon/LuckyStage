@@ -4,22 +4,20 @@
       layout:decorate="~{layout/layout.html}" lang="en">
 
 <div layout:fragment="content">
-  <div class="card">
-    <div class="card-title">로그인</div>
+  <div class="login-card">
+    <div class="login-title">로그인</div>
     <form action="/login" method="post">
-      <div class="input-group mb-3">
-        <span class="input-group-text">아이디</span>
-        <input type="text" name="username" class="form-controller" placeholder="아이디">
+      <div class="login-input-group">
+        <label class="login-label">아이디</label>
+        <input type="text" name="username" class="login-input" placeholder="아이디">
       </div>
-      <div class="input-group mb-3">
-        <span class="input-group-text">패스워드</span>
-        <input type="password" name="password" class="form-controller" placeholder="패스워드">
+      <div class="login-input-group">
+        <label class="login-label">패스워드</label>
+        <input type="password" name="password" class="login-input" placeholder="패스워드">
       </div>
-      <div class="input-group mb-3">
-        <button type="submit" class="btn btn-primary">Login</button>
-        <a th:href="@{/member/join}">
-          <button type="button" class="btn btn-secondary">Join</button>
-        </a>
+      <div class="login-btn-group">
+        <button type="submit" class="login-btn login-btn-submit">로그인</button>
+        <a th:href="@{/member/join}" class="login-btn login-btn-cancel">회원가입</a>
       </div>
     </form>
   </div>

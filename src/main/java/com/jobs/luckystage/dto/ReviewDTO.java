@@ -22,3 +22,4 @@ public class ReviewDTO {
     private List<ReviewImageDTO> imageList;
     private List<ReviewCommentDTO> commentList;
 }
+
