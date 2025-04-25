@@ -52,38 +52,42 @@
         </p>
 
         <!-- 관람일 선택 + 예약 버튼 -->
-        <form th:action="@{/mypage/reservation}" method="post" class="mt-4">
-          <div class="card shadow-sm p-4" style="max-width: 320px; border-radius: 16px; border: 1px solid #eee;">
-            <label for="selectedDate" class="form-label mb-2" style="font-weight: bold; font-size: 15px;">
-              🎟️ 관람일 선택
-            </label>
-            <input
-                    type="date"
-                    name="selectedDate"
-                    id="selectedDate"
-                    class="form-control mb-3"
-                    th:attr="min=${#dates.format(concert.startDate, 'yyyy-MM-dd')}, max=${#dates.format(concert.endDate, 'yyyy-MM-dd')}"
-                    required
-                    style="border-radius: 8px; padding: 10px;"
-            >
+        <div class="row">
+          <div class="col">
+            <form th:action="@{/mypage/reservation}" method="post" class="mt-4">
+              <div class="card shadow-sm p-4" style="max-width: 320px; border-radius: 16px; border: 1px solid #eee;">
+                <label for="selectedDate" class="form-label mb-2" style="font-weight: bold; font-size: 15px;">
+                  🎟️ 관람일 선택
+                </label>
+                <input
+                        type="date"
+                        name="selectedDate"
+                        id="selectedDate"
+                        class="form-control mb-3"
+                        th:attr="min=${#dates.format(concert.startDate, 'yyyy-MM-dd')}, max=${#dates.format(concert.endDate, 'yyyy-MM-dd')}"
+                        required
+                        style="border-radius: 8px; padding: 10px;"
+                >
 
-            <input type="hidden" name="concertNum" th:value="${concert.concertNum}">
+                <input type="hidden" name="concertNum" th:value="${concert.concertNum}">
 
-            <button type="submit"
-                    class="btn w-100"
-                    style="background-color: #006242; color: white; font-weight: bold; border-radius: 8px; padding: 10px;">
-              예약하기
-            </button>
+                <button type="submit"
+                        class="btn w-100"
+                        style="background-color: #006242; color: white; font-weight: bold; border-radius: 8px; padding: 10px;">
+                  예약하기
+                </button>
+              </div>
+            </form>
           </div>
-        </form>
-        <div>
-          <a href="/reviews/reviews/reviewform">
-            <button type="button"
-                    class="btn w-100"
-                    style="background-color: #006242; color: white; font-weight: bold; border-radius: 8px; padding: 10px;">
-              리뷰 쓰기
-            </button>
-          </a>
+          <div class="col">
+            <a th:href="@{/reviews/register(concertNum=${concert.concertNum})}">
+              <button type="button"
+                      class="btn w-100"
+                      style="background-color: #006242; color: white; font-weight: bold; border-radius: 8px; padding: 10px;">
+                리뷰 쓰기
+              </button>
+            </a>
+          </div>
         </div>
       </div>
     </div>
