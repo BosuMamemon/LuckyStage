@@ -18,10 +18,10 @@ public interface NoticesService {
 
     default Notices dtoToEntity(NoticesDTO dto) {
         Notices noticesEntity = Notices.builder()
-                .noticeNum(dto.getNotice_num())
+             //   .noticeNum(dto.getNotice_num())
                 .title(dto.getTitle())
                 .content(dto.getContent())
-                .members(dto.getMembers())
+//                .members(dto.getMembers())
                 .build();
         if(dto.getFileNames()!= null){
             dto.getFileNames().forEach(fileName -> {

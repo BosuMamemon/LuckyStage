@@ -4,23 +4,23 @@
       layout:decorate="~{layout/layout.html}"
       lang="en">
 
-<div layout:fragment="content">
+<div layout:fragment="content" >
 
-    <div class="card">
-        <div class="card-title">공지사항 </div>
+    <div class="card" style="width:85%;">
+        <div class="card-title"><h5>공지사항</h5> </div>
         <form action="/notices/register" method="post" enctype="multipart/form-data">
             <div class="input-group mb-3">
-                <span class="input-group-text">제목</span>
+                <span class="input-group-text mt-10">제목</span>
                 <input type="text" name="title" class="form-controller" placeholder="Title">
             </div>
             <div class="input-group mb-3">
-                <span class="input-group-text">내용</span>
+                <span class="input-group-text mt-10">내용</span>
                 <textarea name="content" class="form-controller col-sm-5" rows="5"></textarea>
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text">작성자</span>
-                <input type="text" name="members" class="form-controler">
-<!--                <input type="text" name="notices-members_username" class="form-controller" th:value="${#authentication.principal.username}">-->
+                <input type="text" name="members_username" class="form-controller" >
+<!--                <input type="text" name="username" class="form-controller" th:value="${#authentication.principal.username}">-->
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text">FileUpload</span>

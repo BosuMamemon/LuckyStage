@@ -63,12 +63,13 @@ public class NoticesController {
         noticesService.registerNotices(noticesDTO);
         return "redirect:/notices/list";
     }
-    @GetMapping({"/noticesRead","/noticesModify"})
+    @GetMapping({"/read","/modify"})
     public void read_modify(NoticesPageRequestDTO pageRequestDTO, Long notice_num, Model model){
+
         NoticesDTO noticesDTO=noticesService.readNotices(notice_num);
         model.addAttribute("notices",  noticesDTO);
     }
-    @PostMapping("/noticesModify")
+    @PostMapping("/modify")
     public String modify(NoticesUploadFileDTO noticesUploadFileDTO, NoticesDTO noticesDTO, Model model) {
 
         List<String> strFileNames = null;

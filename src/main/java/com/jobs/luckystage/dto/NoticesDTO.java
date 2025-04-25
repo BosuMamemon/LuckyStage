@@ -21,6 +21,7 @@ public class NoticesDTO {
     @NotEmpty
     private String content;
     @NotEmpty
+    private String members_username;
     private Members members;
     private LocalDateTime regDate;
     private LocalDateTime updateDate;
