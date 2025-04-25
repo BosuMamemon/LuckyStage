@@ -24,5 +24,9 @@ public class ReviewDTO {
     private LocalDateTime modDate;
     private List<ReviewImageDTO> imageList;
     private List<ReviewCommentDTO> commentList;
+
+    public void updateHitcount() {
+        this.hitcount += 1;
+    }
 }
 

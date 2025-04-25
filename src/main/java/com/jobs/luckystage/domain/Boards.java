@@ -27,8 +27,6 @@ public class Boards extends BaseEntity {
     private Members members;
     @OneToMany(mappedBy = "boards", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<BoardComments> boardComments;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date regDate;
     @OneToMany(mappedBy = "boards", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<BoardImages> boardImages;
     private int readcount;

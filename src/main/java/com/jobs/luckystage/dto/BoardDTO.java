@@ -21,6 +21,6 @@ public class BoardDTO {
     private String content;
     @NotEmpty
     private int readcount;
-    private Date regDate;
+    private LocalDateTime regDate;
     private LocalDateTime modDate;
 }
