@@ -556,4 +556,66 @@ textarea {
 .welcome {
     color: #444;
 }
+/*instruction*/
+.guide-container {
+    max-width: 860px;
+    margin: 40px auto;
+    padding: 20px;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.guide-section,
+.faq-section {
+    margin-bottom: 40px;
+}
+
+.guide-section h2,
+.faq-section h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #006242;
+    padding-bottom: 8px;
+    color: #006242;
+}
+
+.guide-section p {
+    font-size: 15px;
+    color: #444;
+    line-height: 1.8;
+}
+
+/* FAQ 스타일 */
+.faq-item {
+    border-bottom: 1px solid #ddd;
+    padding: 12px 0;
+}
+
+.faq-question {
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+}
+
+.faq-question::after {
+    content: '▼';
+    position: absolute;
+    right: 0;
+    transition: transform 0.2s ease;
+}
+
+.faq-item.active .faq-question::after {
+    transform: rotate(-180deg);
+}
+
+.faq-answer {
+    display: none;
+    padding-top: 8px;
+    font-size: 14px;
+    color: #555;
+}
+
+.faq-item.active .faq-answer {
+    display: block;
+}
 

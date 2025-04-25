@@ -757,7 +757,8 @@ home.html
   text-align: center;
   font-size: 28px;
   font-weight: 700;
-  margin: 50px 0 20px;
+  margin: 100px 20px;
+  padding: 0px;
 }
 .main-list {
   margin: 150px;
