@@ -31,6 +31,6 @@ public class MemberController {
         members.setPassword(encryptedPassword);
         members.setRole("USER");
         memberRepository.save(members);
-        return "redirect:/login";
+        return "redirect:/member/login";
     }
 }
