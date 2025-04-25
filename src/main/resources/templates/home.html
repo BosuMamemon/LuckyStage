@@ -31,57 +31,85 @@
     <div class="main-best">
         <h1 class="section-title">BEST🔥</h1>
     <section class="slider">
-        <div><img src="/images/concerts/poster_임영웅콘서트.png"><p>2025 임영웅 콘서트</p></div>
-        <div><img src="/images/concerts/poster_2025%20Jay%20Park%20World%20Tour%20Serenades%20Body%20Rolls.png"><p>JAY PARK CONCERT</p></div>
-        <div><img src="/images/concerts/poster_2025%20대구힙합페스티벌.png"><p>2025 대구힙합페스티벌</p></div>
-        <div><img src="/images/concerts/poster_워터밤%20서울%202025%20WATERBOMB%20SEOUL%202025.png"><p>2025 워터밤 서울</p></div>
-        <div><img src="/images/concerts/poster_문상훈과%20빠더너스%20on%20Sync%20Next%2025.png"><p>문상훈과 빠더너스</p></div>
+        <a th:href="@{/concert/read(concertNum=${bestList.get(0).concertNum})}" style="color: #1e1e1e">
+            <div><img th:src="|/concert/img/${bestList.get(0).posterFileName}|"><p>[[${bestList.get(0).title}]]</p></div>
+        </a>
+        <a th:href="@{/concert/read(concertNum=${bestList.get(1).concertNum})}" style="color: #1e1e1e">
+            <div><img th:src="|/concert/img/${bestList.get(1).posterFileName}|"><p>[[${bestList.get(1).title}]]</p></div>
+        </a>
+        <a th:href="@{/concert/read(concertNum=${bestList.get(2).concertNum})}" style="color: #1e1e1e">
+            <div><img th:src="|/concert/img/${bestList.get(2).posterFileName}|"><p>[[${bestList.get(2).title}]]</p></div>
+        </a>
+        <a th:href="@{/concert/read(concertNum=${bestList.get(3).concertNum})}" style="color: #1e1e1e">
+            <div><img th:src="|/concert/img/${bestList.get(3).posterFileName}|"><p>[[${bestList.get(3).title}]]</p></div>
+        </a>
+        <a th:href="@{/concert/read(concertNum=${bestList.get(4).concertNum})}" style="color: #1e1e1e">
+            <div><img th:src="|/concert/img/${bestList.get(4).posterFileName}|"><p>[[${bestList.get(4).title}]]</p></div>
+        </a>
     </section>
     </div>
 
     <div class="main-list">
-        <h1 class="section-title">콘서트 둘러보기</h1>
+        <h1 class="section-title">최신 콘서트 둘러보기</h1>
         <div class="concert-wrapper">
-            <div class="concert-box">
-                <img src="/images/concerts/poster_현대카드%20Curated%2098%20ATARAYO.png" alt="현대카드 포스터">
-                <p>2025 현대카드</p>
-            </div>
-            <div class="concert-box">
-                <img src="/images/concerts/poster_키라라%20단독공연%20애프터.png" alt="키라라단독공연 포스터">
-                <p>키라라 단독공연</p>
-            </div>
-            <div class="concert-box">
-                <img src="/images/concerts/poster_제이통%20on%20Sync%20Next%2025.png" alt="제이통 포스터">
-                <p>제이통 CON</p>
-            </div>
-            <div class="concert-box">
-                <img src="/images/concerts/poster_중식이밴드%20대도시%20클럽%20투어%20부산.png" alt="중식이밴드 포스터">
-                <p>중식이밴드 대도시 클럽 투어 - 부산</p>
-            </div>
-            <div class="concert-box">
-                <img src="/images/concerts/poster_먼데이프로젝트%20IN%20라이브클럽%20Erotic%20Worms%20Exhibition%20단독콘서트.png" alt="먼데이프로젝트 포스터">
-                <p>먼데이프로젝트 라이브클럽 </p>
-            </div>
-            <div class="concert-box">
-                <img src="/images/concerts/poster_ASH%20AHN%20안성현%20단독%20콘서트%20TO%20MY%20JOYFUL%20WORLD.png" alt="안성현 포스터">
-                <p>안성현 단독 콘서트</p>
-            </div>
-            <div class="concert-box">
-                <img src="/images/concerts/poster_2025%20타임캡슐%20슈퍼콘서트%20in%20인천.png" alt="타임캡슐 포스터">
-                <p>2025 타임캡슐 슈퍼콘서트 - 인천</p>
-            </div>
-            <div class="concert-box">
-                <img src="/images/concerts/poster_신해경%20단독%20공연%20꽃이%20피는%20계절%20부산.png" alt="신해경 포스터">
-                <p>신해경 단독공연 - 부산</p>
-            </div>
-            <div class="concert-box">
-                <img src="/images/concerts/poster_슈퍼팝%202025%20코리아.png" alt="슈퍼팝 포스터">
-                <p>2025 슈퍼팝 코리아</p>
-            </div>
+            <a th:href="@{/concert/read(concertNum=${latestList.get(0).concertNum})}" style="color: #1e1e1e">
+                <div class="concert-box">
+                    <img th:src="|/concert/img/${latestList.get(0).posterFileName}|">
+                    <p>[[${latestList.get(0).title}]]</p>
+                </div>
+            </a>
+            <a th:href="@{/concert/read(concertNum=${latestList.get(1).concertNum})}" style="color: #1e1e1e">
+                <div class="concert-box">
+                    <img th:src="|/concert/img/${latestList.get(1).posterFileName}|">
+                    <p>[[${latestList.get(1).title}]]</p>
+                </div>
+            </a>
+            <a th:href="@{/concert/read(concertNum=${latestList.get(2).concertNum})}" style="color: #1e1e1e">
+                <div class="concert-box">
+                    <img th:src="|/concert/img/${latestList.get(2).posterFileName}|">
+                    <p>[[${latestList.get(2).title}]]</p>
+                </div>
+            </a>
+            <a th:href="@{/concert/read(concertNum=${latestList.get(3).concertNum})}" style="color: #1e1e1e">
+                <div class="concert-box">
+                    <img th:src="|/concert/img/${latestList.get(3).posterFileName}|">
+                    <p>[[${latestList.get(3).title}]]</p>
+                </div>
+            </a>
+            <a th:href="@{/concert/read(concertNum=${latestList.get(4).concertNum})}" style="color: #1e1e1e">
+                <div class="concert-box">
+                    <img th:src="|/concert/img/${latestList.get(4).posterFileName}|">
+                    <p>[[${latestList.get(4).title}]]</p>
+                </div>
+            </a>
+            <a th:href="@{/concert/read(concertNum=${latestList.get(5).concertNum})}" style="color: #1e1e1e">
+                <div class="concert-box">
+                    <img th:src="|/concert/img/${latestList.get(5).posterFileName}|">
+                    <p>[[${latestList.get(5).title}]]</p>
+                </div>
+            </a>
+            <a th:href="@{/concert/read(concertNum=${latestList.get(6).concertNum})}" style="color: #1e1e1e">
+                <div class="concert-box">
+                    <img th:src="|/concert/img/${latestList.get(6).posterFileName}|">
+                    <p>[[${latestList.get(6).title}]]</p>
+                </div>
+            </a>
+            <a th:href="@{/concert/read(concertNum=${latestList.get(7).concertNum})}" style="color: #1e1e1e">
+                <div class="concert-box">
+                    <img th:src="|/concert/img/${latestList.get(7).posterFileName}|">
+                    <p>[[${latestList.get(7).title}]]</p>
+                </div>
+            </a>
+            <a th:href="@{/concert/read(concertNum=${latestList.get(8).concertNum})}" style="color: #1e1e1e">
+                <div class="concert-box">
+                    <img th:src="|/concert/img/${latestList.get(8).posterFileName}|">
+                    <p>[[${latestList.get(8).title}]]</p>
+                </div>
+            </a>
         </div>
 
         <div class="button-category">
-            <a href="/concert/list" class="round-button">
+            <a href="/concert/list?type=concertNum" class="round-button">
                 콘서트 전체보기 &gt;
             </a>
         </div>

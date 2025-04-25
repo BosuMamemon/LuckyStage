@@ -3,7 +3,6 @@ package com.jobs.luckystage.domain;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 
-import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -15,6 +14,8 @@ public class Reviews extends BaseEntity {
     private String title;
     @Column(nullable = false)
     private String content;
+    @ColumnDefault("0")
+    private int hitcount;
     @ManyToOne(fetch = FetchType.LAZY)
     private Members members;
     @OneToMany(mappedBy = "reviews", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)

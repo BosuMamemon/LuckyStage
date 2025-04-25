@@ -1,6 +1,7 @@
 package com.jobs.luckystage.domain;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -15,6 +16,8 @@ public class Boards extends BaseEntity {
     private String title;
     @Column(nullable = false)
     private String content;
+    @ColumnDefault("0")
+    private int hitcount;
     @ManyToOne
     private Members members;
     @OneToMany(mappedBy = "boards", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)

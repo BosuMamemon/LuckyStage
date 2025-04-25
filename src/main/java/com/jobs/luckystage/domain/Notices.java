@@ -2,9 +2,8 @@ package com.jobs.luckystage.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.ColumnDefault;
 
-import java.util.Date;
 import java.util.Set;
 
 @Getter
@@ -22,6 +21,8 @@ public class Notices extends BaseEntity {
     private String title;
     @Column(nullable = false)
     private String content;
+    @ColumnDefault("0")
+    private int hitcount;
     @ManyToOne(fetch = FetchType.LAZY)
     private Members members;
     @OneToMany(mappedBy = "notices", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
