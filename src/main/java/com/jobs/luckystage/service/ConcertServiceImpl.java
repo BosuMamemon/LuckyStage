@@ -25,6 +25,7 @@ public class ConcertServiceImpl implements ConcertService {
         List<Concerts> entityList;
         log.info(type);
         if(type.equals("concertNum")) entityList = concertRepository.findAll();
+        else if(type.equals("startDate")) entityList = concertRepository.findAll(Sort.by(Sort.Direction.ASC, type));
         else entityList = concertRepository.findAll(Sort.by(Sort.Direction.DESC, type));
         List<ConcertDTO> dtoList = entityList.stream().map(entity -> entityToDto(entity)).collect(Collectors.toList());
 
