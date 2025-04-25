@@ -39,18 +39,21 @@
 <!-- ***** Header ***** -->
 <div class="pre-header">
     <div class="container">
-        <div class="row">
+        <div class="row justify-content-between align-items-center">
             <div class="col-lg-6 col-sm-6">
                 <span>국내 최초 콘서트 추첨 예매 플랫폼!</span>
             </div>
-            <div class="col-lg-6 col-sm-6">
-                <div class="text-button" sec:authorize="!isAuthenticated()">
-                    <a href="/member/login">LOGIN</a>
-                    <a href="/member/register">회원가입</a>
+            <div class="col-lg-6 col-sm-6 d-flex justify-content-end">
+                <!-- 로그인 전 -->
+                <div class="auth-wrap d-flex align-items-center gap-3" sec:authorize="!isAuthenticated()">
+                    <a href="/member/login" class="auth-link">LOGIN</a><p>　|　</p>
+                    <a href="/member/register" class="auth-link">회원가입</a>
                 </div>
-                <div class="text-button" sec:authorize="isAuthenticated()">
-                    <p>[[${#authentication.principal.username}]]님, 반갑습니다.</p>
-                    <a href="/logout">LOGOUT</a>
+
+                <!-- 로그인 후 -->
+                <div class="auth-wrap d-flex align-items-center gap-3" sec:authorize="isAuthenticated()">
+                    <span class="welcome">[[${#authentication.principal.username}]]님, 반갑습니다.</span>
+                    <a href="/logout" class="auth-link logout">LOGOUT</a>
                 </div>
             </div>
         </div>
