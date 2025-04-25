@@ -10,6 +10,6 @@ public class InstructionController {
 
     @GetMapping("/instruction")
     public String instructionPage() {
-        return "instructions/instruction"; // ← 경로 그대로
+        return "instructions/instruction";
     }
 }
