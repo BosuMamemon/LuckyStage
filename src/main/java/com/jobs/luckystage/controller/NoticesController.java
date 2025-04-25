@@ -36,7 +36,7 @@ import java.util.UUID;
 @RequestMapping("/notices")
 public class NoticesController {
 
-    @Value("${com.pgm.upload.path}")
+    @Value("${com.jobs.upload.path}")
     private String uploadPath;
 
     @Autowired
