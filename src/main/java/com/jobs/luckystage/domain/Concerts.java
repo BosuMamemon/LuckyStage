@@ -24,6 +24,8 @@ public class Concerts {
     private long concertNum;
     @ColumnDefault("0")
     private double rating;
+    @ColumnDefault("0")
+    private int hitcount;
     private String posterFileName;
     @Column(nullable = false)
     private String title;
@@ -42,4 +44,8 @@ public class Concerts {
     @Builder.Default
     @BatchSize(size = 20)
     private Set<ConcertImages> concertImage = new HashSet<>();
+
+    public void updateHitcount() {
+        this.hitcount += 1;
+    }
 }

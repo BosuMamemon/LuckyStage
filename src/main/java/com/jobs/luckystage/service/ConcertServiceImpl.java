@@ -7,6 +7,7 @@ import com.jobs.luckystage.repository.ConcertImageRepository;
 import com.jobs.luckystage.repository.ConcertRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,12 +21,12 @@ public class ConcertServiceImpl implements ConcertService {
     private final ConcertImageRepository concertImageRepository;
 
     @Override
-    public List<ConcertDTO> list() {
-        List<Concerts> entityList = concertRepository.findAll();
-
-        List<ConcertDTO> dtoList = entityList.stream().map(entity -> {
-            return entityToDto(entity);
-        }).collect(Collectors.toList());
+    public List<ConcertDTO> list(String type) {
+        List<Concerts> entityList;
+        log.info(type);
+        if(type.equals("concertNum")) entityList = concertRepository.findAll();
+        else entityList = concertRepository.findAll(Sort.by(Sort.Direction.DESC, type));
+        List<ConcertDTO> dtoList = entityList.stream().map(entity -> entityToDto(entity)).collect(Collectors.toList());
 
         return dtoList;
     }
@@ -33,6 +34,8 @@ public class ConcertServiceImpl implements ConcertService {
     @Override
     public ConcertDTO findById(long concertNum) {
         Concerts entity = concertRepository.findById(concertNum).orElse(null);
+        entity.updateHitcount();
+        concertRepository.save(entity);
         ConcertImages concertImageEntity = concertImageRepository.findByConcerts_ConcertNum(concertNum).orElse(null);
         List<String> filenames = List.of(concertImageEntity.getFilename().split("-"));
         ConcertDTO dto = entityToDto(entity);

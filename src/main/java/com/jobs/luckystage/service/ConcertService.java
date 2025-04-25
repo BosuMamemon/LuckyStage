@@ -7,7 +7,7 @@ import java.util.List;
 
 
 public interface ConcertService {
-    List<ConcertDTO> list();
+    List<ConcertDTO> list(String type);
     ConcertDTO findById(long concertNum);
 
 
@@ -22,6 +22,7 @@ public interface ConcertService {
                 .performanceTime(entity.getPerformanceTime())
                 .endDate(entity.getEndDate())
                 .location(entity.getLocation())
+                .hitcount(entity.getHitcount())
                 .build();
         return dto;
     }

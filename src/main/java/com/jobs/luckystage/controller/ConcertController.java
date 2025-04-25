@@ -25,22 +25,19 @@ import java.util.List;
 @RequestMapping("/concert")
 public class ConcertController {
     private final ConcertService concertService;
-    private String uploadPath = new File("src/main/resources/static/images/concerts").getAbsolutePath();
+    private final String uploadPath = new File("src/main/resources/static/images/concerts").getAbsolutePath();
 
 //    list - get
     @GetMapping("/list")
-    public void list(Model model) {
-        List<ConcertDTO> dtoList = concertService.list();
-        log.info(dtoList);
+    public void list(@RequestParam("type") String type, Model model) {
+        List<ConcertDTO> dtoList = concertService.list(type);
         model.addAttribute("dtoList", dtoList);
     }
 
 //    static/images/concerts에서 이미지 불러오기
     @GetMapping("/img/{filename}")
     public ResponseEntity<Resource> getImage(@PathVariable("filename") String filename) {
-        log.info("path: " + uploadPath);
         Resource resource = new FileSystemResource(uploadPath + File.separator + filename);
-        log.info("resource: " + resource);
         HttpHeaders headers = new HttpHeaders();
         try {
             headers.add("Content-Type", Files.probeContentType(resource.getFile().toPath()));

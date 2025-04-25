@@ -17,6 +17,7 @@ public class ConcertDTO {
     private long concertNum;
     private String posterFileName;
     private String title;
+    private int hitcount;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")

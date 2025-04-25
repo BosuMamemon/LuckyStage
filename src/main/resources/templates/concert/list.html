@@ -8,9 +8,9 @@
 
     <div class="concert-header">
         <div class="sort-tabs">
-            <a href="#" class="sort-tab active">최신순</a>
-            <a href="#" class="sort-tab">인기순</a>
-            <a href="#" class="sort-tab">조회순</a>
+            <a href="/concert/list?type=startDate" class="sort-tab startDateType">최신순</a>
+            <a href="/concert/list?type=rating" class="sort-tab ratingType">인기순</a>
+            <a href="/concert/list?type=hitcount" class="sort-tab hitcountType">조회순</a>
         </div>
     </div>
 
@@ -28,4 +28,13 @@
         </div>
     </div>
 </div>
-</html>
+
+<script layout:fragment="script" th:inline="javascript">
+    function init() {
+        if(window.location.search.includes("startDate")) document.querySelector(".startDateType").classList.add("active");
+        if(window.location.search.includes("rating")) document.querySelector(".ratingType").classList.add("active");
+        if(window.location.search.includes("hitcount")) document.querySelector(".hitcountType").classList.add("active");
+    }
+
+    init();
+</script>
