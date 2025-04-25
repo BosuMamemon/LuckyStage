@@ -29,6 +29,7 @@ public class MemberController {
         String rawPassword = members.getPassword();
         String encryptedPassword = bCryptPasswordEncoder.encode(rawPassword);
         members.setPassword(encryptedPassword);
+        members.setRole("USER");
         memberRepository.save(members);
         return "redirect:/login";
     }
