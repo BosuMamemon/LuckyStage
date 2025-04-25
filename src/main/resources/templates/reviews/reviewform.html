@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout.html}" lang="en">
+
+<div layout:fragment="content">
+    <div class="container py-5 review-form-container">
+        <h2 class="form-title">리뷰 작성</h2>
+        <form action="#" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="title" class="form-label">제목</label>
+                <input type="text" class="form-control" id="title" name="title" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="concert" class="form-label">공연명</label>
+                <input type="text" class="form-control" id="concert" name="concert" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="rating" class="form-label">별점</label>
+                <select class="form-select" id="rating" name="rating">
+                    <option value="5">★★★★★</option>
+                    <option value="4">★★★★☆</option>
+                    <option value="3">★★★☆☆</option>
+                    <option value="2">★★☆☆☆</option>
+                    <option value="1">★☆☆☆☆</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="content" class="form-label">내용</label>
+                <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="image" class="form-label">이미지 첨부</label>
+                <input class="form-control" type="file" id="image" name="image" accept="image/*">
+                <div class="preview mt-2">
+                    <img id="imagePreview" src="#" alt="미리보기" style="max-height: 200px; display: none;"/>
+                </div>
+            </div>
+
+            <div class="btn-wrapper">
+                <button type="submit" class="btn-submit">등록</button>
+                <a href="/reviews/reviews" class="btn-cancel">취소</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const imageInput = document.getElementById('image');
+    const preview = document.getElementById('imagePreview');
+
+    imageInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = 'block';
+        } else {
+            preview.style.display = 'none';
+        }
+    });
+</script>
