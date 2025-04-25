@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org/"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       lang="en">
 <head>
     <meta charset="utf-8">
@@ -43,8 +44,13 @@
                 <span>국내 최초 콘서트 추첨 예매 플랫폼!</span>
             </div>
             <div class="col-lg-6 col-sm-6">
-                <div class="text-button">
-                    <a href="">LOGIN</a>
+                <div class="text-button" sec:authorize="!isAuthenticated()">
+                    <a href="/member/login">LOGIN</a>
+                    <a href="/member/register">회원가입</a>
+                </div>
+                <div class="text-button" sec:authorize="isAuthenticated()">
+                    <p>[[${#authentication.principal.username}]]님, 반갑습니다.</p>
+                    <a href="/logout">LOGOUT</a>
                 </div>
             </div>
         </div>
