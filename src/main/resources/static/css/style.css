@@ -619,3 +619,32 @@ textarea {
     display: block;
 }
 
+.notice-section h2 {
+    font-size: 20px;
+    color: #006242;
+    font-weight: bold;
+    border-bottom: 2px solid #006242;
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+}
+.notice-item {
+    border-bottom: 1px solid #ddd;
+    padding: 12px 0;
+}
+
+.notice-title {
+    font-weight: 600;
+    text-decoration: none; /* 밑줄 없앰 */
+    color: #333;
+    display: block;
+    position: relative;
+}
+
+.notice-title::after {
+    content: '>'; /* 링크 느낌 살짝 줌 */
+    position: absolute;
+    right: 0;
+    font-weight: bold;
+}
+/*review*/
+
