@@ -6,30 +6,44 @@
 
 <div layout:fragment="content">
 
-    <div class="card" style="width:85%;" > <div class="card-body">
-            <h5 class="notices-card-title">공지사항</h5>
-            <table class="table">
+    <h2 class="section-title">📢공지사항</h2>
+
+    <div class="notice-container">
+        <div class="notice-card">
+            <div class="notice-header">
+                <a class="notice-write-btn" href="/notices/register">
+                   <!--th:if="${#authorization.expression('hasRole(''ADMIN'')')}"-->
+                    작성하기
+                </a>
+            </div>
+
+            <table class="notice-table">
                 <thead>
                 <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">제목</th>
-                    <th scope="col">작성자</th>
-                    <th scope="col">작성일</th>
-<!--                    <th scope="col"></th>-->
-                    <th scope="col">조회수</th><br/>
-                    <a class="nav-link" href="/notices/register" style="position: absolute; right: 0;">작성하기</a>
+                    <th>No</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                    <th>조회수</th>
                 </tr>
                 </thead>
                 <tbody th:with="link=${pageRequestDTO.getLink()}">
-                    <tr th:each="notices:${responseDTO.dtoList}">
-                        <td>[[${notices.notice_num}]]</td>
-                        <td><a th:href="|@{/notices/read(notice_num=${notices.notice_num})}&${link}|">[[${notices.title}]]</a></td>
-                        <td>[[${notices.members_username}]]</td>
-                        <td th:text="${#temporals.format(notices.regDate, 'yyyy.MM.dd HH:mm')}">[[${notices.regDate}]]</td>
-                        <td>[[${notices.hitCount}]]</td>
-                    </tr>
+                <tr th:each="notices:${responseDTO.dtoList}">
+                    <td>[[${notices.notice_num}]]</td>
+                    <td>
+                        <a th:href="|@{/notices/read(notice_num=${notices.notice_num})}&${link}|"
+                           class="notice-link">
+                            [[${notices.title}]]
+                        </a>
+                    </td>
+                    <td>[[${notices.members_username}]]</td>
+                    <td th:text="${#temporals.format(notices.regDate, 'yyyy.MM.dd HH:mm')}"></td>
+                    <td>[[${notices.hitCount}]]</td>
+                </tr>
                 </tbody>
             </table>
         </div>
     </div>
+
 </div>
+</html>

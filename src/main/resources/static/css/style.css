@@ -813,4 +813,72 @@ form[name='myPageFrm'] {
     color: white;
 }
 
+/*notice*/
+.notice-container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+.notice-card {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
+}
+
+.notice-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.notice-write-btn {
+    background-color: #006242;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.notice-write-btn:hover {
+    background-color: #004d36;
+}
+
+.notice-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.notice-table th, .notice-table td {
+    border-bottom: 1px solid #ddd;
+    padding: 14px 10px;
+    text-align: center;
+    font-size: 15px;
+}
+
+.notice-table th {
+    background-color: #f8f8f8;
+    color: #006242;
+    font-size: 16px;
+}
+
+.notice-table tbody tr:hover {
+    background-color: #f1fdf7;
+}
+
+.notice-link {
+    color: #1e1e1e;
+    text-decoration: none;
+}
+
+.notice-link:hover {
+    color: #006242;
+    text-decoration: underline;
+}
+
+
 
