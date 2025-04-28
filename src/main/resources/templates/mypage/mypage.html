@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:c="http://www.w3.org/1999/XSL/Transform"
+      layout:decorate="~{/mypage/mypagelayout/mypagelayout.html}" lang="en">
+
+<div layout:fragment="content">
+
+        <section class="myPage-content">
+            <section class="myPage-main">
+                <div class="myPage-block">
+                    <h1 class="myPage-title">내 정보</h1>
+                    <span class="myPage-subject">원하는 회원 정보를 수정할 수 있습니다.</span>
+                </div>
+                <form action="info" method="POST" name="myPageFrm">
+
+                    <div class="myPage-row">
+                        <label>닉네임</label>
+                        <input type="text" name="memberNickname" maxlength="10">
+                    </div>
+
+                    <div class="myPage-row">
+                        <label>전화번호</label>
+                        <input type="text" name="memberTel" maxlength="11" placeholder="- 없이 숫자만 입력하세요" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                    </div>
+
+                    <div class="myPage-row">
+                        <label>이메일</label>
+                        <input type="email" name="memberEmail" maxlength="50" required placeholder="이메일을 입력하세요">
+                    </div>
+
+                    <div class="myPage-row info-title">
+                        <span>주소</span>
+                    </div>
+
+                    <div class="myPage-row">
+                        <input type="text" name="memberAddress" placeholder="주소를 입력하세요">
+                    </div>
+
+                    <div class="myPage-row">
+                        <button type="button" onclick="confirmDelete()" class="delete-btn">회원 탈퇴</button>
+                    </div>
+
+                    <div class="myPage-row">
+                        <button type="submit" class="myPage-submit">수정하기</button>
+                    </div>
+
+                </form>
+
+            </section>
+        </section>
+
+</div>
+
+<script>
+    function confirmDelete() {
+        if (confirm('정말로 회원 탈퇴를 진행하시겠습니까?')) {
+            location.href = 'deleteMember'; // 탈퇴 처리하는 URL로 이동
+        }
+    }
+</script>
+</html>
