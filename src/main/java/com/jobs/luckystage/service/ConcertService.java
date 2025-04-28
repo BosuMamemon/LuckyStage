@@ -2,12 +2,13 @@ package com.jobs.luckystage.service;
 
 import com.jobs.luckystage.domain.Concerts;
 import com.jobs.luckystage.dto.ConcertDTO;
+import com.jobs.luckystage.dto.PageRequestDTO;
 
 import java.util.List;
 
 
 public interface ConcertService {
-    List<ConcertDTO> list(String type);
+    List<ConcertDTO> list(PageRequestDTO pageRequestDTO);
     ConcertDTO findById(long concertNum);
 
 

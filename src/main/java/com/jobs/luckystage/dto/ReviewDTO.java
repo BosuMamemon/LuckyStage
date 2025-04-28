@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -17,8 +16,8 @@ public class ReviewDTO {
     private Long reviewNum;
     private String title;
     private String content;
-    private int hitcount = 0;
-    private double rating = 0;
+    private int hitcount;
+    private double rating;
     private String username; // members.username
     private LocalDateTime regDate;
     private LocalDateTime modDate;

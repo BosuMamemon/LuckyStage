@@ -1,6 +1,7 @@
 package com.jobs.luckystage.controller;
 
 import com.jobs.luckystage.dto.ConcertDTO;
+import com.jobs.luckystage.dto.PageRequestDTO;
 import com.jobs.luckystage.service.ConcertService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -18,8 +19,12 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model) {
-        List<ConcertDTO> bestList = concertService.list("rating");
-        List<ConcertDTO> latestList = concertService.list("startDate");
+        PageRequestDTO bestDTO = new PageRequestDTO();
+        PageRequestDTO latestDTO = new PageRequestDTO();
+        bestDTO.setType("rating");
+        latestDTO.setType("startDate");
+        List<ConcertDTO> bestList = concertService.list(bestDTO);
+        List<ConcertDTO> latestList = concertService.list(latestDTO);
         model.addAttribute("bestList", bestList);
         model.addAttribute("latestList", latestList);
         return "/home";

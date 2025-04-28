@@ -71,7 +71,7 @@
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                        <li><a href="/concert/list?type=concertNum" >공연정보</a></li>
+                        <li><a href="/concert/list" >공연정보</a></li>
 <!--                        <li><a href="#" >공연예매</a></li>-->
                         <li><a href="/instructions/instruction" >이용안내</a></li>
                         <li><a href="#" >커뮤니티</a></li>
@@ -95,10 +95,10 @@
                 <p class="nav_title"></p>
             </div>
             <div class="col-lg-8">
-                <form id="subscribe" action="" method="get">
+                <form id="subscribe" action="/concert/list" method="get">
                     <div class="row">
                         <div class="col-auto">
-                            <input class="form-control" name="text" type="text" placeholder="공연정보를 입력하세요." required="">
+                            <input class="form-control" name="keyword" type="text" placeholder="공연 제목을 입력하세요.">
                         </div>
                         <div class="col-auto">
                             <button type="submit" class="main-dark-button">검색</button>

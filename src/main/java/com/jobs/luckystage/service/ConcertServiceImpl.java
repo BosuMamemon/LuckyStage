@@ -3,17 +3,19 @@ package com.jobs.luckystage.service;
 import com.jobs.luckystage.domain.ConcertImages;
 import com.jobs.luckystage.domain.Concerts;
 import com.jobs.luckystage.dto.ConcertDTO;
+import com.jobs.luckystage.dto.PageRequestDTO;
 import com.jobs.luckystage.repository.ConcertImageRepository;
 import com.jobs.luckystage.repository.ConcertRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 @Log4j2
 public class ConcertServiceImpl implements ConcertService {
@@ -21,12 +23,11 @@ public class ConcertServiceImpl implements ConcertService {
     private final ConcertImageRepository concertImageRepository;
 
     @Override
-    public List<ConcertDTO> list(String type) {
-        List<Concerts> entityList;
-        log.info(type);
-        if(type.equals("concertNum")) entityList = concertRepository.findAll();
-        else if(type.equals("startDate")) entityList = concertRepository.findAll(Sort.by(Sort.Direction.ASC, type));
-        else entityList = concertRepository.findAll(Sort.by(Sort.Direction.DESC, type));
+    public List<ConcertDTO> list(PageRequestDTO pageRequestDTO) {
+        List<Concerts> entityList = concertRepository.searchAll(
+                pageRequestDTO.getType(),
+                pageRequestDTO.getKeyword()
+        );
         List<ConcertDTO> dtoList = entityList.stream().map(entity -> entityToDto(entity)).collect(Collectors.toList());
 
         return dtoList;

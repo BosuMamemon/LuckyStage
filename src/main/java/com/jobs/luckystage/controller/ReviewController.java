@@ -29,5 +29,6 @@ public class ReviewController {
     public void getRegister(@RequestParam("concertNum") long concertNum, Model model) {
         String title = concertService.findById(concertNum).getTitle();
         model.addAttribute("title", title);
+        model.addAttribute("concertNum", concertNum);
     }
 }

@@ -6,11 +6,23 @@
 <div layout:fragment="content">
     <h1 class="section-title">🎬공연목록</h1>
 
-    <div class="concert-header">
-        <div class="sort-tabs">
-            <a href="/concert/list?type=startDate" class="sort-tab startDateType">최신순</a>
-            <a href="/concert/list?type=rating" class="sort-tab ratingType">인기순</a>
-            <a href="/concert/list?type=hitcount" class="sort-tab hitcountType">조회순</a>
+    <div class="concert-header nav">
+        <div class="search-box nav-item">
+            <form id="form" action="/concert/list" method="get">
+                <div class="row">
+                    <div class="col-auto">
+                        <input class="form-control" name="keyword" type="text" placeholder="공연 제목을 입력하세요." th:value="${pageRequestDTO.keyword}">
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-dark">검색</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="nav-item sort-tabs">
+            <button type="button" class="sort-tab" data-type="startDate">최신순</button>
+            <button type="button" class="sort-tab" data-type="rating">인기순</button>
+            <button type="button" class="sort-tab" data-type="hitcount">조회순</button>
         </div>
     </div>
 
@@ -30,11 +42,14 @@
 </div>
 
 <script layout:fragment="script" th:inline="javascript">
-    function init() {
-        if(window.location.search.includes("startDate")) document.querySelector(".startDateType").classList.add("active");
-        if(window.location.search.includes("rating")) document.querySelector(".ratingType").classList.add("active");
-        if(window.location.search.includes("hitcount")) document.querySelector(".hitcountType").classList.add("active");
-    }
+    document.querySelector(".sort-tab").addEventListener("click", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        let target = e.target;
 
-    init();
+        let type = target.getAttribute("data-type");
+        let form = document.querySelector("#form");
+        form.innerHTML += `<input type="hidden" name="type" value="${type}">`
+        form.submit();
+    })
 </script>

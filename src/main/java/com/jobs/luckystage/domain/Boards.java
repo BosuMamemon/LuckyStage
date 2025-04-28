@@ -1,13 +1,8 @@
 package com.jobs.luckystage.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
+import lombok.*;
 
-import java.util.Date;
 import java.util.Set;
 
 @Data
@@ -15,6 +10,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Entity
+@EqualsAndHashCode(callSuper = false)
 public class Boards extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

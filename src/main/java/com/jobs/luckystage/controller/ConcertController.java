@@ -1,6 +1,7 @@
 package com.jobs.luckystage.controller;
 
 import com.jobs.luckystage.dto.ConcertDTO;
+import com.jobs.luckystage.dto.PageRequestDTO;
 import com.jobs.luckystage.service.ConcertService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -29,9 +30,10 @@ public class ConcertController {
 
 //    list - get
     @GetMapping("/list")
-    public void list(@RequestParam("type") String type, Model model) {
-        List<ConcertDTO> dtoList = concertService.list(type);
+    public void list(PageRequestDTO pageRequestDTO, Model model) {
+        List<ConcertDTO> dtoList = concertService.list(pageRequestDTO);
         model.addAttribute("dtoList", dtoList);
+        model.addAttribute("pageRequestDTO", pageRequestDTO);
     }
 
 //    static/images/concerts에서 이미지 불러오기
