@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org/"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout/layout.html}"
       lang="en">
 
@@ -79,8 +80,8 @@
               </div>
             </form>
           </div>
-          <div class="col">
-            <a th:href="@{/reviews/register(concertNum=${concert.concertNum})}">
+          <div class="col" sec:authorize="isAuthenticated()">
+            <a th:href="@{/review/register(concertNum=${concert.concertNum})}">
               <button type="button"
                       class="btn w-100"
                       style="background-color: #006242; color: white; font-weight: bold; border-radius: 8px; padding: 10px;">

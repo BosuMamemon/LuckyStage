@@ -1,5 +1,8 @@
 package com.jobs.luckystage.service;
 
+import com.jobs.luckystage.domain.Concerts;
+import com.jobs.luckystage.domain.Reviews;
+import com.jobs.luckystage.dto.ConcertDTO;
 import com.jobs.luckystage.dto.ReviewCommentDTO;
 import com.jobs.luckystage.dto.ReviewDTO;
 
@@ -12,4 +15,41 @@ public interface ReviewService {
     void deleteReview(Long reviewNum);
     void addComment(ReviewCommentDTO commentDTO);
     void deleteComment(Long commentId);
+
+    default ReviewDTO entityToDto(Reviews entity) {
+        ReviewDTO dto = ReviewDTO.builder()
+                .regDate(entity.getRegDate())
+                .rating(entity.getRating())
+                .hitcount(entity.getHitcount())
+                .content(entity.getContent())
+                .title(entity.getTitle())
+                .modDate(entity.getModDate())
+                .reviewNum(entity.getReviewNum())
+//                .imageList()
+//                .commentList()
+//                .username()
+                .build();
+        return dto;
+    }
+
+    default Reviews dtoToEntity(ReviewDTO dto) {
+        Reviews entity = Reviews.builder()
+                .rating(dto.getRating())
+                .title(dto.getTitle())
+                .reviewNum(dto.getReviewNum())
+                .content(dto.getContent())
+                .hitcount(dto.getHitcount())
+//                .reviewComments()
+//                .members()
+                .build();
+
+        if(dto.getImageFilenameList() != null) {
+            dto.getImageFilenameList().forEach(filename -> {
+                String[] arr = filename.split("_");
+                entity.addImage(arr[0], arr[1]);
+            });
+        }
+
+        return entity;
+    }
 }

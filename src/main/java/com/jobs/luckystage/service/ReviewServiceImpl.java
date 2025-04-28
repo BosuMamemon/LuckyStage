@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.jobs.luckystage.domain.Reviews;
 import com.jobs.luckystage.dto.ReviewCommentDTO;
 import com.jobs.luckystage.dto.ReviewDTO;
 import com.jobs.luckystage.dto.ReviewImageDTO;
+import com.jobs.luckystage.repository.MemberRepository;
 import com.jobs.luckystage.repository.ReviewRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,54 +19,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Transactional
 public class ReviewServiceImpl implements ReviewService {
-
     private final ReviewRepository reviewRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     public List<ReviewDTO> getAllReviews() {
-        return reviewRepository.findAll().stream()
-                .map(review -> {
-                    ReviewDTO.ReviewDTOBuilder builder = ReviewDTO.builder();
-
-                    builder.reviewNum((Long) getField(review, "reviewNum"));
-                    builder.title((String) getField(review, "title"));
-                    builder.content((String) getField(review, "content"));
-
-                    Object members = getField(review, "members");
-                    String username = (String) getField(members, "username");
-                    builder.username(username);
-
-                    Date regDate = (Date) getField(review, "regDate");
-                    builder.regDate(regDate.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime());
-
-                    // imageList 연결
-                    Set<?> images = (Set<?>) getField(review, "reviewImages");
-                    List<ReviewImageDTO> imageList = images.stream()
-                            .map(img -> ReviewImageDTO.builder()
-                                    .uuid((String) getField(img, "uuid"))
-                                    .filename((String) getField(img, "filename"))
-                                    .ord((Integer) getField(img, "ord"))
-                                    .build())
-                            .collect(Collectors.toList());
-                    builder.imageList(imageList);
-
-                    // commentList 연결
-                    Set<?> comments = (Set<?>) getField(review, "reviewComments");
-                    List<ReviewCommentDTO> commentList = comments.stream()
-                            .map(c -> ReviewCommentDTO.builder()
-                                    .reviewCommentNum((Long) getField(c, "reviewCommentNum"))
-                                    .reviewNum((Long) getField(getField(c, "reviews"), "reviewNum"))
-                                    .content((String) getField(c, "content"))
-                                    .username((String) getField(getField(c, "members"), "username"))
-                                    .regDate(((Date) getField(c, "regDate"))
-                                            .toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime())
-                                    .build())
-                            .collect(Collectors.toList());
-                    builder.commentList(commentList);
-
-                    return builder.build();
-                })
-                .collect(Collectors.toList());
+        return reviewRepository.findAll().stream().map(reviews -> entityToDto(reviews)).collect(Collectors.toList());
     }
 
     private Object getField(Object obj, String fieldName) {
@@ -78,7 +38,11 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void saveReview(ReviewDTO reviewDTO) {}
+    public void saveReview(ReviewDTO reviewDTO) {
+        Reviews review = dtoToEntity(reviewDTO);
+        review.setMembers(memberRepository.findByUsername(reviewDTO.getUsername()));
+        reviewRepository.save(review);
+    }
 
     @Override
     public ReviewDTO getReview(Long reviewNum) {

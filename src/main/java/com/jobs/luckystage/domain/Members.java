@@ -1,10 +1,7 @@
 package com.jobs.luckystage.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.util.Set;
@@ -13,7 +10,9 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Data
+@Getter
+@Setter
+@ToString
 public class Members {
     @Id
     @Column(unique = true)
@@ -28,7 +27,6 @@ public class Members {
     @Column(nullable = false)
     private String tel;
     private String email;
-    @ColumnDefault("USER")
     private String role;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "consert_pick")

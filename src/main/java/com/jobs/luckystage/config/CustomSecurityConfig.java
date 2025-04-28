@@ -25,7 +25,7 @@ public class CustomSecurityConfig {
                         .anyRequest().permitAll())
 
                 .formLogin(httpSecurityFormLoginConfigurer -> httpSecurityFormLoginConfigurer
-                        .loginPage("/users/login")
+                        .loginPage("/member/login")
                         .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/")
                         .permitAll())

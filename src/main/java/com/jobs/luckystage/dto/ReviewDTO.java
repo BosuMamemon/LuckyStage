@@ -20,7 +20,7 @@ public class ReviewDTO {
     private String username; // members.username
     private LocalDateTime regDate;
     private LocalDateTime modDate;
-    private List<ReviewImageDTO> imageList;
+    private List<String> imageFilenameList;
     private List<ReviewCommentDTO> commentList;
 
     public void updateHitcount() {
