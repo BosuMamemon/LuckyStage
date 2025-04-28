@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface BoardRepository extends JpaRepository<Boards, Long> {
-    // select * from tbl_board where title like %keyword%;
     @Query("select b from Boards b where b.title like concat('%',:keyword,'%')")
     Page<Boards> searchTitle(String keyword, Pageable pageable);
 }

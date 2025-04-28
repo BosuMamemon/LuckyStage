@@ -25,23 +25,23 @@
             </div>
         </form>
         <div class="card-body">
-            <h5 class="card-title">List Page</h5>
+            <h5 class="card-title">게시판</h5>
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col">Bno</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Author</th>
-                    <th scope="col">RegDate</th>
-                    <th scope="col">UpdateDate</th>
-                    <th scope="col">ReadCount</th>
+                    <th scope="col">번호</th>
+                    <th scope="col">제목</th>
+                    <th scope="col">내용</th>
+                    <th scope="col">회원</th>
+                    <th scope="col">작성일</th>
+                    <th scope="col">조회</th>
                 </tr>
                 </thead>
                 <tbody th:with="link=${pageRequestDTO.getLink()}">
                     <tr th:each="board:${responseDTO.dtoList}">
                         <td>[[${board.bno}]]</td>
-                        <td><a th:href="|@{/board/read(bno=${board.bno})}&${link}|">[[${board.title}]]</a></td>
-                        <td>[[${board.author}]]</td>
+                        <td><a th:href="|@{/board/read(boardNum=${board.boardNum})}&${link}|">[[${board.title}]]</a></td>
+                        <td>[[${board.members}]]</td>
                         <td>[[${board.regDate}]]</td>
                         <td>[[${board.updateDate}]]</td>
                         <td>[[${board.readcount}]]</td>
