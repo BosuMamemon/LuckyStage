@@ -43,9 +43,9 @@ body {
     overflow: hidden;
 }
 .slider {
+    position: relative;
     margin: 30px auto;
     width: 70%;
-    left: -5px;
     box-sizing: border-box;
 }
 
@@ -59,18 +59,22 @@ body {
     border-radius: 10px;
 }
 .slick-prev, .slick-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
     background: none;
     border: none;
-    font-size: 30px;
+    font-size: 50px;
+    color: #006242;
     z-index: 1000;
     cursor: pointer;
 }
 .slick-prev {
-    left: -40px;
+    left: -10px;
 }
 
 .slick-next {
-    right: -40px;
+    right: -50px;
 }
 
 .slick-prev, .slick-next {
