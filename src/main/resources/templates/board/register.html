@@ -2,27 +2,55 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout.html}" lang="en">
+
 <div layout:fragment="content">
-    <div class="card">
-        <div class="card-title">Register Page</div>
-        <form action="/board/register" method="post">
-            <div class="input-group mb-3">
-                <span class="input-group-text">Title</span>
-                <input type="text" name="title" class="form-controller" placeholder="Title">
+    <h2 class="section-title">💬 오늘도 한마디 남기기</h2>
+    <p class="section-description">생각, 일상, 하고 싶은 이야기 무엇이든 자유롭게 남겨주세요.</p>
+    <h5> </h5>
+    <div class="board-form-container">
+        <form action="/board/register" method="post" enctype="multipart/form-data" class="board-form" onsubmit="return confirmSubmit();">
+
+            <div class="form-group">
+                <label for="title" class="form-label">제목</label>
+                <input type="text" id="title" name="title" class="form-control" placeholder="제목을 입력하세요" required>
             </div>
-            <div class="input-group mb-3">
-                <span class="input-group-text">Content</span>
-                <textarea name="content" class="form-controller col-sm-5" rows="5"></textarea>
+
+            <div class="form-group">
+                <label for="content" class="form-label">내용</label>
+                <textarea id="content" name="content" class="form-control" rows="8" placeholder="내용을 입력하세요" required></textarea>
             </div>
-            <div class="input-group mb-3">
-                <span class="input-group-text">Author</span>
-                <input type="text" name="author" class="form-controller" placeholder="Author">
+
+            <div class="form-group">
+                <label for="files" class="form-label">이미지 첨부</label>
+                <input type="file" id="files" name="files" class="form-control" multiple>
+                <!-- multiple: 여러장 업로드 가능 -->
             </div>
-            <div class="input-group mb-3">
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <button type="reset" class="btn btn-secondary">Reset</button>
+                    <!-- enctype="multipart/form-data" 꼭 추가! 파일 업로드를 위해
+                    @RequestParam("files") MultipartFile[] files -->
+
+            <div class="form-group">
+                <label for="author" class="form-label">작성자</label>
+                <input type="text" id="author" name="author" class="form-control" placeholder="작성자를 입력하세요" required>
             </div>
+
+            <div class="form-buttons">
+                <button type="submit" class="btn-submit">등록</button>
+                <button type="reset" class="btn-cancel">초기화</button>
+                <a href="/board/list" class="btn-cancel move-back-btn">취소</a>
+            </div>
+
         </form>
     </div>
 
 </div>
+</html>
+<script>
+    function confirmSubmit() {
+        if (confirm('글을 등록하시겠습니까?')) {
+            alert('✅ 글이 등록되었습니다!');
+            return true; // 폼 제출 진행
+        } else {
+            return false; // 폼 제출 취소
+        }
+    }
+</script>

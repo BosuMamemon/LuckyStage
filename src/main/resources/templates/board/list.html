@@ -2,84 +2,127 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout.html}" lang="en">
+
 <div layout:fragment="content">
-    <div class="card">
-        <form action="/board/list" method="get">
-            <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
-            <div class="col">
-                <div class="input-group mt-3 mb-lg-3">
-                    <div class="input-group-prepend">
-                        <select class="form-select" name="type">
-                            <option value="">---</option>
+
+    <h2 class="section-title">📋 게시판</h2>
+
+    <!-- 탭 버튼 영역 -->
+    <div class="tab-buttons" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 30px;">
+        <button class="tab-btn active" onclick="openTab('boardTab')">자유게시판</button>
+        <button class="tab-btn" onclick="openTab('reviewTab')">리뷰게시판</button>
+    </div>
+
+    <!-- 자유게시판 영역 -->
+    <div id="boardTab" class="tab-content">
+        <div class="board-container">
+            <div class="board-card">
+
+                <div class="search-bar-wrapper">
+                    <form action="/board/list" method="get" class="search-form">
+                        <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
+                        <select class="form-select search-type" name="type">
+                            <option value="">전체</option>
                             <option value="t" th:selected="${pageRequestDTO.type=='t'}">제목</option>
                             <option value="c" th:selected="${pageRequestDTO.type=='c'}">내용</option>
                             <option value="w" th:selected="${pageRequestDTO.type=='w'}">작성자</option>
                             <option value="tc" th:selected="${pageRequestDTO.type=='tc'}">제목+내용</option>
                             <option value="tcw" th:selected="${pageRequestDTO.type=='tcw'}">제목+내용+작성자</option>
                         </select>
+                        <input type="text" class="form-control search-input" name="keyword" th:value="${pageRequestDTO.keyword}" placeholder="검색어 입력">
+                        <button class="search-btn" type="submit">검색</button>
+                    </form>
+                    <div class="write-button-wrapper">
+                        <a href="/board/register" class="board-write-btn">글쓰기</a>
                     </div>
-                    <input type="text" class="input-control" name="keyword" th:value="${pageRequestDTO.keyword}">
-                    <button class="btn btn-secondary searchBtn" type="submit">검색</button>
                 </div>
 
-            </div>
-        </form>
-        <div class="card-body">
-            <h5 class="card-title">게시판</h5>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">번호</th>
-                    <th scope="col">제목</th>
-                    <th scope="col">내용</th>
-                    <th scope="col">회원</th>
-                    <th scope="col">작성일</th>
-                    <th scope="col">조회</th>
-                </tr>
-                </thead>
-                <tbody th:with="link=${pageRequestDTO.getLink()}">
+                <table class="board-table">
+                    <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>제목</th>
+                        <th>작성자</th>
+                        <th>작성일</th>
+                        <th>조회수</th>
+                    </tr>
+                    </thead>
+                    <tbody th:with="link=${pageRequestDTO.getLink()}">
                     <tr th:each="board:${responseDTO.dtoList}">
                         <td>[[${board.bno}]]</td>
-                        <td><a th:href="|@{/board/read(boardNum=${board.boardNum})}&${link}|">[[${board.title}]]</a></td>
+                        <td><a th:href="|@{/board/read(boardNum=${board.boardNum})}&${link}|" class="board-link">[[${board.title}]]</a></td>
                         <td>[[${board.members}]]</td>
                         <td>[[${board.regDate}]]</td>
-                        <td>[[${board.updateDate}]]</td>
                         <td>[[${board.readcount}]]</td>
                     </tr>
-                </tbody>
-            </table>
-            <div class="float-end">
-                <ul class="pagination">
-                    <li class="page-item" th:if="${responseDTO.prev}">
-                        <a class="page-link" th:data-num="${responseDTO.start -1}">Previous</a>
-                    </li>
-                    <th:block th:each="i:${#numbers.sequence(responseDTO.start, responseDTO.end)}">
-                        <li th:class="${responseDTO.page==i}?'page-item active':'page-item'">
-                            <a class="page-link" th:data-num="${i}">[[${i}]]</a>
-                        </li>
-                    </th:block>
-                    <li class="page-item" th:if="${responseDTO.next}">
-                        <a class="page-link" th:data-num="${responseDTO.end +1}">Next</a>
-                    </li>
-                </ul>
+                    </tbody>
+                </table>
+
             </div>
-
         </div>
+    </div>
 
+    <!-- 리뷰게시판 영역 (연결해야함 임시로 리뷰게시판 복붙해옴)-->
+    <div id="reviewTab" class="tab-content" style="display:none;">
+        <div class="container py-5">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 review-grid">
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <img src="/images/concert1.jpg" class="card-img-top" alt="리뷰 이미지">
+                        <div class="card-body d-flex flex-column">
+                            <h6 class="card-title text-truncate mb-1">김나영 콘서트 후기</h6>
+                            <p class="card-meta text-muted">Linda · 2025-04-25</p>
+                            <p class="card-text text-muted flex-grow-1">진짜 김나영 레전드..!</p>
+                            <div class="review-product">2025 김나영 콘서트</div>
+                            <div class="review-stars">★★★★★</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <img src="/images/concert2.jpg" class="card-img-top" alt="리뷰 이미지">
+                        <div class="card-body d-flex flex-column">
+                            <h6 class="card-title text-truncate mb-1">감동적인 무대</h6>
+                            <p class="card-meta text-muted">하늘이 · 2025-04-20</p>
+                            <p class="card-text text-muted flex-grow-1">권진아 노래 짱!</p>
+                            <div class="review-product">2025 권진아 콘서트</div>
+                            <div class="review-stars">★★★★★</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex flex-column align-items-center mt-4">
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled"><a class="page-link" href="#"><</a></li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                <li class="page-item"><a class="page-link" href="#">></a></li>
+            </ul>
+        </nav>
+        <a th:href="@{/concert/list(type=concertNum)}" class="btn mt-3" style="background-color: #006242; color: white; font-weight: bold; width: 130px;">공연 목록 보기</a>
+        </div>
     </div>
 </div>
-<script layout:fragment="script" th:inline="javascript">
-    document.querySelector(".pagination").addEventListener("click",function (e){
-        e.preventDefault()
-        e.stopPropagation()
-        const target=e.target
-        if(target.tagName!=='A'){
-            return
-        }
-        const num=target.getAttribute("data-num")
-        const formObj=document.querySelector("form")
-        formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`
-        formObj.submit()
-        //self.location=`/board/list?page=${num}`
-    },false)
+
+<!-- 탭 전환 스크립트 -->
+<script layout:fragment="script">
+    function openTab(tabName) {
+        // 탭 숨기기
+        const tabs = document.querySelectorAll('.tab-content');
+        tabs.forEach(tab => tab.style.display = 'none');
+
+        // 버튼 active 해제
+        const buttons = document.querySelectorAll('.tab-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+
+        // 선택한 탭 보여주기
+        document.getElementById(tabName).style.display = 'block';
+        // 선택한 버튼 active
+        event.target.classList.add('active');
+    }
 </script>
+</html>
