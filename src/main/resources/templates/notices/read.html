@@ -40,7 +40,7 @@
       <span class="input-group-text">작성일</span>
       <input type="text" name="members_reg_date" class="form-controller" th:value="${notices.regDate}">
     </div>
-    <div class="input-group mb-3" th:with="link=${noticesPageRequestDTO.getLink}">
+    <div class="input-group mb-3" th:with="link=${pageRequestDTO.getLink}">
       <span sec:authorize="isAuthenticated()" th:if="${#authentication.principal.members_username == notices.getMembersUsername()}">
         <a th:href="|@{/notices/modify(members_username)}&${link}|">
           <button type="button" class="btn btn-primary">추가</button>

@@ -20,7 +20,7 @@
                     <a class="nav-link" href="/notices/register" style="position: absolute; right: 0;">작성하기</a>
                 </tr>
                 </thead>
-                <tbody th:with="link=${noticesPageRequestDTO.getLink()}">
+                <tbody th:with="link=${pageRequestDTO.getLink()}">
                     <tr th:each="notices:${responseDTO.dtoList}">
                         <td>[[${notices.notice_num}]]</td>
                         <td><a th:href="|@{/notices/read(notice_num=${notices.notice_num})}&${link}|">[[${notices.title}]]</a></td>

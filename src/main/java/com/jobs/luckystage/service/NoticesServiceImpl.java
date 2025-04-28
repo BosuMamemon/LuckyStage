@@ -2,9 +2,7 @@ package com.jobs.luckystage.service;
 
 import com.jobs.luckystage.domain.Members;
 import com.jobs.luckystage.domain.Notices;
-import com.jobs.luckystage.dto.NoticesDTO;
-import com.jobs.luckystage.dto.NoticesPageRequestDTO;
-import com.jobs.luckystage.dto.NoticesPageResponseDTO;
+import com.jobs.luckystage.dto.*;
 import com.jobs.luckystage.repository.MemberRepository;
 import com.jobs.luckystage.repository.NoticesRepository;
 import lombok.extern.log4j.Log4j2;
@@ -69,11 +67,11 @@ public class NoticesServiceImpl implements NoticesService {
 
 
     @Override
-    public NoticesPageResponseDTO<NoticesDTO> list(NoticesPageRequestDTO noticesPageRequestDTO) {
-        Pageable pageable = noticesPageRequestDTO.getPageable("noticeNum");
+    public PageResponseDTO<NoticesDTO> list(PageRequestDTO pageRequestDTO) {
+        Pageable pageable = pageRequestDTO.getPageable("noticeNum");
         Page<Notices> result = noticesRepository.searchAll(
-                noticesPageRequestDTO.getTypes(),
-                noticesPageRequestDTO.getKeyword(),
+                pageRequestDTO.getTypes(),
+                pageRequestDTO.getKeyword(),
                 pageable);
         if (result == null) {
            // throw new IllegalStateException("검색 결과가 없습니다.");
@@ -84,8 +82,8 @@ public class NoticesServiceImpl implements NoticesService {
                 .map(notices -> entityToDto(notices))
                 .collect(Collectors.toList());
 
-        return NoticesPageResponseDTO.<NoticesDTO>withAll()
-                .noticesPageRequestDTO(noticesPageRequestDTO)
+        return PageResponseDTO.<NoticesDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
                 .dtoList(dtoList)
                 .total((int) result.getTotalElements())
                 .build();

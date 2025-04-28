@@ -2,9 +2,7 @@ package com.jobs.luckystage.service;
 
 import com.jobs.luckystage.domain.Members;
 import com.jobs.luckystage.domain.Notices;
-import com.jobs.luckystage.dto.NoticesDTO;
-import com.jobs.luckystage.dto.NoticesPageRequestDTO;
-import com.jobs.luckystage.dto.NoticesPageResponseDTO;
+import com.jobs.luckystage.dto.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,7 +13,7 @@ public interface NoticesService {
     NoticesDTO readNotices(Long notice_num);
     void updateNotices(NoticesDTO noticesDTO);
     void deleteNotices(Long notice_num);
-    NoticesPageResponseDTO<NoticesDTO> list(NoticesPageRequestDTO noticesPageRequestDTO);
+    PageResponseDTO<NoticesDTO> list(PageRequestDTO pageRequestDTO);
 
     default Notices dtoToEntity(NoticesDTO dto) {
         Notices noticesEntity = Notices.builder()

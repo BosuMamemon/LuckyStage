@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class NoticesUploadResultDTO {
+public class UploadResultDTO {
     private String uuid;
     private String fileName;
 }

@@ -8,7 +8,7 @@
     <div class="card">
         <div class="card-title">수정</div>
         <form action="/faqs/modify" method="post">
-            <input type="hidden" name="notice_num" th:value="${faqs?.faqs_num}">
+            <input type="hidden" name="notice_num" th:value="${faqs.faqNum}">
 
             <div class="input-group mt-3">
                 <span class="input-group-text">제목</span>

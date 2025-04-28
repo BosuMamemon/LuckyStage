@@ -4,10 +4,7 @@ package com.jobs.luckystage.controller;
 
 
 import com.jobs.luckystage.config.auth.PrincipalDetails;
-import com.jobs.luckystage.dto.NoticesDTO;
-import com.jobs.luckystage.dto.NoticesPageRequestDTO;
-import com.jobs.luckystage.dto.NoticesPageResponseDTO;
-import com.jobs.luckystage.dto.NoticesUploadFileDTO;
+import com.jobs.luckystage.dto.*;
 import com.jobs.luckystage.service.NoticesService;
 import lombok.extern.log4j.Log4j2;
 import net.coobird.thumbnailator.Thumbnailator;
@@ -18,7 +15,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -46,20 +42,20 @@ public class NoticesController {
     private NoticesService noticesService;
 
     @GetMapping("/list")
-    public void listNotices(NoticesPageRequestDTO noticesPageRequestDTO, Model model) {
-        NoticesPageResponseDTO<NoticesDTO> responseDTO = noticesService.list(noticesPageRequestDTO);
+    public void listNotices(PageRequestDTO pageRequestDTO, Model model) {
+        PageResponseDTO<NoticesDTO> responseDTO = noticesService.list(pageRequestDTO);
         model.addAttribute("responseDTO", responseDTO);
-        model.addAttribute("pageRequest", noticesPageRequestDTO);
+        model.addAttribute("pageRequest", pageRequestDTO);
     }
     @GetMapping("/register")
     public void register(){
     }
     @PostMapping("/register")
-    public String register(NoticesUploadFileDTO noticesUploadFileDTO, NoticesDTO noticesDTO, @AuthenticationPrincipal PrincipalDetails principalDetails){
+    public String register(UploadFileDTO uploadFileDTO, NoticesDTO noticesDTO, @AuthenticationPrincipal PrincipalDetails principalDetails){
         List<String> strFileNames=null;
-        if(noticesUploadFileDTO.getFiles()!=null &&
-                ! noticesUploadFileDTO.getFiles().get(0).getOriginalFilename().equals("")){
-            strFileNames=fileUpload(noticesUploadFileDTO);
+        if(uploadFileDTO.getFiles()!=null &&
+                ! uploadFileDTO.getFiles().get(0).getOriginalFilename().equals("")){
+            strFileNames=fileUpload(uploadFileDTO);
             log.info("!!!"+strFileNames.size());
         }
         noticesDTO.setFileNames(strFileNames);
@@ -67,17 +63,17 @@ public class NoticesController {
         return "redirect:/notices/list";
     }
     @GetMapping({"/read","/modify"})
-    public void read_modify(NoticesPageRequestDTO pageRequestDTO, Long notice_num, Model model){
+    public void read_modify(PageRequestDTO pageRequestDTO, Long notice_num, Model model){
 
         NoticesDTO noticesDTO=noticesService.readNotices(notice_num);
         model.addAttribute("notices",  noticesDTO);
     }
     @PostMapping("/modify")
-    public String modify(NoticesUploadFileDTO noticesUploadFileDTO, NoticesDTO noticesDTO, Model model) {
+    public String modify(UploadFileDTO uploadFileDTO, NoticesDTO noticesDTO, Model model) {
 
         List<String> strFileNames = null;
-        if (noticesUploadFileDTO.getFiles()!=null &&
-                !noticesUploadFileDTO.getFiles().get(0).getOriginalFilename().equals("")) {
+        if (uploadFileDTO.getFiles()!=null &&
+                !uploadFileDTO.getFiles().get(0).getOriginalFilename().equals("")) {
 
             List<String> fileNames = noticesDTO.getFileNames();
 
@@ -85,7 +81,7 @@ public class NoticesController {
                 removeFile(fileNames);
             }
 
-            strFileNames = fileUpload(noticesUploadFileDTO);
+            strFileNames = fileUpload(uploadFileDTO);
             log.info("!!!!!!" + strFileNames.size());
             noticesDTO.setFileNames(strFileNames);
         }
@@ -101,10 +97,10 @@ public class NoticesController {
         noticesService.deleteNotices(notice_num);
         return "redirect:/notices/noticesList";
     }
-    private List<String> fileUpload(NoticesUploadFileDTO noticesUploadFileDTO){
+    private List<String> fileUpload(UploadFileDTO uploadFileDTO){
 
         List<String> list = new ArrayList<>();
-        noticesUploadFileDTO.getFiles().forEach(multipartFile -> {
+        uploadFileDTO.getFiles().forEach(multipartFile -> {
             String originalName = multipartFile.getOriginalFilename();
             log.info(originalName);
 

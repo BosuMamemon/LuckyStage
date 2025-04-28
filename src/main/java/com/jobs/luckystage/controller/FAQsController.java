@@ -32,11 +32,23 @@ public class FAQsController {
        faqsService.registerFAQs(faqsDTO);
        return "redirect:/faqs/list";
    }
-   @GetMapping("/read")
+   @GetMapping({"/read","/modify"})
    public void readFAQs(Long faqNum, PageRequestDTO pageRequestDTO, Model model) {
         log.info("1111111111111111111111111111111111111"+faqNum);
 
         FAQsDTO faqsDTO = faqsService.readFAQs(faqNum);
         model.addAttribute("faqs",faqsDTO);
    }
+   @GetMapping("/remove")
+   public String remove(Long faqNum){
+        faqsService.deleteFAQs(faqNum);
+        return "redirect:/faqs/list";
+    }
+    @PostMapping("/modify")
+    public String modify(FAQsDTO faqsDTO, PageRequestDTO pageRequestDTO){
+        faqsService.updateFAQs(faqsDTO);
+        return "redirect:/faqs/read?faqNum="+faqsDTO.getFaqNum();
+    }
+
 }
+

@@ -36,7 +36,17 @@ public class FAQsServiceImpl implements FAQsService {
         FAQsDTO faqsDTO = entityToDto(faqs);
         return faqsDTO;
     }
+
+    @Override
+    public void deleteFAQs(Long faqNum) {
+        faqsRepository.deleteById(faqNum);
+    }
+
+    @Override
+
+
     public void updateFAQs(FAQsDTO faqsDTO) {
+        log.info("1eeeeeeeeeeeeeeeeeeeeeeeeeeee", faqsDTO);
         FAQs faqs1 = faqsRepository.findById(faqsDTO.getFaqNum()).get();
         faqs1.change(faqsDTO.getTitle(),faqsDTO.getContent());
         faqsRepository.save(faqs1);
