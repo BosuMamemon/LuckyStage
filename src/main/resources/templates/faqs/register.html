@@ -7,8 +7,8 @@
 <div layout:fragment="content" >
 
     <div class="card" style="width:85%;">
-        <div class="card-title"><h5>공지사항</h5> </div>
-        <form action="/notices/register" method="post" enctype="multipart/form-data">
+        <div class="card-title"><h5>F&Q</h5> </div>
+        <form action="/faqs/register" method="post" enctype="multipart/form-data">
             <div class="input-group mb-3">
                 <span class="input-group-text mt-10">제목</span>
                 <input type="text" name="title" class="form-controller" placeholder="Title">
@@ -17,14 +17,11 @@
                 <span class="input-group-text mt-10">내용</span>
                 <textarea name="content" class="form-controller col-sm-5" rows="5"></textarea>
             </div>
-            <div class="input-group mb-3">
-                <span class="input-group-text">작성자</span>
-                <input type="text" name="username" class="form-controller" th:value="${#authentication.principal.username}">
-            </div>
-            <div class="input-group mb-3">
-                <span class="input-group-text">FileUpload</span>
-                <input type="file" name="noticesFiles" class="form-control" multiple>
-            </div>
+<!--            <div class="input-group mb-3">-->
+<!--                <span class="input-group-text">작성자</span>-->
+<!--                <input type="text" name="username" class="form-controller" th:value="${#authentication.principal.username}">-->
+<!--            </div>-->
+
             <div class="input-group mb-3">
                 <button type="submit" class="btn btn-primary">Submit</button>
                 <button type="reset" class="btn btn-success">Reset</button>

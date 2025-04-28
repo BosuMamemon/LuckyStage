@@ -1,9 +1,11 @@
 package com.jobs.luckystage.service;
 
+import com.jobs.luckystage.domain.Members;
 import com.jobs.luckystage.domain.Notices;
 import com.jobs.luckystage.dto.NoticesDTO;
 import com.jobs.luckystage.dto.NoticesPageRequestDTO;
 import com.jobs.luckystage.dto.NoticesPageResponseDTO;
+import com.jobs.luckystage.repository.MemberRepository;
 import com.jobs.luckystage.repository.NoticesRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +25,13 @@ public class NoticesServiceImpl implements NoticesService {
 //    private final NoticesCommentsRepository noticesCommentsRepository;
     @Autowired
     private NoticesRepository noticesRepository;
+    @Autowired
+    private MemberRepository memberRepository;
 
     @Override
-    public void registerNotices(NoticesDTO noticesDTO) {
+    public void registerNotices(NoticesDTO noticesDTO, Members members) {
         Notices notices = dtoToEntity(noticesDTO);
+        notices.setMembers(members);
         noticesRepository.save(notices);
     }
 
@@ -35,10 +40,11 @@ public class NoticesServiceImpl implements NoticesService {
 
 //        Notices notices = noticesRepository.findByIdWithImages(noticeNum)
 //                .orElse(null);
-//        notices.updateReadcount();
+//        notices.changeHitcount();
 //        noticesRepository.save(notices);
 //        return entityToDto(notices);
         return null;
+
     }
 
     @Override

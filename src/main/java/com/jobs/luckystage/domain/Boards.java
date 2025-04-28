@@ -2,15 +2,17 @@ package com.jobs.luckystage.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-@EqualsAndHashCode(callSuper = false)
 public class Boards extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

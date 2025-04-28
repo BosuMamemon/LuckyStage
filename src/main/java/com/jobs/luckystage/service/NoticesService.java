@@ -1,5 +1,6 @@
 package com.jobs.luckystage.service;
 
+import com.jobs.luckystage.domain.Members;
 import com.jobs.luckystage.domain.Notices;
 import com.jobs.luckystage.dto.NoticesDTO;
 import com.jobs.luckystage.dto.NoticesPageRequestDTO;
@@ -10,7 +11,7 @@ import java.util.stream.Collectors;
 
 
 public interface NoticesService {
-    void registerNotices(NoticesDTO noticesDTO);
+    void registerNotices(NoticesDTO noticesDTO, Members members);
     NoticesDTO readNotices(Long notice_num);
     void updateNotices(NoticesDTO noticesDTO);
     void deleteNotices(Long notice_num);
@@ -18,7 +19,7 @@ public interface NoticesService {
 
     default Notices dtoToEntity(NoticesDTO dto) {
         Notices noticesEntity = Notices.builder()
-             //   .noticeNum(dto.getNotice_num())
+//                .noticeNum(dto.getNotice_num())
                 .title(dto.getTitle())
                 .content(dto.getContent())
 //                .members(dto.getMembers())
@@ -36,8 +37,8 @@ public interface NoticesService {
                 .notice_num(noticesEntity.getNoticeNum())
                 .title(noticesEntity.getTitle())
                 .content(noticesEntity.getContent())
-                .members(noticesEntity.getMembers())
-//                .regDate(noticesEntity.getRegDate())
+                .regDate(noticesEntity.getRegDate())
+//                .hitCount(noticesEntity.getHitcount())
                 .build();
         List<String> fileNames =
                 noticesEntity.getNoticeImages().stream().sorted().map(noticeImage ->

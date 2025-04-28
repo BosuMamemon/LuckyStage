@@ -3,6 +3,7 @@ package com.jobs.luckystage.controller;
 
 
 
+import com.jobs.luckystage.config.auth.PrincipalDetails;
 import com.jobs.luckystage.dto.NoticesDTO;
 import com.jobs.luckystage.dto.NoticesPageRequestDTO;
 import com.jobs.luckystage.dto.NoticesPageResponseDTO;
@@ -16,6 +17,8 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -52,7 +55,7 @@ public class NoticesController {
     public void register(){
     }
     @PostMapping("/register")
-    public String register(NoticesUploadFileDTO noticesUploadFileDTO, NoticesDTO noticesDTO){
+    public String register(NoticesUploadFileDTO noticesUploadFileDTO, NoticesDTO noticesDTO, @AuthenticationPrincipal PrincipalDetails principalDetails){
         List<String> strFileNames=null;
         if(noticesUploadFileDTO.getFiles()!=null &&
                 ! noticesUploadFileDTO.getFiles().get(0).getOriginalFilename().equals("")){
@@ -60,7 +63,7 @@ public class NoticesController {
             log.info("!!!"+strFileNames.size());
         }
         noticesDTO.setFileNames(strFileNames);
-        noticesService.registerNotices(noticesDTO);
+        noticesService.registerNotices(noticesDTO, principalDetails.getMember());
         return "redirect:/notices/list";
     }
     @GetMapping({"/read","/modify"})

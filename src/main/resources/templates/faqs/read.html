@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout/layout.html}"
+      lang="en">
+
+<div layout:fragment="content">
+  <div class="card">
+    <div class="card-title">F&Q</div>
+    <div class="input-group mb-3">
+      <span class="input-group-text">No</span>
+      <input type="text" name="faqs_num" class="form-control" th:value="${faqs.faqNum}" readonly>
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text">제목</span>
+      <input type="text" name="faqs_title" class="form-control" th:value="${faqs.title}">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text">내용</span>
+      <textarea name="faqs_content" class="form-control col-sm-5" rows="5">[[${faqs.content}]]</textarea>
+    </div>
+
+
+    <div class="input-group mb-3">
+      <span class="input-group-text">조회수</span>
+      <input type="text" name="readcount_faqs" class="form-controller" th:value="${faqs.readcount}" readonly>
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text">작성일</span>
+      <input type="text" name="members_reg_date_faqs" class="form-controller" th:value="${faqs.regDate}" readonly>
+    </div>
+    <div class="input-group mb-3" th:with="link=${pageRequestDTO.getLink()}">
+        <a th:href="|@{/faqs/modify(faqNum=${faqs.faqNum})}&${link}|">
+          <button type="button" class="btn btn-primary">추가</button>
+        </a>
+        <a th:href="@{/faqs/remove(faqNum=${faqs.faqNum})}">
+          <button type="button" class="btn btn-danger">remove</button>
+        </a>
+        <a th:href="|@{/faqs/list}?${link}|">
+          <button type="button" class="btn btn-secondary">List</button>
+        </a>
+    </div>
+
+  </div>
+</div>

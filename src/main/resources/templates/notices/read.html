@@ -34,15 +34,15 @@
     </div>
     <div class="input-group mb-3">
       <span class="input-group-text">조회수</span>
-<!--      <input type="text" name="members_" class="form-controller" th:value="${notices}">-->
+      <input type="text" name="readcount_faqs" class="form-controller" th:value="${faqs.hitcount}" readonly>
     </div>
     <div class="input-group mb-3">
       <span class="input-group-text">작성일</span>
-      <input type="text" name="members_reg_date" class="form-controller" th:value="${notices.reg_date}">
+      <input type="text" name="members_reg_date" class="form-controller" th:value="${notices.regDate}">
     </div>
     <div class="input-group mb-3" th:with="link=${noticesPageRequestDTO.getLink}">
       <span sec:authorize="isAuthenticated()" th:if="${#authentication.principal.members_username == notices.getMembersUsername()}">
-        <a th:href="|@{/notices/modify(members_username}&${link}|">
+        <a th:href="|@{/notices/modify(members_username)}&${link}|">
           <button type="button" class="btn btn-primary">추가</button>
         </a>
         <a th:href="@{/notices/remove(notice_num=${notices.notice_num})}">

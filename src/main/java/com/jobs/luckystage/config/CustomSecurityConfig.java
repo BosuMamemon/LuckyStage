@@ -21,9 +21,12 @@ public class CustomSecurityConfig {
                 .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable())
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers("/**").permitAll())
+                        .requestMatchers("/**").permitAll()
+                        .anyRequest().permitAll())
+
                 .formLogin(httpSecurityFormLoginConfigurer -> httpSecurityFormLoginConfigurer
-//                        .loginPage("")
+                        .loginPage("/users/login")
+                        .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/")
                         .permitAll())
                 .logout(httpSecurityLogoutConfigurer -> httpSecurityLogoutConfigurer

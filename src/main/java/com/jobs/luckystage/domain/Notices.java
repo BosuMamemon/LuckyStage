@@ -48,6 +48,9 @@ public class Notices extends BaseEntity {
         this.title = title;
         this.content = content;
     }
+//    public void changeHitcount(){
+//        this.hitcount=this.hitcount+1;
+//    }
 
 
 }
