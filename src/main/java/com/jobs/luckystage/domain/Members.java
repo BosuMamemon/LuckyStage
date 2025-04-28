@@ -12,10 +12,10 @@ import java.util.Set;
 @Builder
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "concerts")
 public class Members {
     @Id
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String username;
     @Column(nullable = false)
     private String password;
@@ -28,7 +28,6 @@ public class Members {
     private String tel;
     private String email;
     private String role;
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "consert_pick")
-    private Set<Concerts> concerts;
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<MemberConcertBookmark> memberConcertBookmarks;
 }

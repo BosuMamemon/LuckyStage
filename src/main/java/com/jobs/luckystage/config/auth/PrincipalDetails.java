@@ -2,13 +2,18 @@ package com.jobs.luckystage.config.auth;
 
 import com.jobs.luckystage.domain.Members;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-@Data
+@Getter
+@Setter
+@ToString
 public class PrincipalDetails implements UserDetails {
     private final Members member;
 
