@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -30,15 +31,16 @@ public class Reviews extends BaseEntity {
     @JoinColumn(name = "concerts_concertNum")
     private Concerts concerts;
     @OneToMany(mappedBy = "reviews", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ReviewImages> reviewImages;
+    @Builder.Default
+    private Set<ReviewImages> reviewImages = new HashSet<>();
 
     public void addImage(String uuid, String fileName){
         ReviewImages reviewImage = ReviewImages.builder()
                 .uuid(uuid)
                 .filename(fileName)
+                .ord(this.reviewImages.size())
                 .reviews(this)
-                .ord(reviewImages.size())
                 .build();
-        reviewImages.add(reviewImage);
+        this.reviewImages.add(reviewImage);
     }
 }

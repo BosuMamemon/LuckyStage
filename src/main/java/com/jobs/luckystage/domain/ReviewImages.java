@@ -14,7 +14,8 @@ public class ReviewImages {
     @Id
     private String uuid;
     private String filename;
-    private int ord;
+    @Builder.Default
+    private int ord = 0;
     @ManyToOne(fetch = FetchType.LAZY)
     private Reviews reviews;
 }

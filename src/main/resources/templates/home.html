@@ -13,16 +13,16 @@
         <h2>LUCKYSTAGE에 오신것을 환영합니다. </h2>
         <div class="review-cards">
             <div class="review-card">
-                <p class="review-content">"항상 티켓팅 실패했는데 럭스덕분에 예매성공했어요!"</p>
-                <p class="review-meta">- 유빈공주 ⭐⭐⭐⭐⭐</p>
+                <p class="review-content">[[${latestReviewList.get(0).content}]]</p>
+                <p class="review-meta">- [[${latestReviewList.get(0).nickname}]] [[${latestReviewList.get(0).getReviewStars()}]]</p>
             </div>
             <div class="review-card">
-                <p class="review-content">"암표살 돈은 부담스러웠는데 ㅠㅠ,, 부모님께 좋은추억 만들어드렸어요"</p>
-                <p class="review-meta">- 럭스러버 ⭐⭐⭐⭐</p>
+                <p class="review-content">[[${latestReviewList.get(1).content}]]</p>
+                <p class="review-meta">- [[${latestReviewList.get(1).nickname}]] [[${latestReviewList.get(1).getReviewStars()}]]</p>
             </div>
             <div class="review-card">
-                <p class="review-content">"공평하게 예매할 수 있어서 좋아요"</p>
-                <p class="review-meta">- 토리아빠 ⭐⭐⭐⭐</p>
+                <p class="review-content">[[${latestReviewList.get(2).content}]]</p>
+                <p class="review-meta">- [[${latestReviewList.get(2).nickname}]] [[${latestReviewList.get(2).getReviewStars()}]]</p>
             </div>
             <a href="/review/list" class="view-all-reviews">후기 전체보기 ></a>
         </div>

@@ -29,7 +29,7 @@ public class ReviewDTO {
     public String getReviewStars() {
         String reviewStars = "";
         for(int i = 0; i < this.rating; i++) {
-            reviewStars += "★";
+            reviewStars += "⭐";
         }
         return reviewStars;
     }

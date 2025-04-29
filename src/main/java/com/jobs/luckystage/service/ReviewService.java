@@ -7,6 +7,7 @@ import com.jobs.luckystage.dto.ReviewCommentDTO;
 import com.jobs.luckystage.dto.ReviewDTO;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public interface ReviewService {
     void saveReview(ReviewDTO reviewDTO);
@@ -29,6 +30,12 @@ public interface ReviewService {
 //                .imageList()
 //                .username()
                 .build();
+        List<String> imageFilenameList =
+                entity.getReviewImages()
+                        .stream().sorted()
+                        .map(reviewImage -> reviewImage.getUuid() + "_" + reviewImage.getFilename())
+                        .collect(Collectors.toList());
+        dto.setImageFilenameList(imageFilenameList);
         return dto;
     }
 

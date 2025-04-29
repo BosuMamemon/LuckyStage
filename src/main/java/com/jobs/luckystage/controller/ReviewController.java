@@ -68,6 +68,7 @@ public class ReviewController {
     public void getList(PageRequestDTO pageRequestDTO, Model model) {
         pageRequestDTO.setSize(8);
         PageResponseDTO<ReviewDTO> reviewList = reviewService.getAllReviews(pageRequestDTO);
+        model.addAttribute("pageRequestDTO", pageRequestDTO);
         model.addAttribute("reviewList", reviewList);
     }
 

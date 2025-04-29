@@ -16,9 +16,11 @@
             <input type="text"
                    name="keyword"
                    class="review-search-input"
-                   placeholder="제목 또는 내용 검색">
+                   placeholder="제목 또는 내용 검색"
+                   th:value="${pageRequestDTO.keyword}">
             <button type="submit" class="review-search-btn">검색</button>
         </form>
+        <button type="button" class="myReview review-search-btn">내가 쓴 리뷰 보기</button>
     </div>
 
     <div class="container py-5">
@@ -29,7 +31,7 @@
                         <div th:if="${review.imageFilenameList != null && review.imageFilenameList.size() > 0}">
                             <img th:src="|/review/img/${review.imageFilenameList.get(0)}|" class="card-img-top">
                         </div>
-                        <div th:if="${review.imageFilenameList == null}">
+                        <div th:if="${review.imageFilenameList == null || review.imageFilenameList.size() <= 0}">
                             <img th:src="|/concert/img/${review.concertFilename}|" class="card-img-top">
                         </div>
                         <div class="card-body d-flex flex-column">
