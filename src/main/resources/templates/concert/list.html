@@ -7,16 +7,14 @@
     <h1 class="section-title">🎬공연목록</h1>
 
     <div class="concert-header nav">
-        <div class="search-box nav-item">
-            <form id="form" action="/concert/list" method="get">
-                <div class="row">
-                    <div class="col-auto">
-                        <input class="form-control" name="keyword" type="text" placeholder="공연 제목을 입력하세요." th:value="${pageRequestDTO.keyword}">
-                    </div>
-                    <div class="col">
-                        <button type="submit" class="btn btn-dark">검색</button>
-                    </div>
-                </div>
+        <div class="concert-search-box nav-item">
+            <form id="form" action="/concert/list" method="get" class="concert-search-form">
+                <input class="concert-search-input"
+                       name="keyword"
+                       type="text"
+                       placeholder="공연 제목을 입력하세요."
+                       th:value="${pageRequestDTO.keyword}">
+                <button type="submit" class="concert-search-btn">검색</button>
             </form>
         </div>
         <div class="nav-item sort-tabs">

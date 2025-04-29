@@ -94,6 +94,35 @@ body {
 
 /* 공연정보 list */
 
+.concert-search-form {
+    margin-left:280px;
+    display: flex;
+    align-items: center;
+    max-width: 300px;
+    width: 100%;
+    margin-right: 20px;
+}
+
+.concert-search-input {
+    border-radius: 8px 0 0 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    padding: 8px 12px;
+    height: 40px;
+    flex: 1;
+}
+
+.concert-search-btn {
+    background-color: #006242;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 0 8px 8px 0;
+    font-size: 14px;
+    padding: 8px 16px;
+    height: 40px;
+    white-space: nowrap;
+}
 .concert-wrapper {
     max-width: 1200px;
     margin: 0 auto;
