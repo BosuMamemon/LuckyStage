@@ -43,8 +43,6 @@ public class Concerts {
     @Builder.Default
     @BatchSize(size = 20)
     private Set<ConcertImages> concertImage = new HashSet<>();
-    @OneToMany(mappedBy = "concert", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<MemberConcertBookmark> memberConcertBookmark;
 
     public void updateHitcount() {
         this.hitcount += 1;

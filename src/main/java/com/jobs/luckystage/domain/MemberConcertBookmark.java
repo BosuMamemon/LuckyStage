@@ -8,7 +8,9 @@ public class MemberConcertBookmark {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @ManyToOne(fetch = FetchType.LAZY)
-    private Members member;
+    @JoinColumn(name = "members_username")
+    private Members members;
     @ManyToOne(fetch = FetchType.LAZY)
-    private Concerts concert;
+    @JoinColumn(name = "concerts_concertNum")
+    private Concerts concerts;
 }
