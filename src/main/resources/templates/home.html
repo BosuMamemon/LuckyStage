@@ -116,8 +116,16 @@
     </div>
 </div>
 </html>
-<script>
+
+<script th:inline="javascript">
     $(function () {
+        const urlParams = new URL(location.href).searchParams;
+        if (urlParams.get('success') === 'delete') {
+            alert('회원 탈퇴가 완료되었습니다.');
+            // 주소창에서 ?success=delete 없애기
+            history.replaceState(null, "", location.pathname);
+        }
+
         if ($('.slider').length) {
             $('.slider').slick({
                 autoplay: true,
@@ -126,7 +134,10 @@
                 infinite: true,
                 slidesToShow: 4,
                 slidesToScroll: 1,
-                centerMode:false,
+                centerMode: false,
                 prevArrow: '<button type="button" class="slick-prev">&lt;</button>',
-                nextArrow: '<button type="button" class="slick-next">&gt;</button>'});}});
+                nextArrow: '<button type="button" class="slick-next">&gt;</button>'
+            });
+        }
+    });
 </script>
