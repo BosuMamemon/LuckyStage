@@ -154,7 +154,7 @@
 
 <script layout:fragment="script" th:inline="javascript">
   function lottery() {
-    location.href = "/lottery/lottery?selectedDate=" + document.querySelector("#selectedDate").value;
+    location.href = "/ticket/complete?selectedDate=" + document.querySelector("#selectedDate").value;
   }
 
   document.addEventListener("DOMContentLoaded", function() {
