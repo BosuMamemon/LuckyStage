@@ -206,6 +206,36 @@ body {
     background-color: #006242;
     color: white;
 }
+.review-search-form {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    max-width: 220px;
+    width: 100%;
+    margin-right: 350px;
+}
+
+.review-search-input {
+    border-radius: 8px 0 0 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    padding: 8px 12px;
+    height: 40px;
+    flex: 1;
+}
+
+.review-search-btn {
+    background-color: #006242;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 0 8px 8px 0;
+    font-size: 14px;
+    padding: 8px 16px;
+    height: 40px;
+    white-space: nowrap;
+}
+
 
 /* review 리뷰 */
 
@@ -1150,6 +1180,8 @@ form[name='myPageFrm'] {
 .p-4 {
     width: auto;
 }
+
+
 
 /*reservation - mypage*/
 .reservation-title {

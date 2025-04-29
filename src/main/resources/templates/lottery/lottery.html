@@ -26,19 +26,16 @@
         const selectedDate = /*[[${selectedDate}]]*/ "2025-05-05";
         /*]]>*/
 
-        if (!selectedDate) {
-            console.error("선택된 날짜가 없습니다.");
-            return;
-        }
-
         const concertDate = new Date(selectedDate);
         const lotteryDate = new Date(concertDate.getTime() - 3 * 24 * 60 * 60 * 1000);
+
         const nowTime = document.getElementById('nowTime');
         const dDay = document.getElementById('dDay');
         const lotteryStatus = document.getElementById('lotteryStatus');
 
         function updateClockAndLottery() {
-            const now = new Date();
+            const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" }));
+
             nowTime.textContent = "현재 시간: " + now.toLocaleString('ko-KR');
 
             const diff = lotteryDate.getTime() - now.getTime();
@@ -49,19 +46,18 @@
                 lotteryStatus.textContent = "⏳ 추첨 대기 중입니다...";
             } else {
                 dDay.textContent = "🎯 추첨일입니다!";
-                if (!localStorage.getItem("lotteryResult")) {
+                if (!localStorage.getItem(selectedDate)) { // 날짜별로 저장
                     const result = Math.random() < 0.5 ? "🎉 축하합니다! 당첨되었습니다!" : "😢 다음 기회에 도전해주세요.";
-                    localStorage.setItem("lotteryResult", result);
+                    localStorage.setItem(selectedDate, result);
                 }
-                lotteryStatus.textContent = localStorage.getItem("lotteryResult");
+                lotteryStatus.textContent = localStorage.getItem(selectedDate);
             }
         }
 
         updateClockAndLottery();
-        setInterval(updateClockAndLottery, 1000);
+        setInterval(updateClockAndLottery, 1000); // 1초마다 갱신
     });
 </script>
-
 
 </body>
 </html>
