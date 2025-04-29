@@ -68,24 +68,23 @@
           <!-- 예약 폼 카드 -->
           <div class="col">
             <div class="card shadow-sm p-4" style="height: 100%; border-radius: 16px; border: 1px solid #eee;">
-              <form th:action="@{/lottery/lottery}" method="post">
-                <label for="selectedDate" class="form-label mb-2" style="font-weight: bold;">
-                  🎟️ 관람일 선택
-                </label>
+              <label for="selectedDate" class="form-label mb-2" style="font-weight: bold;">
+                🎟️ 관람일 선택
+              </label>
 
-                <input type="date"
-                       id="selectedDate"
-                       name="selectedDate"
-                       class="form-control mb-3"
-                       th:attr="min=${#dates.format(concert.startDate, 'yyyy-MM-dd')}, max=${#dates.format(concert.endDate, 'yyyy-MM-dd')}"
-                       required>
+              <input type="date"
+                     id="selectedDate"
+                     name="selectedDate"
+                     class="form-control mb-3"
+                     th:attr="min=${#dates.format(concert.startDate, 'yyyy-MM-dd')}, max=${#dates.format(concert.endDate, 'yyyy-MM-dd')}"
+                     required>
 
                 <button type="submit"
                         class="btn btn-success w-100 mt-2"
-                        style="font-weight: bold; background-color: #006242; color: white; border-radius: 8px; padding: 10px;">
+                        style="font-weight: bold; background-color: #006242; color: white; border-radius: 8px; padding: 10px;"
+                        onclick="lottery()">
                   예약하기
                 </button>
-              </form>
             </div>
           </div>
 
@@ -95,7 +94,7 @@
 
               <!-- 리뷰 목록 헤더 -->
               <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 style="font-weight: bold; margin: 0;">리뷰 목록</h5>
+                <h5 style="font-weight: bold; margin: 0;">최신 리뷰</h5>
                 <a th:href="@{/review/register(concertNum=${concert.concertNum})}">
                   <button type="button"
                           class="btn btn-sm"
@@ -108,22 +107,26 @@
 
               <!-- 리뷰 리스트 -->
               <div class="review-list-container" style="flex-grow: 1; overflow-y: auto; max-height: 320px;">
-
                 <!-- 리뷰가 있을 때 -->
-                <div th:if="${reviewList != null}">
-                  <div th:each="review : ${reviewList}" class="mb-3 p-2" style="background-color: #f8f9fa; border-radius: 8px;">
-                    <div style="font-size: 13px; color: #555;">[[${review.content}]]</div>
-                    <div style="font-size: 12px; color: #999;">[[${#temporals.format(review.regDate, 'yyyy-MM-dd')}]]</div>
-                    <div style="font-size: 14px; font-weight: bold;">[[${review.getReviewStars()}]]</div>
+                <div th:if="${reviewList != null && reviewList.size() > 0}">
+                  <div class="mb-3 p-2" style="background-color: #f8f9fa; border-radius: 8px;">
+                    <div style="font-size: 14px; color: #555;">[[${reviewList.get(0).nickname}]]</div>
+                    <div style="font-size: 14px; color: #555;">[[${reviewList.get(0).content}]]</div>
+                    <div style="font-size: 13px; color: #999;">[[${#temporals.format(reviewList.get(0).regDate, 'yyyy-MM-dd')}]]</div>
+                    <div style="font-size: 15px; font-weight: bold;">[[${reviewList.get(0).getReviewStars()}]]</div>
                   </div>
                 </div>
-
                 <!-- 리뷰가 없을 때 -->
-                <div th:if="${reviewList == null || reviewList.size() <= 0}" class="text-center" style="color: #777;">
-                  <br>
+                <div th:if="${reviewList == null || reviewList.size() <= 0}" class="text-center mt-3" style="color: #777;">
                   등록된 리뷰가 없습니다.
                 </div>
-
+                <a href="/review/list">
+                  <button type="button"
+                          class="btn w-100 btn-sm mt-4"
+                          style="background-color: #006242; color: white; font-weight: bold; border-radius: 8px; padding: 6px 12px;">
+                    전체 리뷰 보기
+                  </button>
+                </a>
               </div>
 
             </div>
@@ -150,6 +153,10 @@
 
 
 <script layout:fragment="script" th:inline="javascript">
+  function lottery() {
+    location.href = "/lottery/lottery?selectedDate=" + document.querySelector("#selectedDate").value;
+  }
+
   document.addEventListener("DOMContentLoaded", function() {
     const likeButtons = document.querySelectorAll(".like-btn-list, .like-btn-read");
 

@@ -35,10 +35,10 @@
                         <div class="card-body d-flex flex-column">
                             <div class="mb-2">
                                 <h6 class="card-title text-truncate mb-1">[[${review.title}]]</h6>
-                                <p class="card-meta text-muted">[[${review.username}]] · [[${#temporals.format(review.regDate, 'yyyy-MM-dd')}]]</p>
+                                <p class="card-meta text-muted">[[${review.nickname}]] · [[${#temporals.format(review.regDate, 'yyyy-MM-dd')}]]</p>
                             </div>
                             <p class="card-text text-muted flex-grow-1">[[${review.content}]]</p>
-                            <div class="review-product">[[${review.concertTitle}]]</div>
+                            <div class="review-product text-center">[[${review.concertTitle}]]</div>
                             <div class="review-stars">[[${review.getReviewStars()}]]</div>
                         </div>
                     </div>

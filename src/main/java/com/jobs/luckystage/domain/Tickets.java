@@ -16,9 +16,10 @@ public class Tickets {
     @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private LocalDateTime regDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    private LocalDateTime selectedDate;
     @OneToOne(fetch = FetchType.LAZY)
     private Concerts concerts;
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date lotteryDate;
-    private String price;
 }

@@ -20,11 +20,9 @@
 
 </div>
 
-<script th:inline="javascript">
+<script layout:fragment="script" th:inline="javascript">
     document.addEventListener("DOMContentLoaded", function () {
-        /*<![CDATA[*/
-        const selectedDate = /*[[${selectedDate}]]*/ "2025-05-05";
-        /*]]>*/
+        const selectedDate = [[${selectedDate}]];
 
         const concertDate = new Date(selectedDate);
         const lotteryDate = new Date(concertDate.getTime() - 3 * 24 * 60 * 60 * 1000);

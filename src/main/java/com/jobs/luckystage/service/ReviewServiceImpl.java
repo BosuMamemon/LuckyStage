@@ -36,7 +36,8 @@ public class ReviewServiceImpl implements ReviewService {
         List<ReviewDTO> dtoList = pageableEntityList.stream().map(reviews -> {
             ReviewDTO dto = entityToDto(reviews);
             dto.setConcertTitle(reviews.getConcerts().getTitle());
-            dto.setUsername(reviews.getMembers() != null ? reviews.getMembers().getUsername() : "null");
+            dto.setUsername(reviews.getMembers() != null ? reviews.getMembers().getUsername() : "Deleted User");
+            dto.setNickname(reviews.getMembers() != null ? reviews.getMembers().getNickname() : "Deleted User");
             dto.setConcertFilename(reviews.getConcerts().getPosterFileName());
             log.info(dto);
             return dto;
@@ -50,7 +51,8 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewRepository.findAllByConcerts_ConcertNum(concertNum).stream().map(reviews -> {
             ReviewDTO dto = entityToDto(reviews);
             dto.setConcertTitle(reviews.getConcerts().getTitle());
-            dto.setUsername(reviews.getMembers() != null ? reviews.getMembers().getUsername() : "null");
+            dto.setUsername(reviews.getMembers() != null ? reviews.getMembers().getUsername() : "Deleted User");
+            dto.setNickname(reviews.getMembers() != null ? reviews.getMembers().getNickname() : "Deleted User");
             dto.setConcertFilename(reviews.getConcerts().getPosterFileName());
             return dto;
         }).collect(Collectors.toList());

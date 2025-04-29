@@ -16,7 +16,8 @@ public class ReviewDTO {
     private String title;
     private String content;
     private double rating;
-    private String username; // members.username
+    private String username;
+    private String nickname;
     private long concertNum;
     private String concertTitle;
     private LocalDateTime regDate;
