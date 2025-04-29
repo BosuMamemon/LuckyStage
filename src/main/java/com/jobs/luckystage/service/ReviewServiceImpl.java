@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import com.jobs.luckystage.domain.Concerts;
 import com.jobs.luckystage.domain.Reviews;
+import com.jobs.luckystage.dto.PageRequestDTO;
+import com.jobs.luckystage.dto.PageResponseDTO;
 import com.jobs.luckystage.dto.ReviewCommentDTO;
 import com.jobs.luckystage.dto.ReviewDTO;
 import com.jobs.luckystage.repository.ConcertRepository;
@@ -12,25 +14,35 @@ import com.jobs.luckystage.repository.MemberRepository;
 import com.jobs.luckystage.repository.ReviewRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Log4j2
 public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
     private final ConcertRepository concertRepository;
 
     @Override
-    public List<ReviewDTO> getAllReviews() {
-        return reviewRepository.findAll().stream().map(reviews -> {
+    public PageResponseDTO<ReviewDTO> getAllReviews(PageRequestDTO pageRequestDTO) {
+        Pageable pageable = pageRequestDTO.getPageable("reviewNum");
+        Page<Reviews> pageableEntityList = new PageImpl<>(reviewRepository.findAll(), pageable, reviewRepository.count());
+        List<ReviewDTO> dtoList = pageableEntityList.stream().map(reviews -> {
             ReviewDTO dto = entityToDto(reviews);
             dto.setConcertTitle(reviews.getConcerts().getTitle());
             dto.setUsername(reviews.getMembers() != null ? reviews.getMembers().getUsername() : "null");
             dto.setConcertFilename(reviews.getConcerts().getPosterFileName());
+            log.info(dto);
             return dto;
         }).collect(Collectors.toList());
+
+        return PageResponseDTO.<ReviewDTO>withAll().dtoList(dtoList).pageRequestDTO(pageRequestDTO).total((int)pageableEntityList.getTotalElements()).build();
     }
 
     @Override

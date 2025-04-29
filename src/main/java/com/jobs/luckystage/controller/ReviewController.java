@@ -1,5 +1,7 @@
 package com.jobs.luckystage.controller;
 
+import com.jobs.luckystage.dto.PageRequestDTO;
+import com.jobs.luckystage.dto.PageResponseDTO;
 import com.jobs.luckystage.dto.ReviewDTO;
 import com.jobs.luckystage.dto.UploadFileDTO;
 import com.jobs.luckystage.service.ConcertService;
@@ -63,8 +65,9 @@ public class ReviewController {
     }
 
     @GetMapping("/list")
-    public void getList(Model model) {
-        List<ReviewDTO> reviewList = reviewService.getAllReviews();
+    public void getList(PageRequestDTO pageRequestDTO, Model model) {
+        pageRequestDTO.setSize(8);
+        PageResponseDTO<ReviewDTO> reviewList = reviewService.getAllReviews(pageRequestDTO);
         model.addAttribute("reviewList", reviewList);
     }
 

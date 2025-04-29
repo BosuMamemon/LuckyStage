@@ -1,6 +1,8 @@
 package com.jobs.luckystage.service;
 
 import com.jobs.luckystage.domain.Reviews;
+import com.jobs.luckystage.dto.PageRequestDTO;
+import com.jobs.luckystage.dto.PageResponseDTO;
 import com.jobs.luckystage.dto.ReviewCommentDTO;
 import com.jobs.luckystage.dto.ReviewDTO;
 
@@ -8,7 +10,7 @@ import java.util.List;
 
 public interface ReviewService {
     void saveReview(ReviewDTO reviewDTO);
-    List<ReviewDTO> getAllReviews();
+    PageResponseDTO<ReviewDTO> getAllReviews(PageRequestDTO pageRequestDTO);
     List<ReviewDTO> getAllReviewsByConcertNum(long concertNum);
     ReviewDTO getReview(Long reviewNum);
     void deleteReview(Long reviewNum);
