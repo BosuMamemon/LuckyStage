@@ -22,6 +22,7 @@ public class Reviews extends BaseEntity {
     @Column(nullable = false)
     private String content;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = true)
     private Members members;
     @ColumnDefault("0")
     private double rating;

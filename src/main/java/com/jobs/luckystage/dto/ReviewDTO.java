@@ -23,6 +23,7 @@ public class ReviewDTO {
     private LocalDateTime modDate;
     private List<String> imageFilenameList;
     private List<ReviewCommentDTO> commentList;
+    private String concertFilename;
 
     public String getReviewStars() {
         String reviewStars = "";

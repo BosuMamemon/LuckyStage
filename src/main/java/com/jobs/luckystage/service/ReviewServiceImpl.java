@@ -26,7 +26,20 @@ public class ReviewServiceImpl implements ReviewService {
     public List<ReviewDTO> getAllReviews() {
         return reviewRepository.findAll().stream().map(reviews -> {
             ReviewDTO dto = entityToDto(reviews);
-            dto.setConcertTitle(concertRepository.findById(reviews.getConcerts().getConcertNum()).get().getTitle());
+            dto.setConcertTitle(reviews.getConcerts().getTitle());
+            dto.setUsername(reviews.getMembers() != null ? reviews.getMembers().getUsername() : "null");
+            dto.setConcertFilename(reviews.getConcerts().getPosterFileName());
+            return dto;
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ReviewDTO> getAllReviewsByConcertNum(long concertNum) {
+        return reviewRepository.findAllByConcerts_ConcertNum(concertNum).stream().map(reviews -> {
+            ReviewDTO dto = entityToDto(reviews);
+            dto.setConcertTitle(reviews.getConcerts().getTitle());
+            dto.setUsername(reviews.getMembers() != null ? reviews.getMembers().getUsername() : "null");
+            dto.setConcertFilename(reviews.getConcerts().getPosterFileName());
             return dto;
         }).collect(Collectors.toList());
     }

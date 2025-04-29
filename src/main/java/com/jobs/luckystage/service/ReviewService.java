@@ -9,6 +9,7 @@ import java.util.List;
 public interface ReviewService {
     void saveReview(ReviewDTO reviewDTO);
     List<ReviewDTO> getAllReviews();
+    List<ReviewDTO> getAllReviewsByConcertNum(long concertNum);
     ReviewDTO getReview(Long reviewNum);
     void deleteReview(Long reviewNum);
     void addComment(ReviewCommentDTO commentDTO);

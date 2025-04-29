@@ -9,8 +9,8 @@
 
     <!-- 탭 버튼 영역 -->
     <div class="tab-buttons" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 30px;">
-        <button class="tab-btn active" onclick="openTab('boardTab')">자유게시판</button>
-        <button class="tab-btn" onclick="openTab('reviewTab')">리뷰게시판</button>
+        <a href="/board/list"><button class="tab-btn active">자유게시판</button></a>
+        <a href="/review/list"><button class="tab-btn">리뷰게시판</button></a>
     </div>
 
     <!-- 자유게시판 영역 -->
@@ -108,21 +108,21 @@
     </div>
 </div>
 
-<!-- 탭 전환 스크립트 -->
-<script layout:fragment="script">
-    function openTab(tabName) {
-        // 탭 숨기기
-        const tabs = document.querySelectorAll('.tab-content');
-        tabs.forEach(tab => tab.style.display = 'none');
+<!--&lt;!&ndash; 탭 전환 스크립트 &ndash;&gt;-->
+<!--<script layout:fragment="script">-->
+<!--    function openTab(tabName) {-->
+<!--        // 탭 숨기기-->
+<!--        const tabs = document.querySelectorAll('.tab-content');-->
+<!--        tabs.forEach(tab => tab.style.display = 'none');-->
 
-        // 버튼 active 해제
-        const buttons = document.querySelectorAll('.tab-btn');
-        buttons.forEach(btn => btn.classList.remove('active'));
+<!--        // 버튼 active 해제-->
+<!--        const buttons = document.querySelectorAll('.tab-btn');-->
+<!--        buttons.forEach(btn => btn.classList.remove('active'));-->
 
-        // 선택한 탭 보여주기
-        document.getElementById(tabName).style.display = 'block';
-        // 선택한 버튼 active
-        event.target.classList.add('active');
-    }
-</script>
+<!--        // 페이지 이동-->
+<!--        document.getElementById(tabName).style.display = 'block';-->
+<!--        // 선택한 버튼 active-->
+<!--        event.target.classList.add('active');-->
+<!--    }-->
+<!--</script>-->
 </html>

@@ -2,7 +2,9 @@ package com.jobs.luckystage.controller;
 
 import com.jobs.luckystage.dto.ConcertDTO;
 import com.jobs.luckystage.dto.PageRequestDTO;
+import com.jobs.luckystage.dto.ReviewDTO;
 import com.jobs.luckystage.service.ConcertService;
+import com.jobs.luckystage.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.FileSystemResource;
@@ -26,6 +28,7 @@ import java.util.List;
 @RequestMapping("/concert")
 public class ConcertController {
     private final ConcertService concertService;
+    private final ReviewService reviewService;
     private final String uploadPath = new File("src/main/resources/static/images/concerts").getAbsolutePath();
 
 //    list - get
@@ -34,6 +37,7 @@ public class ConcertController {
         List<ConcertDTO> dtoList = concertService.list(pageRequestDTO);
         model.addAttribute("dtoList", dtoList);
         model.addAttribute("pageRequestDTO", pageRequestDTO);
+
     }
 
 //    static/images/concerts에서 이미지 불러오기
@@ -52,6 +56,8 @@ public class ConcertController {
     @GetMapping("/read")
     public void getRead(@RequestParam("concertNum") long concertNum, Model model) {
         ConcertDTO dto = concertService.findById(concertNum);
+        List<ReviewDTO> reviewList = reviewService.getAllReviewsByConcertNum(concertNum);
         model.addAttribute("concert", dto);
+        model.addAttribute("reviewList", reviewList);
     }
 }

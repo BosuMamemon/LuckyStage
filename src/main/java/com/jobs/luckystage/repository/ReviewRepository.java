@@ -14,4 +14,6 @@ public interface ReviewRepository extends JpaRepository<Reviews, Long> {
 
     // 특정 유저가 작성한 리뷰 전체 조회
     List<Reviews> findAllByMembersUsername(String username);
+
+    List<Reviews> findAllByConcerts_ConcertNum(long concertsConcertNum);
 }

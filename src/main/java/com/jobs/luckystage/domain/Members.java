@@ -11,7 +11,7 @@ import lombok.*;
 @Setter
 public class Members {
     @Id
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String username;
     @Column(nullable = false)
     private String password;
