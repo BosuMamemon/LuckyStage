@@ -6,13 +6,23 @@
       lang="en">
 
 <div layout:fragment="content">
+
   <h1 class="section-title">공연 상세</h1>
+
   <div class="container mt-5">
+
     <div class="row">
-      <div class="col">
-        <img th:src="|/concert/img/${concert.posterFileName}|" class="rounded">
+
+      <!-- 공연 포스터 -->
+      <div class="col" style="position: relative;">
+        <button type="button" class="like-btn-read" th:data-concertnum="${concert.concertNum}">♥</button>
+        <img th:src="|/concert/img/${concert.posterFileName}|" class="rounded" style="width: 100%;">
       </div>
+
+      <!-- 공연 상세정보 + 예약/리뷰 -->
       <div class="col-7">
+
+        <!-- 공연 상세 테이블 -->
         <table class="table table-hover">
           <tr>
             <th class="table-success">제목</th>
@@ -48,54 +58,107 @@
         <p style="font-size: 14px; color: #333;">
           ※ 공연 시작 <strong style="color: red;">3일전</strong> 추첨을 통해 발표됩니다.<br>
           <span style="color: #666; font-size: 13px;">
-    ex: "2025-05-05 공연 ⇒ 2025-05-02 추첨발표일"
-  </span>
+            ex: "2025-05-05 공연 ⇒ 2025-05-02 추첨발표일"
+          </span>
         </p>
 
-        <!-- 관람일 선택 + 예약 버튼 -->
-        <div class="row">
+        <!-- 예약 + 리뷰 카드 -->
+        <div class="row mt-4">
+
+          <!-- 예약 폼 카드 -->
           <div class="col">
-            <form th:action="@{/mypage/reservation}" method="post" class="mt-4">
-              <div class="card shadow-sm p-4" style="max-width: 320px; border-radius: 16px; border: 1px solid #eee;">
+            <div class="card shadow-sm p-4" style="height: 100%; border-radius: 16px; border: 1px solid #eee;">
+              <form th:action="@{/mypage/reservation}" method="post">
                 <label for="selectedDate" class="form-label mb-2" style="font-weight: bold; font-size: 15px;">
                   🎟️ 관람일 선택
                 </label>
-                <input
-                        type="date"
-                        name="selectedDate"
-                        id="selectedDate"
-                        class="form-control mb-3"
-                        th:attr="min=${#dates.format(concert.startDate, 'yyyy-MM-dd')}, max=${#dates.format(concert.endDate, 'yyyy-MM-dd')}"
-                        required
-                        style="border-radius: 8px; padding: 10px;"
-                >
-
+                <input type="date"
+                       name="selectedDate"
+                       id="selectedDate"
+                       class="form-control mb-3"
+                       th:attr="min=${#dates.format(concert.startDate, 'yyyy-MM-dd')}, max=${#dates.format(concert.endDate, 'yyyy-MM-dd')}"
+                       required
+                       style="border-radius: 8px; padding: 10px;">
                 <input type="hidden" name="concertNum" th:value="${concert.concertNum}">
-
                 <button type="submit"
-                        class="btn w-100"
+                        class="btn w-100 mt-2"
                         style="background-color: #006242; color: white; font-weight: bold; border-radius: 8px; padding: 10px;">
                   예약하기
                 </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- 리뷰 목록 카드 -->
+          <div class="col">
+            <div class="card shadow-sm p-4" style="height: 100%; border-radius: 16px; border: 1px solid #eee; display: flex; flex-direction: column;">
+
+              <!-- 리뷰 목록 헤더 -->
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 style="font-weight: bold; margin: 0;">리뷰 목록</h5>
+                <a th:href="@{/review/register(concertNum=${concert.concertNum})}">
+                  <button type="button"
+                          class="btn btn-sm"
+                          style="background-color: #006242; color: white; font-weight: bold; border-radius: 8px; padding: 6px 12px;">
+                    리뷰 쓰기
+                  </button>
+                </a>
               </div>
-            </form>
+
+              <!-- 리뷰 리스트 -->
+              <div class="review-list-container" style="flex-grow: 1; overflow-y: auto; max-height: 320px;">
+
+                <!-- 리뷰가 있을 때 -->
+                <div th:if="${#lists.isEmpty(reviews) == false}">
+                  <div th:each="review : ${reviews}" class="mb-3 p-2" style="background-color: #f8f9fa; border-radius: 8px;">
+                    <div style="font-size: 14px; font-weight: bold;">[[${review.username}]]</div>
+                    <div style="font-size: 13px; color: #555;">[[${review.content}]]</div>
+                    <div style="font-size: 12px; color: #999;">[[${#dates.format(review.regDate, 'yyyy-MM-dd')}]]</div>
+                  </div>
+                </div>
+
+                <!-- 리뷰가 없을 때 -->
+                <div th:if="${#lists.isEmpty(reviews)}" class="text-center" style="color: #777;">
+                  <br>
+                  등록된 리뷰가 없습니다.
+                </div>
+
+              </div>
+
+            </div>
           </div>
-          <div class="col" sec:authorize="isAuthenticated()">
-            <a th:href="@{/review/register(concertNum=${concert.concertNum})}">
-              <button type="button"
-                      class="btn w-100"
-                      style="background-color: #006242; color: white; font-weight: bold; border-radius: 8px; padding: 10px;">
-                리뷰 쓰기
-              </button>
-            </a>
-          </div>
-        </div>
+
+        </div> <!-- 예약 + 리뷰 카드 row 끝 -->
+
+      </div> <!-- 공연 상세정보 col 끝 -->
+
+    </div> <!-- 공연 포스터 + 상세정보 row 끝 -->
+
+    <!-- 추가 이미지 (중앙정렬) -->
+    <div class="row mt-5">
+      <div class="col text-center">
+        <th:block th:each="filename : ${concert.filenames}">
+          <img th:src="|/concert/img/${filename}|" th:if="${filename!=''}" class="img-fluid mb-3">
+        </th:block>
       </div>
     </div>
-    <div class="mt-5 text-center">
-      <th:block th:each="filename:${concert.filenames}">
-        <img th:src="|/concert/img/${filename}|" th:if="${filename!=''}">
-      </th:block>
-    </div>
-  </div>
-</div>
+
+  </div> <!-- container 끝 -->
+
+</div> <!-- layout:fragment 끝 -->
+
+
+<script layout:fragment="script" th:inline="javascript">
+  document.addEventListener("DOMContentLoaded", function() {
+    const likeButtons = document.querySelectorAll(".like-btn-list, .like-btn-read");
+
+    likeButtons.forEach(btn => {
+      btn.addEventListener("click", function() {
+        const concertNum = btn.getAttribute("data-concertnum");
+        btn.classList.toggle("active");
+
+        console.log("찜한 콘서트 번호:", concertNum);
+      });
+    });
+  });
+</script>

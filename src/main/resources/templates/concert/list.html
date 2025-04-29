@@ -29,6 +29,9 @@
     <div class="concert-wrapper">
         <div class="concert-grid">
             <div class="card" th:each="concert : ${dtoList}">
+                <!--찜하기-->
+                <button type="button" class="like-btn-list" th:data-concertnum="${concert.concertNum}">♥</button>
+
                 <img th:src="|/concert/img/${concert.posterFileName}|" class="card-img-top">
                 <div class="card-body">
                     <h5 class="card-title">[[${concert.title}]]</h5>
@@ -52,4 +55,18 @@
         form.innerHTML += `<input type="hidden" name="type" value="${type}">`
         form.submit();
     })
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const likeButtons = document.querySelectorAll(".like-btn-list, .like-btn-read");
+
+        likeButtons.forEach(btn => {
+            btn.addEventListener("click", function() {
+                const concertNum = btn.getAttribute("data-concertnum");
+                btn.classList.toggle("active");
+
+                console.log("찜한 콘서트 번호:", concertNum);
+            });
+        });
+    });
+
 </script>

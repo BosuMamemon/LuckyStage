@@ -1,10 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:c="http://www.w3.org/1999/XSL/Transform"
+      layout:decorate="~{/mypage/mypagelayout/mypagelayout.html}" lang="en">
 
-</body>
+<div layout:fragment="content">
+    <div class="container mt-5" style="max-width: 1000px; margin-left: 0px;">
+
+        <h2 class="mb-4 reservation-title">예약 내역</h2>
+        <span class="myPage-subject">예매하신 공연의 예약 내역을 확인할 수 있습니다.</span>
+        <table class="table table-striped table-hover reservation-table">
+            <thead class="table-success">
+            <tr>
+                <th style="width: 28%;">공연 제목</th>
+                <th style="width: 22%;">관람일(추첨일)</th>
+                <th style="width: 22%;">예약 일시</th>
+                <th style="width: 15%;">가격</th>
+                <th style="width: 10%;">상세 보기</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="ticket : ${tickets}">
+                <td>[[${ticket.concerts.title}]]</td>
+                <td>[[${#dates.format(ticket.lotteryDate, 'yyyy-MM-dd')}]]</td>
+                <td>[[${#temporals.format(ticket.regDate, 'yyyy-MM-dd HH:mm:ss')}]]</td>
+                <td>
+                    [[${#numbers.formatInteger(ticket.price, 3, 'COMMA')}]] 원
+                </td>
+                <td>
+                    <a th:href="@{/mypage/ticketDetail(ticketId=${ticket.id})}" class="btn btn-sm btn-outline-success detail-btn">
+                        🔍 상세보기
+                    </a>
+                </td>
+            </tr>
+
+            <!-- 티켓이 없는 경우 -->
+            <tr th:if="${#lists.isEmpty(tickets)}">
+                <td colspan="5" class="text-center text-muted">예약된 티켓이 없습니다.</td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+
+</div>
 </html>

@@ -13,4 +13,5 @@ public class MemberConcertBookmark {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "concerts_concertNum")
     private Concerts concerts;
+
 }

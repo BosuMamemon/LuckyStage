@@ -11,4 +11,13 @@ public class MypageController {
     @GetMapping("/mypage")
     public void mypagePage(){
     }
+
+    @GetMapping("/reservation")
+    public void reservationPage(){
+    }
+
+    @GetMapping("/pick")
+    public void pickPage(){
+
+    }
 }

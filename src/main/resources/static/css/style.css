@@ -1146,3 +1146,95 @@ form[name='myPageFrm'] {
     background: #006242;
     color: white;
 }
+/*read*/
+.p-4 {
+    width: auto;
+}
+
+/*reservation - mypage*/
+.reservation-title {
+    font-size: 30px;
+    /*font-weight: bold;*/
+}
+
+.reservation-table {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #dee2e6; /* 테두리 추가 */
+}
+
+.reservation-table thead {
+    background-color: #d4edda; /* 연초록 */
+}
+
+.reservation-table th, .reservation-table td {
+    border-bottom: 1px solid #dee2e6; /* 가로줄 구분선 */
+    /*text-align: center;*/
+    vertical-align: middle;
+}
+
+.reservation-table tbody tr:last-child td {
+    border-bottom: none; /* 마지막줄 하단선 없애기 */
+}
+
+.detail-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 6px 12px;
+}
+
+.detail-btn:hover {
+    background-color: #006242;
+    color: white;
+    border: none;
+}
+/*pick*/
+ .like-card {
+     transition: transform 0.2s;
+ }
+
+.like-card:hover {
+    transform: translateY(-5px);
+}
+/*pick*/
+.like-btn-list {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.8);
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s, color 0.3s;
+    z-index: 10;
+}
+
+.like-btn-list.active {
+    color: #e60023;
+    transform: scale(1.2);
+}
+
+.like-btn-read {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    background: none;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+    transition: transform 0.2s, color 0.3s;
+    z-index: 10;
+}
+
+.like-btn-read.active {
+    color: #e60023;
+    transform: scale(1.2);
+}
