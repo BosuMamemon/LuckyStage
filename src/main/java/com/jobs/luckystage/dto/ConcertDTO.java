@@ -18,6 +18,7 @@ public class ConcertDTO {
     private String posterFileName;
     private String title;
     private int hitcount;
+    private double rating;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -27,4 +28,12 @@ public class ConcertDTO {
     private String ageRate;
     private String paymentLink;
     private List<String> filenames;
+
+    public String getReviewStars() {
+        String reviewStars = "";
+        for(int i = 0; i < this.rating; i++) {
+            reviewStars += "★";
+        }
+        return reviewStars;
+    }
 }

@@ -21,16 +21,15 @@ public class Reviews extends BaseEntity {
     private String title;
     @Column(nullable = false)
     private String content;
-    @ColumnDefault("0")
-    private int hitcount;
     @ManyToOne(fetch = FetchType.LAZY)
     private Members members;
     @ColumnDefault("0")
     private double rating;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "concerts_concertNum")
+    private Concerts concerts;
     @OneToMany(mappedBy = "reviews", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ReviewImages> reviewImages;
-    @OneToMany(mappedBy = "reviews", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ReviewComments> reviewComments;
 
     public void addImage(String uuid, String fileName){
         ReviewImages reviewImage = ReviewImages.builder()

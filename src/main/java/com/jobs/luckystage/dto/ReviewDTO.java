@@ -15,16 +15,21 @@ public class ReviewDTO {
     private Long reviewNum;
     private String title;
     private String content;
-    private int hitcount;
     private double rating;
     private String username; // members.username
+    private long concertNum;
+    private String concertTitle;
     private LocalDateTime regDate;
     private LocalDateTime modDate;
     private List<String> imageFilenameList;
     private List<ReviewCommentDTO> commentList;
 
-    public void updateHitcount() {
-        this.hitcount += 1;
+    public String getReviewStars() {
+        String reviewStars = "";
+        for(int i = 0; i < this.rating; i++) {
+            reviewStars += "★";
+        }
+        return reviewStars;
     }
 }
 

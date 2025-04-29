@@ -24,6 +24,7 @@ public interface ConcertService {
                 .endDate(entity.getEndDate())
                 .location(entity.getLocation())
                 .hitcount(entity.getHitcount())
+                .rating(entity.getRating())
                 .build();
         return dto;
     }

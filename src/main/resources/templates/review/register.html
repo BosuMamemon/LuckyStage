@@ -6,19 +6,17 @@
 <div layout:fragment="content">
     <div class="container py-5 review-form-container">
         <h2 class="form-title">리뷰 작성</h2>
-        <form action="#" method="post" enctype="multipart/form-data">
+        <form action="/review/register" method="post" enctype="multipart/form-data">
             <input type="hidden" name="concertNum" th:value="${concertNum}">
             <input type="hidden" name="username" th:value="${#authentication.principal.username}">
             <div class="mb-3">
                 <label for="title" class="form-label">제목</label>
                 <input type="text" class="form-control" id="title" name="title" required>
             </div>
-
             <div class="mb-3">
                 <label for="concert" class="form-label">공연명</label>
                 <input type="text" class="form-control" id="concert" name="concert" th:value="${title}" readonly>
             </div>
-
             <div class="mb-3">
                 <label for="rating" class="form-label">별점</label>
                 <select class="form-select" id="rating" name="rating">
@@ -29,12 +27,10 @@
                     <option value="1">★☆☆☆☆</option>
                 </select>
             </div>
-
             <div class="mb-3">
                 <label for="content" class="form-label">내용</label>
                 <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
             </div>
-
             <div class="mb-3">
                 <label for="image" class="form-label">이미지 첨부</label>
                 <input class="form-control" type="file" id="image" name="image" accept="image/*">
@@ -45,7 +41,7 @@
 
             <div class="btn-wrapper">
                 <button type="submit" class="btn-submit">등록</button>
-                <a href="/reviews/list" class="btn-cancel">취소</a>
+                <a href="/concert/list" class="btn-cancel">취소</a>
             </div>
         </form>
     </div>

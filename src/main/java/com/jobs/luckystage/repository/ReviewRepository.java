@@ -2,9 +2,9 @@ package com.jobs.luckystage.repository;
 
 import com.jobs.luckystage.domain.Reviews;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.List;
+import org.springframework.data.jpa.repository.Query;
 
 public interface ReviewRepository extends JpaRepository<Reviews, Long> {
-    List<Reviews> findAllByOrderByReviewNumDesc();
+    @Query("SELECT AVG(r.rating) FROM Reviews r JOIN r.concerts c GROUP BY c.concertNum HAVING c.concertNum = :concertsConcertNum")
+    long avgRatingByConcerts_concertNum(long concertsConcertNum);
 }

@@ -9,7 +9,6 @@ import lombok.*;
 @Builder
 @Getter
 @Setter
-@ToString(exclude = "members")
 public class Members {
     @Id
     @Column(unique = true, nullable = false)

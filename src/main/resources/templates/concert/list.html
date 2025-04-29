@@ -33,7 +33,7 @@
                 <div class="card-body">
                     <h5 class="card-title">[[${concert.title}]]</h5>
                     <p class="card-text">[[${#dates.format(concert.startDate, 'yyyy-MM-dd')}]] ~ [[${#dates.format(concert.endDate, 'yyyy-MM-dd')}]]</p>
-                    <div class="rating">★★★★☆</div>
+                    <div class="rating">[[${concert.getReviewStars()}]]</div>
                     <a th:href="@{/concert/read(concertNum=${concert.concertNum})}" class="reserve-btn">예약하기</a>
                 </div>
             </div>

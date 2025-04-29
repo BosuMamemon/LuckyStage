@@ -5,6 +5,7 @@ import com.jobs.luckystage.dto.UploadFileDTO;
 import com.jobs.luckystage.service.ConcertService;
 import com.jobs.luckystage.service.ReviewService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/review")
 @RequiredArgsConstructor
+@Log4j2
 public class ReviewController {
     @Value("${com.jobs.upload.path}")
     private String uploadPath;
@@ -55,7 +57,7 @@ public class ReviewController {
 
         reviewDTO.setImageFilenameList(filenameList);
         reviewService.saveReview(reviewDTO);
-        return "redirect:/review/read";
+        return "redirect:/review/list";
     }
 
     @GetMapping("/read")

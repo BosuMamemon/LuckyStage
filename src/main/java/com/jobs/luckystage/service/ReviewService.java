@@ -1,8 +1,6 @@
 package com.jobs.luckystage.service;
 
-import com.jobs.luckystage.domain.Concerts;
 import com.jobs.luckystage.domain.Reviews;
-import com.jobs.luckystage.dto.ConcertDTO;
 import com.jobs.luckystage.dto.ReviewCommentDTO;
 import com.jobs.luckystage.dto.ReviewDTO;
 
@@ -20,13 +18,12 @@ public interface ReviewService {
         ReviewDTO dto = ReviewDTO.builder()
                 .regDate(entity.getRegDate())
                 .rating(entity.getRating())
-                .hitcount(entity.getHitcount())
                 .content(entity.getContent())
                 .title(entity.getTitle())
                 .modDate(entity.getModDate())
                 .reviewNum(entity.getReviewNum())
+//                .concertNum()
 //                .imageList()
-//                .commentList()
 //                .username()
                 .build();
         return dto;
@@ -36,10 +33,8 @@ public interface ReviewService {
         Reviews entity = Reviews.builder()
                 .rating(dto.getRating())
                 .title(dto.getTitle())
-                .reviewNum(dto.getReviewNum())
                 .content(dto.getContent())
-                .hitcount(dto.getHitcount())
-//                .reviewComments()
+//                .concerts()
 //                .members()
                 .build();
 
