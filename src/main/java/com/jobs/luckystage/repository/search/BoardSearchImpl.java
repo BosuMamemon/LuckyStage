@@ -35,7 +35,30 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
     }
 
     @Override
-    public Page<Boards> searchAll(String[] types, String Keyword, Pageable pageable) {
-        return null;
+    public Page<Boards> searchAll(String[] types, String keyword, Pageable pageable) {
+        QBoards boards = QBoards.boards;
+        JPQLQuery<Boards> query = from(boards);
+
+        if((types != null && types.length > 0) && keyword != null) {
+            BooleanBuilder builder = new BooleanBuilder();
+            for(String type : types) {
+                switch(type) {
+                    case "t":
+                        builder.or(boards.title.contains(keyword));
+                        break;
+                    case "c":
+                        builder.or(boards.content.contains(keyword));
+                        break;
+                    case "w":
+                        builder.or(boards.members.username.contains(keyword));
+                }
+            }
+            query.where(builder);
+        }
+        query.where(boards.boardNum.gt(0l));
+        this.getQuerydsl().applyPagination(pageable, query);
+        List<Boards> list=query.fetch();
+        long count=query.fetchCount();
+        return new PageImpl<Boards>(list, pageable, count);
     }
 }

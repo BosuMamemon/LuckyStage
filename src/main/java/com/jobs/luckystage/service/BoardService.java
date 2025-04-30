@@ -16,7 +16,7 @@ public interface BoardService {
 
     default Boards dtoToEntity(BoardDTO boardDTO) {
         Boards board=Boards.builder()
-                .boardNum(boardDTO.getBoardNum())
+//                .boardNum(boardDTO.getBoardNum())
                 .title(boardDTO.getTitle())
                 .content(boardDTO.getContent())
                 .build();
