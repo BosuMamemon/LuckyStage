@@ -31,6 +31,9 @@ public class MypageController {
 
     @GetMapping("/mypage")
     public String mypagePage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+        if (principalDetails == null) {
+            return "redirect:/member/login";
+        }
         String username = principalDetails.getUsername();
         Members member = memberRepository.findById(username)
                 .orElseThrow(() -> new RuntimeException("회원 없음"));
