@@ -4,6 +4,7 @@ import com.jobs.luckystage.domain.Boards;
 import com.jobs.luckystage.dto.BoardDTO;
 import com.jobs.luckystage.dto.PageRequestDTO;
 import com.jobs.luckystage.dto.PageResponseDTO;
+import com.jobs.luckystage.repository.BoardCommentRepository;
 import com.jobs.luckystage.repository.BoardRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ import java.util.stream.Collectors;
 public class BoardServiceImpl implements BoardService {
     @Autowired
     private BoardRepository boardRepository;
+    @Autowired
+    private BoardCommentRepository boardCommentRepository;
 
     @Override
     public void registerBoard(BoardDTO boardDTO) {
@@ -55,7 +58,7 @@ public class BoardServiceImpl implements BoardService {
                 .searchTitle(pageRequestDTO.getKeyword(),pageable);
 
         List<BoardDTO> dtoList=result.getContent().stream()
-                .map(board -> entityToDto(board))
+                .map(boards -> entityToDto(boards))
                 .collect(Collectors.toList());
 
         return PageResponseDTO.<BoardDTO>withAll()

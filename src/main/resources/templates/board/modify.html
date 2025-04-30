@@ -4,22 +4,22 @@
       layout:decorate="~{layout/layout.html}" lang="en">
 <div layout:fragment="content">
     <div class="card">
-        <div class="card-title">Modify Page</div>
+        <div class="card-title">수정 페이지</div>
         <form action="/board/modify" method="post">
-            <input type="hidden" name="bno" th:value="${board.bno}">
-            <input type="hidden" name="author" th:value="${board.author}">
+            <input type="hidden" name="boardNum" th:value="${boards.boardNum}">
+            <input type="hidden" name="members" th:value="${boards.members}">
 
             <div class="input-group mb-3">
-                <span class="input-group-text">Title</span>
-                <input type="text" name="title" class="form-controller" th:value="${board.title}">
+                <span class="input-group-text">제목</span>
+                <input type="text" name="title" class="form-controller" th:value="${boards.title}">
             </div>
             <div class="input-group mb-3">
-                <span class="input-group-text">Content</span>
-                <textarea name="content" class="form-controller col-sm-5" rows="5">[[${board.content}]]</textarea>
+                <span class="input-group-text">내용</span>
+                <textarea name="content" class="form-controller col-sm-5" rows="5">[[${boards.content}]]</textarea>
             </div>
             <div class="input-group mb-3">
-                <button type="submit" class="btn btn-primary">Modify</button>
-                <button type="reset" class="btn btn-secondary">Reset</button>
+                <button type="submit" class="btn btn-primary">수정</button>
+                <button type="reset" class="btn btn-secondary">초기화</button>
             </div>
         </form>
     </div>
