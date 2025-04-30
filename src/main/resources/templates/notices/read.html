@@ -9,7 +9,7 @@
     <div class="card-title">공지사항</div>
     <div class="input-group mb-3">
       <span class="input-group-text">No</span>
-      <input type="text" name="notice_num" class="form-control" th:value="${notices.notice_num}">
+      <input type="text" name="notice_num" class="form-control" th:value="${notices.noticeNum}">
     </div>
     <div class="input-group mb-3">
       <span class="input-group-text">제목</span>
@@ -34,18 +34,18 @@
     </div>
     <div class="input-group mb-3">
       <span class="input-group-text">조회수</span>
-      <input type="text" name="readcount_faqs" class="form-controller" th:value="${faqs.hitcount}" readonly>
+      <input type="text" name="readcount_faqs" class="form-controller" th:value="${notices.hitcount}" readonly>
     </div>
     <div class="input-group mb-3">
       <span class="input-group-text">작성일</span>
       <input type="text" name="members_reg_date" class="form-controller" th:value="${notices.regDate}">
     </div>
-    <div class="input-group mb-3" th:with="link=${pageRequestDTO.getLink}">
+    <div class="input-group mb-3" th:with="link=${pageRequestDTO.getLink()}">
       <span sec:authorize="isAuthenticated()" th:if="${#authentication.principal.members_username == notices.getMembersUsername()}">
         <a th:href="|@{/notices/modify(members_username)}&${link}|">
           <button type="button" class="btn btn-primary">추가</button>
         </a>
-        <a th:href="@{/notices/remove(notice_num=${notices.notice_num})}">
+        <a th:href="@{/notices/remove(noticeNum=${notices.noticeNum})}">
           <button type="button" class="btn btn-danger">remove</button>
         </a>
         </span>

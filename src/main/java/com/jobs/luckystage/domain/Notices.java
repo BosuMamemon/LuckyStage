@@ -43,14 +43,11 @@ public class Notices extends BaseEntity {
         noticeImages.forEach(noticesImage -> noticesImage.changeNotices(null));
         this.noticeImages.clear();
     }
-//    public void updateReadcount(){ readcount = readcount +1; }
+    public void updateHitcount(){ hitcount = hitcount +1; }
     public void change(String title, String content){
         this.title = title;
         this.content = content;
     }
-//    public void changeHitcount(){
-//        this.hitcount=this.hitcount+1;
-//    }
 
 
 }

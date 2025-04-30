@@ -20,8 +20,8 @@ public class FAQsController {
     private FAQsService faqsService;
     @GetMapping("/list")
     public void list (PageRequestDTO pageRequestDTO, Model model) {
-        PageResponseDTO<FAQsDTO> responseDTO=faqsService.list(pageRequestDTO);
-        model.addAttribute("responseDTO",responseDTO);
+        PageResponseDTO<FAQsDTO> FresponseDTO=faqsService.list(pageRequestDTO);
+        model.addAttribute("responseDTO",FresponseDTO);
         model.addAttribute("pageRequestDTO",pageRequestDTO);
     }
     @GetMapping("/register")

@@ -8,7 +8,7 @@
     <div class="card">
         <div class="card-title">수정</div>
         <form action="/notices/modify" method="post">
-            <input type="hidden" name="notice_num" th:value="${notices?.notice_num}">
+            <input type="hidden" name="noticeNum" th:value="${notices?.noticeNum}">
             <input type="hidden" name="members_username" th:value="${notices?.members_username}">
 
             <div class="input-group mt-3">

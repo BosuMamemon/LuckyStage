@@ -86,7 +86,7 @@ public class NoticesController {
             noticesDTO.setFileNames(strFileNames);
         }
         noticesService.updateNotices(noticesDTO);
-        return "redirect:/notices/noticesList" + noticesDTO.getNotice_num();
+        return "redirect:/notices/noticesList" + noticesDTO.getNoticeNum();
     }
 
 
@@ -131,7 +131,7 @@ public class NoticesController {
             log.info("remove controller" + fileNames.size());
             removeFile(fileNames);
         }
-        noticesService.deleteNotices(noticesDTO.getNotice_num());
+        noticesService.deleteNotices(noticesDTO.getNoticeNum());
 
         redirectAttributes.addFlashAttribute("result","removed");
         return "redirect:/notices/noticesList";

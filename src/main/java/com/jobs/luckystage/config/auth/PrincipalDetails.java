@@ -39,4 +39,5 @@ public class PrincipalDetails implements UserDetails {
     public String getUsername() {
         return this.member.getUsername();
     }
+
 }

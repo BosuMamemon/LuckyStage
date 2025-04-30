@@ -21,7 +21,7 @@ public class NoticeImages implements Comparable<NoticeImages>{
 
 
     @Override
-    public int compareTo(NoticeImages o) { return this.ord - o.ord; }
+    public int compareTo(NoticeImages other) { return this.ord - other.ord; }
     public void changeNotices(Notices notices){this.notices = notices;}
 
 }

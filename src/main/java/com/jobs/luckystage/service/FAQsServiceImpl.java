@@ -47,9 +47,10 @@ public class FAQsServiceImpl implements FAQsService {
 
     public void updateFAQs(FAQsDTO faqsDTO) {
         log.info("1eeeeeeeeeeeeeeeeeeeeeeeeeeee", faqsDTO);
-        FAQs faqs1 = faqsRepository.findById(faqsDTO.getFaqNum()).get();
-        faqs1.change(faqsDTO.getTitle(),faqsDTO.getContent());
-        faqsRepository.save(faqs1);
+
+        FAQs faqs = faqsRepository.findById(faqsDTO.getFaqNum()).get();
+        faqs.change(faqsDTO.getTitle(),faqsDTO.getContent());
+        faqsRepository.save(faqs);
     }
 
 
