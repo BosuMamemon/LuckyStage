@@ -6,16 +6,16 @@
     <div class="card">
         <div class="card-title">수정 페이지</div>
         <form action="/board/modify" method="post">
-            <input type="hidden" name="boardNum" th:value="${boards.boardNum}">
-            <input type="hidden" name="members" th:value="${boards.members}">
+            <input type="hidden" name="boardNum" th:value="${board.boardNum}">
+            <input type="hidden" name="members" th:value="${board.members}">
 
             <div class="input-group mb-3">
                 <span class="input-group-text">제목</span>
-                <input type="text" name="title" class="form-controller" th:value="${boards.title}">
+                <input type="text" name="title" class="form-controller" th:value="${board.title}">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text">내용</span>
-                <textarea name="content" class="form-controller col-sm-5" rows="5">[[${boards.content}]]</textarea>
+                <textarea name="content" class="form-controller col-sm-5" rows="5">[[${board.content}]]</textarea>
             </div>
             <div class="input-group mb-3">
                 <button type="submit" class="btn btn-primary">수정</button>
