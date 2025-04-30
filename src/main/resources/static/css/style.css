@@ -241,7 +241,7 @@ body {
     gap: 0;
     max-width: 220px;
     width: 100%;
-    margin-right: 1250px;
+    margin-right: 800px;
 }
 
 .review-search-input {
@@ -263,6 +263,18 @@ body {
     padding: 8px 16px;
     height: 40px;
     white-space: nowrap;
+}
+.myReview-btn {
+    background-color: #006242;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    padding: 8px 16px;
+    height: 40px;
+    white-space: nowrap;
+    margin-right: 340px;
 }
 
 

@@ -17,4 +17,5 @@ public interface ReviewRepository extends JpaRepository<Reviews, Long>, ReviewSe
     List<Reviews> findAllByMembersUsername(String username);
 
     List<Reviews> findAllByConcerts_ConcertNum(long concertsConcertNum);
+
 }
