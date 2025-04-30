@@ -111,7 +111,6 @@ public class MypageController {
     //예약내역
     @GetMapping("/reservation")
     public String reservationPage(@AuthenticationPrincipal PrincipalDetails principalDetails,
-                                  @ModelAttribute("duplicateReservation") Boolean duplicateReservation,
                                   Model model) {
         if (principalDetails == null) {
             return "redirect:/member/login";
@@ -124,10 +123,7 @@ public class MypageController {
         List<Tickets> tickets = ticketRepository.findByMembers(member);
         model.addAttribute("tickets", tickets);
 
-        if (Boolean.TRUE.equals(duplicateReservation)) {
-            model.addAttribute("duplicateReservation", true);
-        }
-
+        // FlashAttribute는 모델에서 자동으로 접근 가능함 (추가 작업 X)
         return "mypage/reservation";
     }
 
