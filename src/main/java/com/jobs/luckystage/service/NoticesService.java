@@ -41,7 +41,7 @@ public interface NoticesService {
 
                 .build();
         List<String> fileNames =
-                noticesEntity.getNoticeImages().stream().sorted().map(noticeImage ->
+                noticesEntity.getImagesSet().stream().sorted().map(noticeImage ->
                         noticeImage.getUuid()+"_"+noticeImage.getFilename())
                         .collect(Collectors.toList());
         noticesDTO.setFileNames(fileNames);

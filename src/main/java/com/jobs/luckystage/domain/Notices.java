@@ -2,13 +2,14 @@ package com.jobs.luckystage.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
 @Setter
-@ToString
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,8 +26,17 @@ public class Notices extends BaseEntity {
     private int hitcount;
     @ManyToOne(fetch = FetchType.LAZY)
     private Members members;
-    @OneToMany(mappedBy = "notices", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<NoticeImages> noticeImages;
+
+    @OneToMany(mappedBy = "notices",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.ALL},
+            orphanRemoval = true)
+    @Builder.Default
+    @BatchSize(size = 20)
+    private Set<NoticeImages> imagesSet=new HashSet<>();
+
+
+
     @OneToMany(mappedBy = "notices", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<NoticeComments> noticeComments;
 
@@ -35,13 +45,13 @@ public class Notices extends BaseEntity {
                 .uuid(uuid)
                 .filename(fileName)
                 .notices(this)
-                .ord(noticeImages.size())
+                .ord(imagesSet.size())
                 .build();
-        noticeImages.add(image);
+        imagesSet.add(image);
     }
     public void clearImages() {
-        noticeImages.forEach(noticesImage -> noticesImage.changeNotices(null));
-        this.noticeImages.clear();
+        imagesSet.forEach(noticesImage -> noticesImage.changeNotices(null));
+        this.imagesSet.clear();
     }
     public void updateHitcount(){ hitcount = hitcount +1; }
     public void change(String title, String content){

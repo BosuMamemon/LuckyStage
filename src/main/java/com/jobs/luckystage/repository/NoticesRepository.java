@@ -11,7 +11,8 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface NoticesRepository extends JpaRepository<Notices ,Long>, NoticesSearch {
-    @EntityGraph(attributePaths = {"imageSet"})
+
+    @EntityGraph(attributePaths = {"imagesSet"})
     @Query("select b from Notices b where b.noticeNum =:noticeNum")
     Optional<Notices> findByIdWithImages(Long noticeNum);
 

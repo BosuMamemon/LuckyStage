@@ -36,9 +36,9 @@
                             [[${notices.title}]]
                         </a>
                     </td>
-                    <td>[[${notices.members_username}]]</td>
+                    <td>[[${#authentication.principal.username}]]</td>
                     <td th:text="${#temporals.format(notices.regDate, 'yyyy.MM.dd HH:mm')}"></td>
-                    <td>[[${notices.hitCount}]]</td>
+                    <td>[[${notices.hitcount}]]</td>
                 </tr>
                 </tbody>
             </table>

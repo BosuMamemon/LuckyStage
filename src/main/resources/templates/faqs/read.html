@@ -5,9 +5,9 @@
       lang="en">
 
 <div layout:fragment="content">
-  <div class="card">
+  <div class="card"style="width: 85%;">
     <div class="card-title">F&Q</div>
-    <div class="input-group mb-3">
+    <div class="input-group mb-3" >
       <span class="input-group-text">No</span>
       <input type="text" name="faqsNum" class="form-control" th:value="${faqs.faqNum}" readonly>
     </div>
@@ -17,7 +17,7 @@
     </div>
     <div class="input-group mb-3">
       <span class="input-group-text">내용</span>
-      <textarea name="faqs_content" class="form-control col-sm-5" rows="5">[[${faqs.content}]]</textarea>
+      <textarea name="faqs_content" class="form-control" rows="5">[[${faqs.content}]]</textarea>
     </div>
 
 

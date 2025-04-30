@@ -63,9 +63,9 @@ public class NoticesController {
         return "redirect:/notices/list";
     }
     @GetMapping({"/read","/modify"})
-    public void read_modify(PageRequestDTO pageRequestDTO, Long notice_num, Model model){
-
-        NoticesDTO noticesDTO=noticesService.readNotices(notice_num);
+    public void read_modify(PageRequestDTO pageRequestDTO, Long noticeNum, Model model){
+        log.info("read--------------------------------"+noticeNum);
+        NoticesDTO noticesDTO=noticesService.readNotices(noticeNum);
         model.addAttribute("notices",  noticesDTO);
     }
     @PostMapping("/modify")

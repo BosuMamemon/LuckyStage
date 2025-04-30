@@ -38,9 +38,11 @@ public class NoticesServiceImpl implements NoticesService {
 
     @Override
     public NoticesDTO readNotices(Long noticeNum) {
+        log.info("---------------------"+noticeNum);
 
         Notices notices = noticesRepository.findByIdWithImages(noticeNum)
                 .orElse(null);
+        log.info("---------------------"+notices);
         notices.updateHitcount();
         noticesRepository.save(notices);
         return entityToDto(notices);

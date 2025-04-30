@@ -29,6 +29,7 @@ public class HomeController {
         List<ConcertDTO> bestList = concertService.list(bestDTO);
         List<ConcertDTO> latestList = concertService.list(latestDTO);
         List<ReviewDTO> latestReviewList = reviewService.getAllReviews(new PageRequestDTO()).getDtoList();
+//        log.info("latestReviewList", latestReviewList.get(0));
         model.addAttribute("bestList", bestList);
         model.addAttribute("latestList", latestList);
         model.addAttribute("latestReviewList", latestReviewList);

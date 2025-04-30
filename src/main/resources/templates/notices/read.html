@@ -5,11 +5,11 @@
       lang="en">
 
 <div layout:fragment="content">
-  <div class="card">
+  <div class="card" style="width: 85%;">
     <div class="card-title">공지사항</div>
     <div class="input-group mb-3">
       <span class="input-group-text">No</span>
-      <input type="text" name="notice_num" class="form-control" th:value="${notices.noticeNum}">
+      <input type="text" name="notice_num" class="form-control" th:value="${notices.noticeNum}" readonly>
     </div>
     <div class="input-group mb-3">
       <span class="input-group-text">제목</span>
@@ -17,7 +17,7 @@
     </div>
     <div class="input-group mb-3">
       <span class="input-group-text">내용</span>
-      <textarea name="notice_content" class="form-control col-sm-5" rows="5">[[${notices.content}]]</textarea>
+      <textarea name="notice_content" class="form-control " rows="5">[[${notices.content}]]</textarea>
     </div>
     <div class="input-group mb-3">
       <span class="input-group-text">첨부파일</span>
@@ -28,20 +28,22 @@
         </div>
       </div>
     </div>
+
     <div class="input-group mb-3">
       <span class="input-group-text">작성자</span>
-      <input type="text" name="members_username" class="form-controller" th:value="${notices.members_username}">
+      <input type="text" name="members_username" class="form-controller" th:value="${#authentication.principal.username}"readonly>
     </div>
+
     <div class="input-group mb-3">
       <span class="input-group-text">조회수</span>
       <input type="text" name="readcount_faqs" class="form-controller" th:value="${notices.hitcount}" readonly>
     </div>
     <div class="input-group mb-3">
       <span class="input-group-text">작성일</span>
-      <input type="text" name="members_reg_date" class="form-controller" th:value="${notices.regDate}">
+      <input type="text" name="members_reg_date" class="form-controller" th:value="${#temporals.format(notices.regDate, 'yyyy.MM.dd HH:mm')}"readonly>
     </div>
     <div class="input-group mb-3" th:with="link=${pageRequestDTO.getLink()}">
-      <span sec:authorize="isAuthenticated()" th:if="${#authentication.principal.members_username == notices.getMembersUsername()}">
+      <span sec:authorize="isAuthenticated()" th:if="${#authentication.principal.username == notices.getMembers_username()}">
         <a th:href="|@{/notices/modify(members_username)}&${link}|">
           <button type="button" class="btn btn-primary">추가</button>
         </a>
