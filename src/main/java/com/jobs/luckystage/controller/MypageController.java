@@ -2,7 +2,9 @@ package com.jobs.luckystage.controller;
 
 import com.jobs.luckystage.config.auth.PrincipalDetails;
 import com.jobs.luckystage.domain.Members;
+import com.jobs.luckystage.domain.Tickets;
 import com.jobs.luckystage.repository.MemberRepository;
+import com.jobs.luckystage.repository.TicketRepository;
 import com.jobs.luckystage.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -28,6 +31,7 @@ public class MypageController {
     private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
+    private final TicketRepository ticketRepository;
 
     @GetMapping("/mypage")
     public String mypagePage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
@@ -104,14 +108,30 @@ public class MypageController {
         return ResponseEntity.ok("탈퇴 완료");
     }
 
-
     //예약내역
     @GetMapping("/reservation")
-    public void reservationPage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+    public String reservationPage(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                                  @ModelAttribute("duplicateReservation") Boolean duplicateReservation,
+                                  Model model) {
+        if (principalDetails == null) {
+            return "redirect:/member/login";
+        }
+
         String username = principalDetails.getUsername();
-        // 필요하면 예약 목록 조회해서 model.addAttribute 해도 됨
-        log.info("Reservation page for user: " + username);
+        Members member = memberRepository.findById(username)
+                .orElseThrow(() -> new RuntimeException("회원 없음"));
+
+        List<Tickets> tickets = ticketRepository.findByMembers(member);
+        model.addAttribute("tickets", tickets);
+
+        if (Boolean.TRUE.equals(duplicateReservation)) {
+            model.addAttribute("duplicateReservation", true);
+        }
+
+        return "mypage/reservation";
     }
+
+
 
     //찜목록 페이지
     @GetMapping("/pick")
@@ -120,5 +140,15 @@ public class MypageController {
         // 필요하면 찜 목록 조회해서 model.addAttribute 해도 됨
         log.info("Pick page for user: " + username);
     }
+
+    //추첨결과 확인란
+    @GetMapping("/lottery")
+    public String lotteryPage(@RequestParam("ticketId") Long ticketId, Model model) {
+        Tickets ticket = ticketRepository.findById(ticketId)
+                .orElseThrow(() -> new RuntimeException("티켓 정보를 찾을 수 없습니다."));
+        model.addAttribute("ticket", ticket);
+        return "mypage/lottery";
+    }
+
 }
 

@@ -1311,3 +1311,59 @@ form[name='myPageFrm'] {
     color: #e60023;
     transform: scale(1.2);
 }
+/*complete*/
+.complete-card {
+    max-width: 500px;
+    margin: 0 auto;
+    border-radius: 16px;
+    border: 1px solid #eee;
+}
+
+.complete-body {
+    padding: 24px;
+}
+
+.complete-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+}
+
+.complete-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.complete-label {
+    font-weight: 500;
+    color: #555;
+}
+
+.complete-value {
+    font-weight: bold;
+    color: #222;
+}
+
+.complete-highlight {
+    background-color: #fff3cd;
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.complete-btn {
+    background-color: #006242 !important;
+    color: white !important;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+}
+
