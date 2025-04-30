@@ -1,31 +1,28 @@
 package com.jobs.luckystage.dto;
 
-import com.jobs.luckystage.domain.Members;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.WithBy;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class NoticesDTO {
-    private Long noticeNum;
-    @NotEmpty
-    private String title;
+@AllArgsConstructor
+public class NoticesComentsDTO {
+    private Long noticeCommentNum;
     @NotEmpty
     private String content;
     @NotEmpty
     private String members_username;
-    private Members members;
-    private int hitcount;
+    private Long noticeNum;
     private LocalDateTime regDate;
-    private LocalDateTime updateDate;
-    private List<String> fileNames;
+
+
+
 
 }

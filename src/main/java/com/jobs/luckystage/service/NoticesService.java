@@ -10,17 +10,17 @@ import java.util.stream.Collectors;
 
 public interface NoticesService {
     void registerNotices(NoticesDTO noticesDTO, Members members);
-    NoticesDTO readNotices(Long notice_num);
+    NoticesDTO readNotices(Long noticeNum);
     void updateNotices(NoticesDTO noticesDTO);
-    void deleteNotices(Long notice_num);
+    void deleteNotices(Long noticeNum);
     PageResponseDTO<NoticesDTO> list(PageRequestDTO pageRequestDTO);
 
     default Notices dtoToEntity(NoticesDTO dto) {
         Notices noticesEntity = Notices.builder()
-//                .noticeNum(dto.getNotice_num())
+                .noticeNum(dto.getNoticeNum() !=null ? dto.getNoticeNum() :0l)
                 .title(dto.getTitle())
                 .content(dto.getContent())
-//                .members(dto.getMembers())
+                .members(dto.getMembers())
                 .build();
         if(dto.getFileNames()!= null){
             dto.getFileNames().forEach(fileName -> {
@@ -32,11 +32,13 @@ public interface NoticesService {
     }
     default NoticesDTO entityToDto(Notices noticesEntity ){
         NoticesDTO noticesDTO = NoticesDTO.builder()
-                .notice_num(noticesEntity.getNoticeNum())
+                .noticeNum(noticesEntity.getNoticeNum())
                 .title(noticesEntity.getTitle())
                 .content(noticesEntity.getContent())
                 .regDate(noticesEntity.getRegDate())
-//                .hitCount(noticesEntity.getHitcount())
+
+                .hitcount(noticesEntity.getHitcount())
+
                 .build();
         List<String> fileNames =
                 noticesEntity.getNoticeImages().stream().sorted().map(noticeImage ->

@@ -29,9 +29,9 @@
                 </thead>
                 <tbody th:with="link=${pageRequestDTO.getLink()}">
                 <tr th:each="notices:${responseDTO.dtoList}">
-                    <td>[[${notices.notice_num}]]</td>
+                    <td>[[${notices.noticeNum}]]</td>
                     <td>
-                        <a th:href="|@{/notices/read(notice_num=${notices.notice_num})}&${link}|"
+                        <a th:href="|@{/notices/read(noticeNum=${notices.noticeNum})}&${link}|"
                            class="notice-link">
                             [[${notices.title}]]
                         </a>

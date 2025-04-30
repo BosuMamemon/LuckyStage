@@ -4,6 +4,7 @@ import com.jobs.luckystage.domain.Members;
 import com.jobs.luckystage.domain.Notices;
 import com.jobs.luckystage.dto.*;
 import com.jobs.luckystage.repository.MemberRepository;
+import com.jobs.luckystage.repository.NoticesCommentsRepository;
 import com.jobs.luckystage.repository.NoticesRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ public class NoticesServiceImpl implements NoticesService {
     private NoticesRepository noticesRepository;
     @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    private NoticesCommentsRepository noticesCommentsRepository;
 
     @Override
     public void registerNotices(NoticesDTO noticesDTO, Members members) {
@@ -36,18 +39,17 @@ public class NoticesServiceImpl implements NoticesService {
     @Override
     public NoticesDTO readNotices(Long noticeNum) {
 
-//        Notices notices = noticesRepository.findByIdWithImages(noticeNum)
-//                .orElse(null);
-//        notices.changeHitcount();
-//        noticesRepository.save(notices);
-//        return entityToDto(notices);
-        return null;
+        Notices notices = noticesRepository.findByIdWithImages(noticeNum)
+                .orElse(null);
+        notices.updateHitcount();
+        noticesRepository.save(notices);
+        return entityToDto(notices);
 
     }
 
     @Override
     public void updateNotices(NoticesDTO noticesDTO) {
-        Notices notices = noticesRepository.findById(noticesDTO.getNotice_num()).get();
+        Notices notices = noticesRepository.findById(noticesDTO.getNoticeNum()).get();
         notices.change(noticesDTO.getTitle(), noticesDTO.getContent());
         notices.clearImages();
         if(noticesDTO.getFileNames() !=null){
@@ -61,6 +63,7 @@ public class NoticesServiceImpl implements NoticesService {
 
     @Override
     public void deleteNotices(Long noticeNum) {
+        noticesCommentsRepository.deleteById(noticeNum);
         noticesRepository.deleteById(noticeNum);
     }
 
