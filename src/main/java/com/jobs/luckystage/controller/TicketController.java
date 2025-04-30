@@ -1,11 +1,11 @@
 package com.jobs.luckystage.controller;
 
-import com.jobs.luckystage.domain.Tickets;
-import com.jobs.luckystage.repository.TicketRepository;
+import com.jobs.luckystage.config.auth.PrincipalDetails;
+import com.jobs.luckystage.domain.Members;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -14,17 +14,22 @@ import org.springframework.web.bind.annotation.*;
 @Log4j2
 public class TicketController {
 
-    private final TicketRepository ticketRepository;
-
-    @GetMapping("/complete")
-    public void reserveLottery(@RequestParam("selectedDate") String selectedDate, Model model) {
-        model.addAttribute("selectedDate", selectedDate); // 따옴표 넣어야 JS에서 문자열로 인식
-    }
-
     @PostMapping("/complete")
-    public String completeReservation(@ModelAttribute Tickets ticket, Model model) {
-        Tickets savedTicket = ticketRepository.save(ticket);
-        model.addAttribute("ticket", savedTicket);
-        return "redirect:/mypage/reservation";
+    public String reserveTicket(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+        // 로그인 체크
+        if (principalDetails == null || principalDetails.getUsername() == null) {
+            return "redirect:/member/login";
+        }
+
+        // 로그인된 회원 정보만 가져옴 (사용은 안 함)
+        Members member = principalDetails.getMember();
+
+        // 바로 완료 페이지로 리다이렉트
+        return "redirect:/ticket/complete";
+    }
+    @GetMapping("/complete")
+    public String completeTicket() {
+        return "ticket/complete";
     }
 }

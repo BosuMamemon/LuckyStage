@@ -27,12 +27,20 @@ public class CustomSecurityConfig {
                 .formLogin(httpSecurityFormLoginConfigurer -> httpSecurityFormLoginConfigurer
                         .loginPage("/member/login")
                         .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/")
+                        .defaultSuccessUrl("/",true) // true 추가함 로그인 성공 시 항상 홈으로 가게함;; 자꾸 이상한데로 가길래
                         .permitAll())
                 .logout(httpSecurityLogoutConfigurer -> httpSecurityLogoutConfigurer
                         .logoutSuccessUrl("/")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true))
+                .exceptionHandling(exceptionConfig -> exceptionConfig
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.sendRedirect("/member/login");
+                        })
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.sendRedirect("/member/login");
+                        })
+                )
                 .build();
     }
 

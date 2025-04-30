@@ -67,25 +67,27 @@
 
           <!-- 예약 폼 카드 -->
           <div class="col">
-            <div class="card shadow-sm p-4" style="height: 100%; border-radius: 16px; border: 1px solid #eee;">
-              <label for="selectedDate" class="form-label mb-2" style="font-weight: bold;">
-                🎟️ 관람일 선택
-              </label>
+            <form id="reserveForm" method="post" th:action="@{/ticket/complete}">
+              <div class="card shadow-sm p-4" style="height: 100%; border-radius: 16px; border: 1px solid #eee;">
+                <label for="selectedDate" class="form-label mb-2" style="font-weight: bold;">
+                  🎟️ 관람일 선택
+                </label>
 
-              <input type="date"
-                     id="selectedDate"
-                     name="selectedDate"
-                     class="form-control mb-3"
-                     th:attr="min=${#dates.format(concert.startDate, 'yyyy-MM-dd')}, max=${#dates.format(concert.endDate, 'yyyy-MM-dd')}"
-                     required>
+                <input type="date"
+                       id="selectedDate"
+                       name="selectedDate"
+                       class="form-control mb-3"
+                       th:attr="min=${#dates.format(concert.startDate, 'yyyy-MM-dd')}, max=${#dates.format(concert.endDate, 'yyyy-MM-dd')}"
+                       required>
 
-                <button type="submit"
-                        class="btn btn-success w-100 mt-2"
-                        style="font-weight: bold; background-color: #006242; color: white; border-radius: 8px; padding: 10px;"
-                        onclick="lottery()">
-                  예약하기
-                </button>
-            </div>
+                  <button type="submit"
+                          class="btn btn-success w-100 mt-2"
+                          style="font-weight: bold; background-color: #006242; color: white; border-radius: 8px; padding: 10px;"
+                          onclick="complete()">
+                    예약하기
+                  </button>
+              </div>
+            </form>
           </div>
 
           <!-- 리뷰 목록 카드 -->
@@ -153,9 +155,15 @@
 
 
 <script layout:fragment="script" th:inline="javascript">
-  function lottery() {
-    location.href = "/ticket/complete?selectedDate=" + document.querySelector("#selectedDate").value;
-  }
+  document.querySelector("button[type='submit']").addEventListener("click", function(e) {
+    const date = document.querySelector("#selectedDate").value;
+    if (!date) {
+      alert("날짜를 선택해주세요.");
+      e.preventDefault();
+      return;
+    }
+    document.querySelector("#selectedDateInput").value = date;
+  });
 
   document.addEventListener("DOMContentLoaded", function() {
     const likeButtons = document.querySelectorAll(".like-btn-list, .like-btn-read");

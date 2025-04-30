@@ -8,16 +8,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Member;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/mypage")
@@ -26,14 +26,20 @@ import java.lang.reflect.Member;
 public class MypageController {
 
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/mypage")
-    public void mypagePage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
-        String username = principalDetails.getUsername();  // PrincipalDetails에서 username 가져오기
+    public String mypagePage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+        if (principalDetails == null) {
+            return "redirect:/member/login";
+        }
+        String username = principalDetails.getUsername();
         Members member = memberRepository.findById(username)
                 .orElseThrow(() -> new RuntimeException("회원 없음"));
 
         model.addAttribute("member", member);
+        return "mypage/mypage";
     }
     //회원정보 수정
     @PostMapping("/info")
@@ -53,7 +59,6 @@ public class MypageController {
         return "redirect:/mypage/mypage?success=update"; // ⭐ success 파라미터 넘김
     }
     //회원탈퇴
-    private final MemberService memberService;
 
     @GetMapping("/deleteMember")
     public String deleteMember(@AuthenticationPrincipal PrincipalDetails principalDetails,
@@ -70,6 +75,36 @@ public class MypageController {
 
         return "redirect:/?success=delete";
     }
+
+    @PostMapping("/deleteMember")
+    @ResponseBody
+    public ResponseEntity<String> deleteMemberAjax(
+            @RequestBody Map<String, String> body,
+            @AuthenticationPrincipal PrincipalDetails principalDetails,
+            HttpServletRequest request,
+            HttpServletResponse response) {
+
+        String inputPw = body.get("password");
+        String username = principalDetails.getUsername();
+
+        Members member = memberRepository.findById(username)
+                .orElseThrow(() -> new RuntimeException("회원 없음"));
+
+        // 비밀번호 일치 확인
+        if (!passwordEncoder.matches(inputPw, member.getPassword())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호가 일치하지 않습니다.");
+        }
+
+        // 리뷰 null 처리 + 회원 삭제
+        memberService.deleteMember(username);
+
+        // 로그아웃 처리
+        new SecurityContextLogoutHandler().logout(request, response, null);
+
+        return ResponseEntity.ok("탈퇴 완료");
+    }
+
+
     //예약내역
     @GetMapping("/reservation")
     public void reservationPage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {

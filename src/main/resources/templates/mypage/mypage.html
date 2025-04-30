@@ -54,6 +54,19 @@
                         <button type="button" onclick="confirmDelete()" class="delete-btn">회원 탈퇴</button>
                     </div>
 
+                    <!-- 비밀번호 확인 모달 -->
+                    <div id="deleteModal" style="display:none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; align-items: center;">
+                        <div style="background: white; padding: 30px; border-radius: 12px; width: 300px; text-align: center;">
+                            <h4 style="margin-bottom: 15px;">비밀번호 확인</h4>
+                            <input type="password" id="confirmPassword" placeholder="비밀번호 입력" style="width: 100%; padding: 8px; margin-bottom: 15px;">
+                            <div>
+                                <button type="button" onclick="submitDelete()" style="background-color: #dc3545; color: white; padding: 6px 12px; border: none; border-radius: 5px; margin-right: 10px;">탈퇴</button>
+                                <button onclick="closeModal()" style="background-color: gray; color: white; padding: 6px 12px; border: none; border-radius: 5px;">취소</button>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="myPage-row">
                         <button type="submit" class="myPage-submit">수정하기</button>
                     </div>
@@ -66,39 +79,73 @@
 </div>
 
 <th:block layout:fragment="script">
-<script th:inline="javascript">
-    const urlParams = new URL(location.href).searchParams;
+    <script th:inline="javascript">
+        const urlParams = new URL(location.href).searchParams;
 
-    if (urlParams.get('success') === 'update') {
-        document.getElementById('updateSuccessBanner').style.display = 'block';
-        history.replaceState(null, "", location.pathname);
-    }
+        if (urlParams.get('success') === 'update') {
+            const banner = document.getElementById('updateSuccessBanner');
+            banner.style.display = 'block';
+            history.replaceState(null, "", location.pathname);
 
-    if (urlParams.get('success') === 'delete') {
-        alert('회원 탈퇴가 완료되었습니다.');
-        history.replaceState(null, "", location.pathname);
-    }
-
-    function confirmDelete() {
-        if (confirm('정말로 회원 탈퇴를 진행하시겠습니까?')) {
-            location.href = '/mypage/deleteMember';
+            // ✨ 3초 후 자동으로 배너 닫기
+            setTimeout(() => {
+                banner.style.display = 'none';
+            }, 3000);
         }
-    }
 
-    function closeBanner() {
-        document.getElementById('updateSuccessBanner').style.display = 'none';
-    }
+        if (urlParams.get('success') === 'delete') {
+            alert('회원 탈퇴가 완료되었습니다.');
+            history.replaceState(null, "", location.pathname);
+        }
 
-    if (urlParams.get('success') === 'update') {
-        const banner = document.getElementById('updateSuccessBanner');
-        banner.style.display = 'block';
-        history.replaceState(null, "", location.pathname);
+        function confirmDelete() {
+            if (confirm('정말로 회원 탈퇴를 진행하시겠습니까?')) {
+                document.getElementById('deleteModal').style.display = 'flex';
+            }
+        }
 
-        // ✨ 3초 후 자동으로 배너 닫기
-        setTimeout(() => {
-            banner.style.display = 'none';
-        }, 3000);
-    }
-</script>
+        function closeModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+        }
+
+        function submitDelete() {
+            const password = document.getElementById('confirmPassword').value;
+            if (!password) {
+                alert('비밀번호를 입력해주세요.');
+                return;
+            }
+
+            // CSRF 토큰 가져오기 (Spring Security 사용 시 필수)
+            const csrfToken = document.querySelector('meta[name="_csrf"]')?.getAttribute('content');
+            const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.getAttribute('content');
+
+            fetch('/mypage/deleteMember', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...(csrfToken && csrfHeader ? { [csrfHeader]: csrfToken } : {}) // CSRF 토큰이 존재할 때만 추가
+                },
+                body: JSON.stringify({ password: password })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('회원 탈퇴가 완료되었습니다.');
+                        window.location.href = '/';
+                    } else {
+                        return response.text().then(text => {
+                            alert(text || '비밀번호가 일치하지 않습니다.');
+                        });
+                    }
+                })
+                .catch(err => {
+                    alert('에러가 발생했습니다.');
+                });
+        }
+
+        function closeBanner() {
+            document.getElementById('updateSuccessBanner').style.display = 'none';
+        }
+    </script>
 </th:block>
+
 </html>
