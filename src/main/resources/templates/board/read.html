@@ -9,23 +9,23 @@
 <!-- /*       <form action="/board/register" method="post"> */-->
         <div class="input-group mb-3">
             <span class="input-group-text">번호</span>
-            <input type="text" name="boardNum" class="form-controller" th:value="${boards.boardNum}">
+            <input type="text" name="boardNum" class="form-controller" th:value="${board.boardNum}">
         </div>
             <div class="input-group mb-3">
                 <span class="input-group-text">제목</span>
-                <input type="text" name="title" class="form-controller" th:value="${boards.title}">
+                <input type="text" name="title" class="form-controller" th:value="${board.title}">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text">내용</span>
-                <textarea name="content" class="form-controller col-sm-5" rows="5">[[${boards.content}]]</textarea>
+                <textarea name="content" class="form-controller col-sm-5" rows="5">[[${board.content}]]</textarea>
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text">작성자</span>
-                <input type="text" name="username" class="form-controller" th:value="${members.username}">
+                <input type="text" name="username" class="form-controller" th:value="${board.members}">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text">조회수</span>
-                <input type="text" name="readcount" class="form-controller" th:value="${boards.readcount}">
+                <input type="text" name="readcount" class="form-controller" th:value="${board.readcount}">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text">작성일</span>
@@ -36,10 +36,10 @@
                 <input type="text" name="modDate" class="form-controller" th:value="${board.modDate}">
             </div>
             <div class="input-group mb-3" th:with="link=${pageRequestDTO.getLink()}">
-                <a th:href="|@{/board/modify(boardNum=${boards.boardNum})}&${link}|">
+                <a th:href="|@{/board/modify(boardNum=${board.boardNum})}&${link}|">
                     <button type="button" class="btn btn-primary">수정</button>
                 </a>
-                <a th:href="@{/board/remove(boardNum=${boards.boardNum})}">
+                <a th:href="@{/board/remove(boardNum=${board.boardNum})}">
                     <button type="button" class="btn btn-danger">삭제</button>
                 </a>
                 <a th:href="|@{/board/list}?${link}|">

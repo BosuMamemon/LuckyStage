@@ -60,6 +60,7 @@ public class BoardServiceImpl implements BoardService {
         List<BoardDTO> dtoList=result.getContent().stream()
                 .map(boards -> entityToDto(boards))
                 .collect(Collectors.toList());
+//        log.info("dtoList:{}",dtoList.size());
 
         return PageResponseDTO.<BoardDTO>withAll()
                 .pageRequestDTO(pageRequestDTO)
