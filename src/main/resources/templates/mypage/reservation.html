@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:c="http://www.w3.org/1999/XSL/Transform"
       layout:decorate="~{/mypage/mypagelayout/mypagelayout.html}" lang="en">
 
 <div layout:fragment="content">
@@ -9,32 +8,34 @@
 
         <h2 class="mb-4 reservation-title">예약 내역</h2>
         <span class="myPage-subject">예매하신 공연의 예약 내역을 확인할 수 있습니다.</span>
+
         <table class="table table-striped table-hover reservation-table">
             <thead class="table-success">
             <tr>
                 <th style="width: 28%;">공연 제목</th>
-                <th style="width: 22%;">예약 날짜</th>
                 <th style="width: 22%;">공연 날짜</th>
+                <th style="width: 22%;">예약 날짜</th>
                 <th style="width: 15%;">추첨일</th>
-                <th style="width: 10%;">추첨 확인</th>
+                <th style="width: 13%;">추첨 확인</th>
             </tr>
             </thead>
+
             <tbody>
             <tr th:each="ticket : ${tickets}">
-                <td>[[${ticket.concerts.title}]]</td>
-                <td>[[${#dates.format(ticket.lotteryDate, 'yyyy-MM-dd')}]]</td>
-                <td>[[${#temporals.format(ticket.regDate, 'yyyy-MM-dd HH:mm:ss')}]]</td>
-                <td>
-                    [[${#numbers.formatInteger(ticket.price, 3, 'COMMA')}]] 원
-                </td>
-                <td>
-                    <a th:href="@{/mypage/ticketDetail(ticketId=${ticket.id})}" class="btn btn-sm btn-outline-success detail-btn">
-                        🔍 상세보기
+                <td th:text="${ticket.concerts != null ? ticket.concerts.title : '공연 정보 없음'}"></td>
+<!--                <td th:text="${ticket.concerts.title}"></td>-->
+                <td th:text="${#temporals.format(ticket.selectedDate, 'yyyy-MM-dd')}"></td>
+                <td th:text="${#temporals.format(ticket.regDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td th:text="${#dates.format(ticket.lotteryDate, 'yyyy-MM-dd')}"></td>
+                <td class="text-center">
+                    <a th:href="@{/mypage/lottery(ticketId=${ticket.id})}"
+                       class="btn btn-outline-primary btn-sm"
+                       style="font-size: 20px; padding: 2px 10px;">
+                        🎲
                     </a>
                 </td>
             </tr>
-
-            <!-- 티켓이 없는 경우 -->
+            <!-- 예약이 없는 경우 -->
             <tr th:if="${#lists.isEmpty(tickets)}">
                 <td colspan="5" class="text-center text-muted">예약된 티켓이 없습니다.</td>
             </tr>
@@ -42,7 +43,10 @@
         </table>
 
     </div>
-
-
 </div>
+<th:block layout:fragment="script">
+<script th:if="${duplicateReservation}" th:inline="javascript">
+    alert("이미 예약한 공연입니다.");
+</script>
+</th:block>
 </html>

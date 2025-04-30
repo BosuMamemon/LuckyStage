@@ -68,6 +68,7 @@
           <!-- 예약 폼 카드 -->
           <div class="col">
             <form id="reserveForm" method="post" th:action="@{/ticket/complete}">
+              <input type="hidden" name="concertNum" th:value="${concert.concertNum}">
               <div class="card shadow-sm p-4" style="height: 100%; border-radius: 16px; border: 1px solid #eee;">
                 <label for="selectedDate" class="form-label mb-2" style="font-weight: bold;">
                   🎟️ 관람일 선택
@@ -82,8 +83,7 @@
 
                   <button type="submit"
                           class="btn btn-success w-100 mt-2"
-                          style="font-weight: bold; background-color: #006242; color: white; border-radius: 8px; padding: 10px;"
-                          onclick="complete()">
+                          style="font-weight: bold; background-color: #006242; color: white; border-radius: 8px; padding: 10px;">
                     예약하기
                   </button>
               </div>

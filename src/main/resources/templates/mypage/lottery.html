@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout.html}" lang="en">
+
+<head>
+    <title>추첨 결과</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+
+    <h1 class="section-title">🎟️ 추첨 결과</h1>
+
+    <div style="text-align:center; margin-top:50px;">
+        <h2 id="nowTime">현재 시간: </h2>
+        <h2 id="dDay"></h2>
+        <h2 id="lotteryStatus" style="margin-top:20px;">추첨 대기 중입니다...</h2>
+    </div>
+
+</div>
+
+<script layout:fragment="script" th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        const selectedDate = [[${selectedDate}]];
+
+        const concertDate = new Date(selectedDate);
+        const lotteryDate = new Date(concertDate.getTime() - 3 * 24 * 60 * 60 * 1000);
+
+        const nowTime = document.getElementById('nowTime');
+        const dDay = document.getElementById('dDay');
+        const lotteryStatus = document.getElementById('lotteryStatus');
+
+        function updateClockAndLottery() {
+            const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" }));
+
+            nowTime.textContent = "현재 시간: " + now.toLocaleString('ko-KR');
+
+            const diff = lotteryDate.getTime() - now.getTime();
+            const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+
+            if (days > 0) {
+                dDay.textContent = `⏳ D-${days} (추첨까지 남은 일수)`;
+                lotteryStatus.textContent = "⏳ 추첨 대기 중입니다...";
+            } else {
+                dDay.textContent = "🎯 추첨일입니다!";
+                if (!localStorage.getItem(selectedDate)) { // 날짜별로 저장
+                    const result = Math.random() < 0.5 ? "🎉 축하합니다! 당첨되었습니다!" : "😢 다음 기회에 도전해주세요.";
+                    localStorage.setItem(selectedDate, result);
+                }
+                lotteryStatus.textContent = localStorage.getItem(selectedDate);
+            }
+        }
+
+        updateClockAndLottery();
+        setInterval(updateClockAndLottery, 1000); // 1초마다 갱신
+    });
+</script>
+
+</body>
+</html>

@@ -1,9 +1,14 @@
 package com.jobs.luckystage.domain;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.Date;
-
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @Entity
 public class BoardComments {
     @Id
