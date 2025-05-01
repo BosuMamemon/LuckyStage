@@ -88,16 +88,16 @@ public class NoticesController {
             noticesDTO.setFileNames(strFileNames);
         }
         noticesService.updateNotices(noticesDTO);
-        return "redirect:/notices/noticesList" + noticesDTO.getNoticeNum();
+        return "redirect:/notices/list";
     }
 
 
 
 
     @GetMapping("/remove")
-    public String remove(Long notice_num){
-        noticesService.deleteNotices(notice_num);
-        return "redirect:/notices/noticesList";
+    public String remove(Long noticeNum){
+        noticesService.deleteNotices(noticeNum);
+        return "redirect:/notices/list";
     }
     private List<String> fileUpload(UploadFileDTO uploadFileDTO){
 
@@ -138,7 +138,7 @@ public class NoticesController {
         noticesService.deleteNotices(noticesDTO.getNoticeNum());
 
         redirectAttributes.addFlashAttribute("result","removed");
-        return "redirect:/notices/noticesList";
+        return "redirect:/notices/list";
     }
 
     @GetMapping("/view/{fileName}")

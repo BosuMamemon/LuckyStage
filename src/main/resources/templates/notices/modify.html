@@ -5,9 +5,9 @@
       lang="en">
 
 <div layout:fragment="content">
-    <div class="card">
+    <div class="card" style="width: 85%;">
         <div class="card-title">수정</div>
-        <form action="/notices/modify" method="post">
+        <form action="/notices/modify" method="post" enctype="multipart/form-data">
             <input type="hidden" name="noticeNum" th:value="${notices?.noticeNum}">
             <input type="hidden" name="members_username" th:value="${notices?.members_username}">
 
@@ -19,15 +19,18 @@
                 <span class="input-group-text">내용</span>
                 <textarea name="content" class="form-controller col-sm-5" rows="5">[[${notices.content}]]</textarea>
             </div>
-            <div class="input-group uploadResult mb-3">
+
+            <div class="input-group mb-3">
                 <span class="input-group-text">첨부파일</span>
-                <div class="col" th:if="${notices.fileNames !=null && board.fileNames.size() > 0}">
-                    <div class="container-fluid d-flex" style="flex-wrap: wrap;">
+                <div class="col" th:if="${notices.fileNames != null && notices.fileNames.size() > 0}">
+                    <div class="container-fluid d-flex uploadResult" style="flex-wrap: wrap;">
                         <img class="m-3" th:each="fileName: ${notices.fileNames}"
-                             th:src="|/notices/view/s_${fileName}|" th:data-src="${fileName}">
+                             th:src="|/notices/view/s_${fileName}|">
                     </div>
                 </div>
             </div>
+
+
             <div class="input-group mt-3">
                 <span class="input-group-text">FileUpload</span>
                 <input type="file" name="files" class="form-control" multiple>

@@ -25,18 +25,18 @@ public class NoticesCommentsController {
 
 
     @PostMapping(value="/", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, Long> register (@RequestBody NoticesComentsDTO noticesCommentsDTO, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        log.info(noticesCommentsDTO);
+    public Map<String, Long> register (@RequestBody NoticesComentsDTO noticesComentsDTO, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        log.info(noticesComentsDTO);
         Map<String, Long> map = new HashMap<>();
-        Long noticeCommentNum = noticesCommentsService.register(noticesCommentsDTO, principalDetails.getMember());
+        Long noticeCommentNum = noticesCommentsService.register(noticesComentsDTO, principalDetails.getMember());
         map.put("noticeCommentNum", noticeCommentNum);
         return map;
     }
     @GetMapping("/{noticeCommentNum}")
     public NoticesComentsDTO read(@PathVariable("noticeCommentNum") Long noticeCommentNum){
         log.info("read"+noticeCommentNum);
-        NoticesComentsDTO noticesCommentsDTO = noticesCommentsService.read(noticeCommentNum);
-        return noticesCommentsDTO;
+        NoticesComentsDTO noticesComentsDTO = noticesCommentsService.read(noticeCommentNum);
+        return noticesComentsDTO;
     }
     @GetMapping("/list/{noticeNum}")
     public PageResponseDTO<NoticesComentsDTO> getReplies(
@@ -54,9 +54,9 @@ public class NoticesCommentsController {
     }
     @PutMapping("/{noticeCommentNum}")
     public Map<String, Long> modify(
-            @PathVariable("noticeCommentNum") Long noticeCommentNum, @RequestBody NoticesComentsDTO noticesCommentsDTO){
-        noticesCommentsDTO.setNoticeCommentNum(noticeCommentNum);
-        noticesCommentsService.modify(noticesCommentsDTO);
+            @PathVariable("noticeCommentNum") Long noticeCommentNum, @RequestBody NoticesComentsDTO noticesComentsDTO){
+        noticesComentsDTO.setNoticeCommentNum(noticeCommentNum);
+        noticesCommentsService.modify(noticesComentsDTO);
         Map<String, Long> map = new HashMap<>();
         map.put("noticeCommentNum", noticeCommentNum);
         return map;

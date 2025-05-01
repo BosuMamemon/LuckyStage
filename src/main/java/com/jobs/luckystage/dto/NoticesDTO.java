@@ -24,7 +24,6 @@ public class NoticesDTO {
     private String members_username;
     private int hitcount;
     private LocalDateTime regDate;
-    private LocalDateTime updateDate;
     private List<String> fileNames;
 
 }
