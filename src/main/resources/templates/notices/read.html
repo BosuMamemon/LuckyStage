@@ -1,305 +1,229 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org/"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout.html}"
       lang="en">
 
 <div layout:fragment="content">
-  <div class="card" style="width: 85%;">
-    <div class="card-title">공지사항</div>
-    <div class="input-group mb-3">
-      <span class="input-group-text">No</span>
-      <input type="text" name="notice_num" class="form-control" th:value="${notices.noticeNum}" readonly>
+  <div class="notice-read-container">
+    <h2 class="section-title">📢 공지사항</h2>
+
+    <!-- 작성일자 -->
+    <div class="notice-read-date" th:text="${#temporals.format(notices.regDate, 'yyyy.MM.dd HH:mm')}"></div>
+
+    <!-- 제목 -->
+    <h2 class="notice-read-title" th:text="${notices.title}"></h2>
+
+    <!-- 이미지 -->
+    <div class="notice-read-images" th:if="${notices.fileNames != null and #lists.size(notices.fileNames) > 0}">
+      <img class="notice-read-image" th:each="fileName : ${notices.fileNames}" th:src="|/notices/view/${fileName}|">
     </div>
 
-    <div class="input-group mb-3" >
-      <span class="input-group-text">제목</span>
-      <input type="text" name="notice_title" class="form-control" th:value="${notices.title}"  >
-    </div>
+    <!-- 내용 -->
+    <div class="notice-read-content" th:text="${notices.content}">공지 내용</div>
 
-    <div class="input-group mb-3">
-      <span class="input-group-text">내용</span>
-      <textarea name="notice_content" class="form-control " rows="5">[[${notices.content}]]</textarea>
-    </div>
-
-    <div class="input-group mb-3">
-      <span class="input-group-text">첨부파일</span>
-      <div class="col" th:if="${notices.fileNames != null && notices.fileNames.size() > 0}">
-        <div class="container-fluid d-flex uploadResult" style="flex-wrap: wrap;">
-          <img class="m-3" th:each="fileName: ${notices.fileNames}"
-               th:src="|/notices/view/s_${fileName}|">
-        </div>
-      </div>
-    </div>
-
-    <div class="input-group mb-3">
-      <span class="input-group-text">작성자</span>
-      <input type="text" name="author" class="form-controller" th:value="${notices.members_username}" readonly>
-    </div>
-
-    <div class="input-group mb-3">
-      <span class="input-group-text">조회수</span>
-      <input type="text" name="readcount_faqs" class="form-controller" th:value="${notices.hitcount}" readonly>
-    </div>
-    <div class="input-group mb-3">
-      <span class="input-group-text">작성일</span>
-      <input type="text" name="members_reg_date" class="form-controller" th:value="${#temporals.format(notices.regDate, 'yyyy.MM.dd HH:mm')}"readonly>
-    </div>
-    <div class="input-group mb-3" th:with="link=${pageRequestDTO.getLink()}">
+    <!-- 버튼 -->
+    <div class="notice-read-buttons" th:with="link=${pageRequestDTO.getLink()}">
       <span sec:authorize="isAuthenticated()" th:if="${#authentication.principal.username == notices.getMembers_username()}">
         <a th:href="|@{/notices/modify(members_username)}&${link}|">
-          <button type="button" class="btn btn-primary">추가</button>
+          <button type="button" class="btn btn-success">수정</button>
         </a>
         <a th:href="@{/notices/remove(noticeNum=${notices.noticeNum})}">
-          <button type="button" class="btn btn-danger">remove</button>
+          <button type="button" class="btn btn-danger">삭제</button>
         </a>
-        </span>
-        <a th:href="|@{/notices/list}?${link}|">
-          <button type="button" class="btn btn-secondary">List</button>
-        </a>
+      </span>
+      <a th:href="|@{/notices/list}?${link}|">
+        <button type="button" class="btn btn-outline-secondary">목록</button>
+      </a>
     </div>
-<!--    ------------------------------------------------------------->
-  </div>
-  <div class="row mt-3">
-    <div class="col-md-12">
-      <div class="my-4">
-        <button class="btn btn-info addReplyBtn">ADD REPLY</button>
-      </div>
-      <ul class="list-group replyList">
-      </ul>
-    </div>
-  </div>
-  <div class="row mt-3">
-    <div class="col">
-      <ul class="pagination replyPaging"></ul>
-    </div>
-  </div>
-  <div class="modal registerModal" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Register reply</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="input-group mb-3">
-            <span class="input-group-text">Reply Text</span>
-            <input type="text" class="form-control replyText">
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text">Replyer</span>
-            <input type="text" class="form-control author" th:value="${notices.members_username}">
-          </div>
-          <p>Modal body text goes here.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary registerBtn">Register</button>
-          <button type="button" class="btn btn-dark closeBtn">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="modal modifyModal" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title replyHeader"></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <!-- 댓글 영역 -->
+    <div class="row mt-5">
+      <div class="col-md-12">
+        <div class="my-4">
+          <button class="btn btn-info addReplyBtn">댓글 작성</button>
         </div>
-        <div class="modal-body">
-          <div class="input-group mb-3">
-            <span class="input-group-text">Reply Text</span>
-            <input type="text" class="form-control modifyText">
+        <ul class="list-group replyList"></ul>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col">
+        <ul class="pagination replyPaging"></ul>
+      </div>
+    </div>
+
+    <!-- 댓글 등록 모달 -->
+    <div class="modal registerModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">댓글 작성</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary modifyBtn">Modify</button>
-          <button type="button" class="btn btn-danger removeBtn">Remove</button>
-          <button type="button" class="btn btn-dark closeModifyBtn">Close</button>
+          <div class="modal-body">
+            <div class="input-group mb-3">
+              <span class="input-group-text">내용</span>
+              <input type="text" class="form-control replyText">
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text">작성자</span>
+              <input type="text" class="form-control author" th:value="${#authentication.principal.username}" readonly>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary registerBtn">등록</button>
+            <button type="button" class="btn btn-dark closeBtn">닫기</button>
+          </div>
         </div>
       </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="/js/reply.js"></script>
-  </div>
-  <script layout:fragment="script" th:inline="javascript">
-    const bno=[[${notices.noticeNum}]]
-    const replyList=document.querySelector(".replyList")
-    const replyPaging=document.querySelector(".replyPaging")
 
-    function printList(dtoList){
-      let str='';
-      if(dtoList && dtoList.length>0){
-        for(let dto of dtoList){
-          str += `<li class="list-group-item d-flex replyItem">
-                      <span class="col-2">${dto.rno}</span>
-                      <span class="col-6" data-rno="${dto.rno}">${dto.replyText}</span>
-                      <span class="col-2">${dto.author}</span>
-                      <span class="col-2">${dto.regDate} </span>
-                    </li>`
-        }
-      }
-      replyList.innerHTML=str
-    }
-
-    function printPages(data){
-
-      let pageStr=''
-      if(data.prev) {
-        pageStr +=`<li class="page-item"><a class="page-link" data-page="${data.start-1}">PREV</a></li>`
-      }
-
-      for(let i = data.start; i <= data.end; i++){
-        pageStr +=`<li class="page-item ${i == data.page?"active":""} "><a class="page-link" data-page="${i}">${i}</a></li>`
-      }
-
-      if(data.next) {
-        pageStr +=`<li class="page-item"><a class="page-link" data-page="${data.end +1}">NEXT</a></li>`
-      }
-      replyPaging.innerHTML = pageStr
-    }
-    function printReplies(page, size, goLast){
-      alert(page)
-      getList({noticeNum, page, size, goLast}).then(
-              data=>{
-                printList(data.dtoList)
-                printPages(data)
-              }
-      )
-    }
-    printReplies(1,10, true)
-
-    const registerModal=new bootstrap.Modal(document.querySelector(".registerModal"))
-    const registerBtn=document.querySelector(".registerBtn")
-    const replyText=document.querySelector(".replyText")
-    const author=document.querySelector(".author")
-    const closeBtn=document.querySelector(".closeBtn")
-
-
-
-    document.querySelector(".addReplyBtn").addEventListener("click",function (e){
-      registerModal.show()
-    },false)
-    closeBtn.addEventListener("click",function (e){
-      registerModal.hide()
-    },false)
-
-    let page=1
-    let size=10
-    replyPaging.addEventListener("click", function (e){
-      e.preventDefault()
-      e.stopPropagation()
-
-      const target = e.target
-      if(!target || target.tagName != 'A'){
-        return
-      }
-      const pageNum = target.getAttribute("data-page")
-      console.log(pageNum+" "+size)
-      page = pageNum
-      printReplies(page, size)
-    },false)
-
-    registerBtn.addEventListener("click", function (e){
-      const replyObj={
-        bno:bno,
-        replyText:replyText.value,
-        author:author.value
-      }
-      addReply(replyObj).then(result=>{
-        alert(result.rno)
-        registerModal.hide()
-        replyText.value=''
-        author.value=''
-        printReplies(1, 10, true)
-      }).catch(e=>{
-        alert("댓글 입력오류")
-      }, false)
-    })
-
-    //modifyModal
-    const modifyModal = new bootstrap.Modal(document.querySelector(".modifyModal"))
-
-    const replyHeader = document.querySelector(".replyHeader")
-    const modifyText = document.querySelector(".modifyText")
-    const modifyBtn = document.querySelector(".modifyBtn")
-    const removeBtn = document.querySelector(".removeBtn")
-    const closeModifyBtn = document.querySelector(".closeModifyBtn")
-
-    replyList.addEventListener("click", function (e){
-      e.preventDefault()
-      e.stopPropagation()
-
-
-      const target = e.target
-
-      if(!target || target.tagName != 'SPAN'){
-        return
-      }
-
-      const rno = target.getAttribute("data-rno")
-      alert(rno)
-
-      if(!rno){
-        return
-      }
-
-      getReply(rno).then(reply => { //댓글의 내용을 모달창에 채워서 보여주는
-
-        console.log(reply)
-        replyHeader.innerHTML = reply.rno
-        modifyText.value = reply.replyText
-        modifyModal.show()
-
-      }).catch(e => alert('error'))
-
-    },false)
-
-    modifyBtn.addEventListener("click", function(e) {
-
-      const replyObj = {
-        rno:replyHeader.innerHTML,
-        replyText:modifyText.value}
-
-      modifyReply(replyObj).then(result => {
-        alert(result.rno+' 댓글이 수정되었습니다.')
-        replyText.value = ''
-        modifyModal.hide()
-        printReplies(page, size)
-
-      }).catch(e => {
-        console.log(e)
-      })
-    },false)
-
-    removeBtn.addEventListener("click", function(e) {
-
-      removeReply(replyHeader.innerHTML).then(result => {
-
-        alert(result.rno +' 댓글이 삭제되었습니다.')
-        replyText.value = ''
-        modifyModal.hide()
-
-        page = 1 // 이 부분이 없다면 원래 페이지로
-
-        printReplies(page, size)
-
-      }).catch(e => {
-        console.log(e)
-      })
-    },false)
-
-    closeModifyBtn.addEventListener("click", function(e){
-
-      modifyModal.hide()
-
-    }, false)
-
-
-  </script>
-
-
-
+    <!-- 댓글 수정 모달 -->
+    <div class="modal modifyModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title replyHeader"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group mb-3">
+              <span class="input-group-text">내용</span>
+              <input type="text" class="form-control modifyText">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary modifyBtn">수정</button>
+            <button type="button" class="btn btn-danger removeBtn">삭제</button>
+            <button type="button" class="btn btn-dark closeModifyBtn">닫기</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/js/reply.js"></script>
+<script layout:fragment="script" th:inline="javascript">
+  const bno = /*[[${notices.noticeNum}]]*/ 0;
+  const replyList = document.querySelector(".replyList");
+  const replyPaging = document.querySelector(".replyPaging");
+
+  function printList(dtoList) {
+    let str = '';
+    if (dtoList && dtoList.length > 0) {
+      for (let dto of dtoList) {
+        str += `<li class="list-group-item d-flex replyItem">
+                  <span class="col-2">${dto.rno}</span>
+                  <span class="col-6" data-rno="${dto.rno}">${dto.replyText}</span>
+                  <span class="col-2">${dto.author}</span>
+                  <span class="col-2">${dto.regDate}</span>
+                </li>`;
+      }
+    }
+    replyList.innerHTML = str;
+  }
+
+  function printPages(data) {
+    let pageStr = '';
+    if (data.prev) {
+      pageStr += `<li class="page-item"><a class="page-link" data-page="${data.start - 1}">PREV</a></li>`;
+    }
+    for (let i = data.start; i <= data.end; i++) {
+      pageStr += `<li class="page-item ${i == data.page ? "active" : ""}"><a class="page-link" data-page="${i}">${i}</a></li>`;
+    }
+    if (data.next) {
+      pageStr += `<li class="page-item"><a class="page-link" data-page="${data.end + 1}">NEXT</a></li>`;
+    }
+    replyPaging.innerHTML = pageStr;
+  }
+
+  function printReplies(page, size, goLast) {
+    getList({ noticeNum: bno, page, size, goLast }).then(data => {
+      printList(data.dtoList);
+      printPages(data);
+    });
+  }
+
+  printReplies(1, 10, true);
+
+  const registerModal = new bootstrap.Modal(document.querySelector(".registerModal"));
+  const registerBtn = document.querySelector(".registerBtn");
+  const replyText = document.querySelector(".replyText");
+  const author = document.querySelector(".author");
+  const closeBtn = document.querySelector(".closeBtn");
+
+  document.querySelector(".addReplyBtn").addEventListener("click", () => registerModal.show());
+  closeBtn.addEventListener("click", () => registerModal.hide());
+
+  let page = 1;
+  let size = 10;
+
+  replyPaging.addEventListener("click", function (e) {
+    e.preventDefault();
+    const target = e.target;
+    if (!target || target.tagName !== 'A') return;
+    const pageNum = target.getAttribute("data-page");
+    page = pageNum;
+    printReplies(page, size);
+  });
+
+  registerBtn.addEventListener("click", function () {
+    const replyObj = {
+      bno: bno,
+      replyText: replyText.value,
+      author: author.value
+    };
+    addReply(replyObj).then(result => {
+      alert(result.rno);
+      registerModal.hide();
+      replyText.value = '';
+      printReplies(1, 10, true);
+    }).catch(() => alert("댓글 입력 오류"));
+  });
+
+  const modifyModal = new bootstrap.Modal(document.querySelector(".modifyModal"));
+  const replyHeader = document.querySelector(".replyHeader");
+  const modifyText = document.querySelector(".modifyText");
+  const modifyBtn = document.querySelector(".modifyBtn");
+  const removeBtn = document.querySelector(".removeBtn");
+  const closeModifyBtn = document.querySelector(".closeModifyBtn");
+
+  replyList.addEventListener("click", function (e) {
+    e.preventDefault();
+    const target = e.target;
+    if (!target || target.tagName !== 'SPAN') return;
+    const rno = target.getAttribute("data-rno");
+    if (!rno) return;
+    getReply(rno).then(reply => {
+      replyHeader.innerHTML = reply.rno;
+      modifyText.value = reply.replyText;
+      modifyModal.show();
+    }).catch(() => alert('댓글 불러오기 오류'));
+  });
+
+  modifyBtn.addEventListener("click", function () {
+    const replyObj = {
+      rno: replyHeader.innerHTML,
+      replyText: modifyText.value
+    };
+    modifyReply(replyObj).then(result => {
+      alert(`${result.rno}번 댓글이 수정되었습니다.`);
+      modifyModal.hide();
+      printReplies(page, size);
+    }).catch(console.log);
+  });
+
+  removeBtn.addEventListener("click", function () {
+    removeReply(replyHeader.innerHTML).then(result => {
+      alert(`${result.rno}번 댓글이 삭제되었습니다.`);
+      modifyModal.hide();
+      printReplies(1, size);
+    }).catch(console.log);
+  });
+
+  closeModifyBtn.addEventListener("click", () => modifyModal.hide());
+</script>
+</html>

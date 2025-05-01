@@ -5,94 +5,90 @@
       lang="en">
 
 <div layout:fragment="content">
-    <div class="card" style="width: 85%;">
+    <div class="notice-list-wrapper">
         <h2 class="section-title">📢공지사항</h2>
-                <div class="notice-card" >
-                    <div class="notice-header">
-                        <form action="/notices/list" method="get">
-                            <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
-                                <div class="col">
-                                    <div class="input-group mt-3 mb-lg-3">
-                                        <div class="input-group-prepend">
-                                            <select class="form-select" name="type">
-                                                <option value="">---</option>
-                                                <option value="t" th:selected="${pageRequestDTO.type=='t'}">제목</option>
-                                                <option value="c" th:selected="${pageRequestDTO.type=='c'}">내용</option>
-                                                <option value="w" th:selected="${pageRequestDTO.type=='w'}">작성자</option>
-                                                <option value="tc" th:selected="${pageRequestDTO.type=='tc'}">제목+내용</option>
-                                                <option value="tcw" th:selected="${pageRequestDTO.type=='tcw'}">제목+내용+작성자</option>
-                                            </select>
-                                        </div>
-                                        <input type="text" class="input-control" name="keyword" th:value="${pageRequestDTO.keyword}">
-                                        <button class="btn btn-secondary searchBtn" type="submit">검색</button>
-                                    </div>
-                                </div>
-                        </form>
-<!--                        <a class="notice-write-btn"-->
-<!--                           th:if="${#authorization.expression('hasRole(''ADMIN'')')}"-->
-<!--                           href="/notices/register">-->
-                        <a class="notice-write-btn" href="/notices/register">
-                           <!--th:if="${#authorization.expression('hasRole(''ADMIN'')')}"-->
-                            작성하기
-                        </a>
-                    </div>
 
-                    <table class="notice-table">
-                        <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>제목</th>
-                            <th>작성자</th>
-                            <th>작성일</th>
-                            <th>조회수</th>
-                        </tr>
-                        </thead>
-                        <tbody th:with="link=${pageRequestDTO.getLink()}">
-                        <tr th:each="notices:${responseDTO.dtoList}">
-                            <td>[[${notices.noticeNum}]]</td>
-                            <td>
-                                <a th:href="|@{/notices/read(noticeNum=${notices.noticeNum})}&${link}|"class="notice-link">
-                                    [[${notices.title}]]
-                                </a>
-                            </td>
-                            <td> [[${notices.members_username}]]</td>
-                            <td th:text="${#temporals.format(notices.regDate, 'yyyy.MM.dd HH:mm')}"></td>
-                            <td>[[${notices.hitcount}]]</td>
-                        </tr>
-                    </tbody>
-                </table>
-                    <div class="float-end">
-                        <ul class="pagination">
-                            <li class="page-item" th:if="${responseDTO.prev}">
-                                <a class="page-link" th:data-num="${responseDTO.start -1}">Previous</a>
-                            </li>
-                            <th:block th:each="i:${#numbers.sequence(responseDTO.start, responseDTO.end)}">
-                                <li th:class="${responseDTO.page==i}?'page-item active':'page-item'">
-                                    <a class="page-link" th:data-num="${i}">[[${i}]]</a>
-                                </li>
-                            </th:block>
-                            <li class="page-item" th:if="${responseDTO.next}">
-                                <a class="page-link" th:data-num="${responseDTO.end +1}">Next</a>
-                            </li>
-                        </ul>
+        <div class="notice-list-card">
+            <div class="notice-list-header">
+                <form action="/notices/list" method="get">
+                    <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
+                    <div class="col">
+                        <div class="input-group mt-3 mb-lg-3">
+                            <div class="input-group-prepend">
+                                <select class="form-select" name="type">
+                                    <option value="">---</option>
+                                    <option value="t" th:selected="${pageRequestDTO.type=='t'}">제목</option>
+                                    <option value="c" th:selected="${pageRequestDTO.type=='c'}">내용</option>
+                                    <option value="w" th:selected="${pageRequestDTO.type=='w'}">작성자</option>
+                                    <option value="tc" th:selected="${pageRequestDTO.type=='tc'}">제목+내용</option>
+                                    <option value="tcw" th:selected="${pageRequestDTO.type=='tcw'}">제목+내용+작성자</option>
+                                </select>
+                            </div>
+                            <input type="text" class="input-control" name="keyword" th:value="${pageRequestDTO.keyword}">
+                            <button class="btn btn-secondary searchBtn" type="submit">검색</button>
+                        </div>
                     </div>
-                </div>
+                </form>
+
+                <a class="notice-write-btn" href="/notices/register">
+                    작성하기
+                </a>
+            </div>
+
+            <table class="notice-list-table">
+                <thead>
+                <tr>
+                    <th>No</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                    <th>조회수</th>
+                </tr>
+                </thead>
+                <tbody th:with="link=${pageRequestDTO.getLink()}">
+                <tr th:each="notices:${responseDTO.dtoList}">
+                    <td>[[${notices.noticeNum}]]</td>
+                    <td>
+                        <a th:href="|@{/notices/read(noticeNum=${notices.noticeNum})}&${link}|" class="notice-link">
+                            [[${notices.title}]]
+                        </a>
+                    </td>
+                    <td>[[${notices.members_username}]]</td>
+                    <td th:text="${#temporals.format(notices.regDate, 'yyyy.MM.dd HH:mm')}"></td>
+                    <td>[[${notices.hitcount}]]</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="notice-list-pagination float-end">
+                <ul class="pagination">
+                    <li class="page-item" th:if="${responseDTO.prev}">
+                        <a class="page-link" th:data-num="${responseDTO.start -1}">Previous</a>
+                    </li>
+                    <th:block th:each="i:${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                        <li th:class="${responseDTO.page==i}?'page-item active':'page-item'">
+                            <a class="page-link" th:data-num="${i}">[[${i}]]</a>
+                        </li>
+                    </th:block>
+                    <li class="page-item" th:if="${responseDTO.next}">
+                        <a class="page-link" th:data-num="${responseDTO.end +1}">Next</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
-    <script layout:fragment="script" th:inline="javascript">
-        document.querySelector(".pagination").addEventListener("click",function (e){
-            e.preventDefault()
-            e.stopPropagation()
-            const target=e.target
-            if(target.tagName!=='A'){
-                return
-            }
-            const num=target.getAttribute("data-num")
-            const formObj=document.querySelector("form")
-            formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`
-            formObj.submit()
-            //self.location=`/board/list?page=${num}`
-        },false)
-    </script>
+</div>
+
+<script layout:fragment="script" th:inline="javascript">
+    document.querySelector(".pagination").addEventListener("click", function (e) {
+        e.preventDefault()
+        e.stopPropagation()
+        const target = e.target
+        if (target.tagName !== 'A') return
+        const num = target.getAttribute("data-num")
+        const formObj = document.querySelector("form")
+        formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`
+        formObj.submit()
+    }, false)
+</script>
 </html>
