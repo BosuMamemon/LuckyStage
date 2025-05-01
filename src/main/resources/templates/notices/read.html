@@ -162,15 +162,6 @@
       }
       replyPaging.innerHTML = pageStr
     }
-    function printReplies(page, size, goLast){
-      alert(page)
-      getList({noticeNum, page, size, goLast}).then(
-              data=>{
-                printList(data.dtoList)
-                printPages(data)
-              }
-      )
-    }
     printReplies(1,10, true)
 
     const registerModal=new bootstrap.Modal(document.querySelector(".registerModal"))

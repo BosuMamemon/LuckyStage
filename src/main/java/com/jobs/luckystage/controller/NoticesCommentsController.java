@@ -32,6 +32,8 @@ public class NoticesCommentsController {
         map.put("noticeCommentNum", noticeCommentNum);
         return map;
     }
+
+
     @GetMapping("/{noticeCommentNum}")
     public NoticesComentsDTO read(@PathVariable("noticeCommentNum") Long noticeCommentNum){
         log.info("read"+noticeCommentNum);
