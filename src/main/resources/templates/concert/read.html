@@ -6,7 +6,7 @@
       lang="en">
 
 <div layout:fragment="content">
-  <input type="hidden" id="username" th:value="${#authentication.principal.username}">
+  <input type="hidden" id="username" th:value="${#authentication.principal.username}" sec:authorize="isAuthenticated()">
   <h1 class="section-title">공연 상세</h1>
 
   <div class="container mt-5">
