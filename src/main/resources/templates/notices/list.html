@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org/"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout/layout.html}"
       lang="en">
 
@@ -30,7 +31,7 @@
                     </div>
                 </form>
 
-                <a class="notice-write-btn" href="/notices/register">
+                <a class="notice-write-btn" href="/notices/register" sec:authorize="hasAuthority('ADMIN')">
                     작성하기
                 </a>
             </div>

@@ -6,7 +6,7 @@
       lang="en">
 
 <div layout:fragment="content">
-
+  <input type="hidden" id="username" th:value="${#authentication.principal.username}">
   <h1 class="section-title">공연 상세</h1>
 
   <div class="container mt-5">
@@ -15,7 +15,12 @@
 
       <!-- 공연 포스터 -->
       <div class="col" style="position: relative;">
-        <button type="button" class="like-btn-read" th:data-concertnum="${concert.concertNum}">♥</button>
+        <button type="button" class="like-btn-read"
+                th:classappend="${bookmarkList.contains(concert.concertNum) ? 'active' : ''}"
+                th:data-concertnum="${concert.concertNum}"
+                sec:authorize="isAuthenticated()">
+          ♥
+        </button>
         <img th:src="|/concert/img/${concert.posterFileName}|" class="rounded" style="width: 100%;">
       </div>
 
@@ -83,7 +88,8 @@
 
                   <button type="submit"
                           class="btn btn-success w-100 mt-2"
-                          style="font-weight: bold; background-color: #006242; color: white; border-radius: 8px; padding: 10px;">
+                          style="font-weight: bold; background-color: #006242; color: white; border-radius: 8px; padding: 10px;"
+                          sec:authorize="isAuthenticated()">
                     예약하기
                   </button>
               </div>
@@ -165,16 +171,55 @@
     document.querySelector("#selectedDateInput").value = date;
   });
 
-  document.addEventListener("DOMContentLoaded", function() {
-    const likeButtons = document.querySelectorAll(".like-btn-list, .like-btn-read");
-
-    likeButtons.forEach(btn => {
-      btn.addEventListener("click", function() {
-        const concertNum = btn.getAttribute("data-concertnum");
-        btn.classList.toggle("active");
-
-        console.log("찜한 콘서트 번호:", concertNum);
-      });
-    });
+  document.addEventListener("click", function(e) {
+    // 클릭된 요소가 like-btn-list 또는 like-btn-read 클래스를 가지고 있는지 확인
+    if (e.target.matches(".like-btn-list, .like-btn-read")) {
+      if (e.target.classList.contains("active")) {
+        bookmarkDelete(e.target);
+      } else {
+        bookmark(e.target);
+      }
+    }
   });
+
+
+  // 클릭 시 북마크 제거 함수
+  function bookmarkDelete(element) {
+    const data = {
+      "concertNum": element.getAttribute("data-concertnum"),
+      "username": document.querySelector("#username").value
+    };
+    $.ajax({
+      url: "/concert/deleteBookmark",
+      method: "get",
+      data: data
+    })
+            .done(function(resp) {
+              alert("북마크를 삭제했습니다.")
+              element.classList.remove("active");
+            })
+            .fail(function(e) {
+              alert("북마크 삭제 중 오류가 발생했습니다.")
+            });
+  }
+
+  // 클릭 시 북마크 함수
+  function bookmark(element) {
+    const data = {
+      "concertNum": element.getAttribute("data-concertnum"),
+      "username": document.querySelector("#username").value
+    };
+    $.ajax({
+      url: "/concert/bookmark",
+      method: "get",
+      data: data
+    })
+            .done(function(resp) {
+              alert("공연을 북마크했습니다.")
+              element.classList.add("active");
+            })
+            .fail(function(e) {
+              alert("북마크 중 오류가 발생했습니다.")
+            });
+  }
 </script>

@@ -5,5 +5,5 @@ import com.jobs.luckystage.domain.Reviews;
 import java.util.List;
 
 public interface ReviewSearch {
-    List<Reviews> searchAll(String searchWord);
+    List<Reviews> searchAll(String type, String searchWord);
 }

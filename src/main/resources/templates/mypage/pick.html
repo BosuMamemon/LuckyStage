@@ -12,31 +12,31 @@
         <div class="row" style="gap: 20px;">
 
             <!-- 찜한 공연 반복 -->
-            <div class="col-3" th:each="like : ${likes}">
+            <div class="col-3" th:each="concert : ${dtoList}">
                 <div class="card like-card shadow-sm" style="border-radius: 16px; overflow: hidden;">
 
-                    <img th:src="|/concert/img/${like.concert.posterFileName}|"
+                    <img th:src="|/concert/img/${concert.posterFileName}|"
                          alt="공연 포스터"
                          class="card-img-top"
                          style="height: 200px; object-fit: cover;">
 
                     <div class="card-body d-flex flex-column justify-content-between" style="height: 180px;">
-                        <h5 class="card-title" style="font-weight: bold; font-size: 16px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                            [[${like.concert.title}]]
+                        <h5 class="card-title" style="font-weight: bold; font-size: 16px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                            [[${concert.title}]]
                         </h5>
 
                         <p class="card-text" style="font-size: 14px; color: #555;">
-                            공연일: [[${#dates.format(like.concert.startDate, 'yyyy-MM-dd')}]]
+                            공연일: [[${#dates.format(concert.startDate, 'yyyy-MM-dd')}]]
                         </p>
 
                         <div class="d-flex justify-content-between">
-                            <a th:href="@{/concert/detail(concertNum=${like.concert.concertNum})}"
+                            <a th:href="@{/concert/read(concertNum=${concert.concertNum})}"
                                class="btn btn-sm btn-success"
                                style="border-radius: 8px;">
                                 공연 보기
                             </a>
-                            <form th:action="@{/mypage/like/delete}" method="post" style="margin: 0;">
-                                <input type="hidden" name="concertNum" th:value="${like.concert.concertNum}">
+                            <form th:action="@{/concert/deleteBookmark}" method="post" style="margin: 0;">
+                                <input type="hidden" name="concertNum" th:value="${concert.concertNum}">
                                 <button type="submit" class="btn btn-sm btn-outline-danger" style="border-radius: 8px;">
                                     삭제
                                 </button>
@@ -49,7 +49,7 @@
             </div>
 
             <!-- 찜 목록이 없는 경우 -->
-            <div th:if="${#lists.isEmpty(likes)}" class="col text-center text-muted" style="padding: 100px;">
+            <div th:if="${#lists.isEmpty(dtoList)}" class="col text-center text-muted" style="padding: 100px;">
                 찜한 공연이 없습니다.
             </div>
 
