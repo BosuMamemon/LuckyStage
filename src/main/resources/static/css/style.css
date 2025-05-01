@@ -1265,6 +1265,7 @@ form[name='myPageFrm'] {
     color: white;
     border: none;
 }
+
 /*pick*/
  .like-card {
      transition: transform 0.2s;
@@ -1366,4 +1367,5 @@ form[name='myPageFrm'] {
     text-align: center;
     text-decoration: none;
 }
+
 
