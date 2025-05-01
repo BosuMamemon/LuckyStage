@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
@@ -39,5 +40,4 @@ public class PrincipalDetails implements UserDetails {
     public String getUsername() {
         return this.member.getUsername();
     }
-
 }

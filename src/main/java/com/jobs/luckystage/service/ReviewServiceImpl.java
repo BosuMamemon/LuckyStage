@@ -32,7 +32,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public PageResponseDTO<ReviewDTO> getAllReviews(PageRequestDTO pageRequestDTO) {
         Pageable pageable = pageRequestDTO.getPageable("reviewNum");
-        Page<Reviews> pageableEntityList = new PageImpl<>(reviewRepository.searchAll(pageRequestDTO.getKeyword()), pageable, reviewRepository.count());
+        Page<Reviews> pageableEntityList = new PageImpl<>(reviewRepository.searchAll(pageRequestDTO.getType(), pageRequestDTO.getKeyword()), pageable, reviewRepository.count());
         List<ReviewDTO> dtoList = pageableEntityList.stream().map(reviews -> {
             ReviewDTO dto = entityToDto(reviews);
             dto.setConcertTitle(reviews.getConcerts().getTitle());
@@ -81,12 +81,14 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public ReviewDTO getReview(Long reviewNum) {
-        return null;
+    public void deleteReview(Long reviewNum) {
+        reviewRepository.deleteById(reviewNum);
     }
 
     @Override
-    public void deleteReview(Long reviewNum) {}
+    public ReviewDTO getReview(Long reviewNum) {
+        return null;
+    }
 
     @Override
     public void addComment(ReviewCommentDTO commentDTO) {}

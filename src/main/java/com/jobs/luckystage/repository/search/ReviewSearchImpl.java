@@ -14,17 +14,22 @@ public class ReviewSearchImpl extends QuerydslRepositorySupport implements Revie
     }
 
     @Override
-    public List<Reviews> searchAll(String searchWord) {
+    public List<Reviews> searchAll(String type, String searchWord) {
         QReviews qReviews = QReviews.reviews;
         JPQLQuery<Reviews> query = from(qReviews);
         List<Reviews> reviewList;
+        BooleanBuilder builder = new BooleanBuilder();
 
         if(searchWord != null) {
-            BooleanBuilder builder = new BooleanBuilder();
             builder.or(qReviews.title.contains(searchWord));
             builder.or(qReviews.content.contains(searchWord));
-            query.where(builder);
         }
+
+        if(type != null) {
+            builder.and(qReviews.members.username.eq(type));
+        }
+
+        query.where(builder);
 
         reviewList = query.orderBy(qReviews.reviewNum.desc()).fetch();
         return reviewList;

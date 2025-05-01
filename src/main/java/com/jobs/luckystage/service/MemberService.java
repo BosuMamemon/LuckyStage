@@ -1,13 +1,18 @@
 package com.jobs.luckystage.service;
 
+import com.jobs.luckystage.config.auth.PrincipalDetails;
+import com.jobs.luckystage.domain.MemberConcertBookmark;
 import com.jobs.luckystage.domain.Members;
 import com.jobs.luckystage.domain.Reviews;
+import com.jobs.luckystage.repository.MemberConcertBookmarkRepository;
 import com.jobs.luckystage.repository.MemberRepository;
 import com.jobs.luckystage.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,6 +22,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
+    private final MemberConcertBookmarkRepository memberConcertBookmarkRepository;
 
     // 회원 탈퇴 (리뷰 작성자는 null로 유지)
     public void deleteMember(String username) {
@@ -28,6 +34,9 @@ public class MemberService {
             review.setMembers(null);
         }
 
+//        2-1. 북마크 삭제
+        memberConcertBookmarkRepository.deleteAllByMembers_Username(username);
+
         // 3. 수정된 리뷰 저장
         reviewRepository.saveAll(reviews);
 
@@ -35,5 +44,14 @@ public class MemberService {
         Members member = memberRepository.findById(username)
                 .orElseThrow(() -> new RuntimeException("회원 없음"));
         memberRepository.delete(member);
+    }
+
+    public List<Long> getBookmarkConcertNum(String username) {
+        List<Long> concertNums = new ArrayList<>();
+        List<MemberConcertBookmark> bookmarks = memberConcertBookmarkRepository.findAllByMembers_Username(username);
+        for(MemberConcertBookmark bookmark : bookmarks) {
+            concertNums.add(bookmark.getConcerts().getConcertNum());
+        }
+        return concertNums;
     }
 }

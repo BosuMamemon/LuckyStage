@@ -82,7 +82,7 @@ public class ReviewController {
     @PostMapping("/register")
     public String postRegister(UploadFileDTO uploadFileDTO, ReviewDTO reviewDTO) {
         List<String> filenameList = null;
-        if(uploadFileDTO.getFiles() != null) {
+        if(uploadFileDTO.getFiles() != null && uploadFileDTO.getFiles().get(0).getOriginalFilename() != "") {
             filenameList = fileUpload(uploadFileDTO);
         }
 
@@ -104,5 +104,11 @@ public class ReviewController {
             return ResponseEntity.internalServerError().build();
         }
         return ResponseEntity.ok().headers(headers).body(resource);
+    }
+
+    @GetMapping("/delete")
+    public String getDelete(@RequestParam("reviewNum") long reviewNum) {
+        reviewService.deleteReview(reviewNum);
+        return "redirect:/review/list";
     }
 }

@@ -21,7 +21,19 @@ public class CustomSecurityConfig {
                 .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable())
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers("/**").permitAll()
+                        .requestMatchers(
+                                "/mypage/**",
+                                "/board/register",
+                                "/board/modify",
+                                "/board/remove",
+                                "/review/register",
+                                "/review/delete"
+                        ).authenticated()
+                        .requestMatchers(
+                                "/notices/modify",
+                                "/notices/remove",
+                                "/notices/register"
+                        ).hasAuthority("ADMIN")
                         .anyRequest().permitAll())
 
                 .formLogin(httpSecurityFormLoginConfigurer -> httpSecurityFormLoginConfigurer

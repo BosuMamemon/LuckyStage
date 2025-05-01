@@ -3,8 +3,10 @@ package com.jobs.luckystage.controller;
 import com.jobs.luckystage.config.auth.PrincipalDetails;
 import com.jobs.luckystage.domain.Members;
 import com.jobs.luckystage.domain.Tickets;
+import com.jobs.luckystage.dto.ConcertDTO;
 import com.jobs.luckystage.repository.MemberRepository;
 import com.jobs.luckystage.repository.TicketRepository;
+import com.jobs.luckystage.service.ConcertService;
 import com.jobs.luckystage.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,6 +34,7 @@ public class MypageController {
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
     private final TicketRepository ticketRepository;
+    private final ConcertService concertService;
 
     @GetMapping("/mypage")
     public String mypagePage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
@@ -127,14 +130,12 @@ public class MypageController {
         return "mypage/reservation";
     }
 
-
-
     //찜목록 페이지
     @GetMapping("/pick")
     public void pickPage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
         String username = principalDetails.getUsername();
-        // 필요하면 찜 목록 조회해서 model.addAttribute 해도 됨
-        log.info("Pick page for user: " + username);
+        List<ConcertDTO> dtoList = concertService.findBookmark(username);
+        model.addAttribute("dtoList", dtoList);
     }
 
     //추첨결과 확인란

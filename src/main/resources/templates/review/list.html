@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout/layout.html}" lang="en">
 <div layout:fragment="content">
 
@@ -12,6 +13,8 @@
     </div>
 
     <div class="d-flex justify-content-end mb-4 px-5">
+        <input type="hidden" id="username" th:value="${#authentication.principal.username}" sec:authorize="isAuthenticated()">
+        <button type="button" class="myReview-btn" sec:authorize="isAuthenticated()">내가 쓴 리뷰 보기</button>
         <form th:action="@{/review/list}" method="get" class="review-search-form">
             <input type="text"
                    name="keyword"
@@ -20,7 +23,6 @@
                    th:value="${pageRequestDTO.keyword}">
             <button type="submit" class="review-search-btn">검색</button>
         </form>
-        <button type="button" class="myReview-btn">내가 쓴 리뷰 보기</button>
     </div>
 
     <div class="container py-5">
@@ -41,7 +43,12 @@
                             </div>
                             <p class="card-text text-muted flex-grow-1">[[${review.content}]]</p>
                             <div class="review-product text-center">[[${review.concertTitle}]]</div>
+                            <br>
                             <div class="review-stars">[[${review.getReviewStars()}]]</div>
+                            <br>
+                            <div sec:authorize="isAuthenticated()" th:if="${review.username == #authentication.principal.username}">
+                                <a th:href="@{/review/delete(reviewNum=${review.reviewNum})}"><button type="button" class="btn btn-danger">리뷰 삭제</button></a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -74,5 +81,13 @@
         e.stopPropagation();
         let target = e.target;
         let num = target.getAttribute("data-num");
+    })
+
+    document.querySelector(".myReview-btn").addEventListener("click", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        let username = document.querySelector("#username").value;
+        document.querySelector(".review-search-form").innerHTML += `<input type="hidden" name="type" value="${username}">`;
+        document.querySelector(".review-search-form").submit();
     })
 </script>

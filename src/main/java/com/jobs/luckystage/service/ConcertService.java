@@ -10,6 +10,9 @@ import java.util.List;
 public interface ConcertService {
     List<ConcertDTO> list(PageRequestDTO pageRequestDTO);
     ConcertDTO findById(long concertNum);
+    void bookmark(long concertNum, String username);
+    List<ConcertDTO> findBookmark(String username);
+    void deleteBookmark(long concertNum, String username);
 
 
     default ConcertDTO entityToDto(Concerts entity) {

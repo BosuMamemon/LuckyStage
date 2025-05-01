@@ -38,14 +38,11 @@
         <!--공지사항-->
         <section class="notice-section">
             <a href="/notices/list"><h2>공지사항 ></h2></a>
-<!--            <div class="notice-list">-->
-<!--                <div class="notice-item">-->
-<!--                    <a class="notice-title" href="#공지사항1">[안내] 시스템 점검 예정 안내</a>-->
-<!--                </div>-->
-<!--                <div class="notice-item">-->
-<!--                    <a class="notice-title" href="#공지사항2">[신규 오픈] 2025 여름 콘서트 라인업 공개</a>-->
-<!--                </div>-->
-<!--            </div>-->
+            <div class="notice-list">
+                <div class="notice-item" th:each="notice:${dtoList}">
+                    <a class="notice-title" th:href="@{/notices/read(noticeNum=${notice.noticeNum})}">[[${notice.title}]]</a>
+                </div>
+            </div>
         </section>
     </div>
 </div>
