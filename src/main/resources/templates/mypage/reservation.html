@@ -16,14 +16,19 @@
                 <th style="width: 22%;">공연 날짜</th>
                 <th style="width: 22%;">예약 날짜</th>
                 <th style="width: 15%;">추첨일</th>
-                <th style="width: 13%;">추첨 확인</th>
+                <th style="width: 13%; text-align: center;" >추첨 확인</th>
             </tr>
             </thead>
 
             <tbody>
             <tr th:each="ticket : ${tickets}">
-                <td th:text="${ticket.concerts != null ? ticket.concerts.title : '공연 정보 없음'}"></td>
-<!--                <td th:text="${ticket.concerts.title}"></td>-->
+                <td>
+                    <a th:if="${ticket.concerts != null}"
+                       th:href="@{/concert/read(concertNum=${ticket.concerts.concertNum})}"
+                       th:text="${ticket.concerts.title}"
+                       style="color: #006242; font-weight: bold; text-decoration: underline;"></a>
+                    <span th:if="${ticket.concerts == null}">공연 정보 없음</span>
+                </td>
                 <td th:text="${#temporals.format(ticket.selectedDate, 'yyyy-MM-dd')}"></td>
                 <td th:text="${#temporals.format(ticket.regDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
                 <td th:text="${#dates.format(ticket.lotteryDate, 'yyyy-MM-dd')}"></td>
