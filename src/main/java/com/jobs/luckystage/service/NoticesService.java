@@ -20,7 +20,6 @@ public interface NoticesService {
                 .noticeNum(dto.getNoticeNum() !=null ? dto.getNoticeNum() :0l)
                 .title(dto.getTitle())
                 .content(dto.getContent())
-                .members(dto.getMembers())
                 .build();
         if(dto.getFileNames()!= null){
             dto.getFileNames().forEach(fileName -> {
@@ -36,9 +35,8 @@ public interface NoticesService {
                 .title(noticesEntity.getTitle())
                 .content(noticesEntity.getContent())
                 .regDate(noticesEntity.getRegDate())
-
                 .hitcount(noticesEntity.getHitcount())
-
+                .members_username(noticesEntity.getMembers().getUsername())
                 .build();
         List<String> fileNames =
                 noticesEntity.getImagesSet().stream().sorted().map(noticeImage ->

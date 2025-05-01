@@ -44,6 +44,7 @@ public class NoticesController {
     @GetMapping("/list")
     public void listNotices(PageRequestDTO pageRequestDTO, Model model) {
         PageResponseDTO<NoticesDTO> responseDTO = noticesService.list(pageRequestDTO);
+        log.info("responseDTO" + responseDTO.getDtoList());
         model.addAttribute("responseDTO", responseDTO);
         model.addAttribute("pageRequest", pageRequestDTO);
     }
@@ -66,6 +67,7 @@ public class NoticesController {
     public void read_modify(PageRequestDTO pageRequestDTO, Long noticeNum, Model model){
         log.info("read--------------------------------"+noticeNum);
         NoticesDTO noticesDTO=noticesService.readNotices(noticeNum);
+        log.info("noticesDTO : "+noticesDTO);
         model.addAttribute("notices",  noticesDTO);
     }
     @PostMapping("/modify")
@@ -102,13 +104,15 @@ public class NoticesController {
         List<String> list = new ArrayList<>();
         uploadFileDTO.getFiles().forEach(multipartFile -> {
             String originalName = multipartFile.getOriginalFilename();
-            log.info(originalName);
+            log.info("originalName :" +originalName);
 
             String uuid= UUID.randomUUID().toString();
-            Path savePath = Paths.get(uploadPath + uuid+"_"+ originalName);
+            Path savePath = Paths.get(uploadPath ,uuid+"_"+ originalName);
+            log.info("-----------------------"+savePath.toString());
             boolean image = false;
             try{
                 multipartFile.transferTo(savePath);
+
                 if(Files.probeContentType(savePath).startsWith("image")){
                     image=true;
                     File thumbFile=new File(uploadPath,"s_" + uuid+"_"+ originalName);
@@ -177,6 +181,7 @@ public class NoticesController {
                 log.error(e.getMessage());
             }
         }
+
 
     }
 

@@ -32,6 +32,7 @@ public class NoticesServiceImpl implements NoticesService {
     @Override
     public void registerNotices(NoticesDTO noticesDTO, Members members) {
         Notices notices = dtoToEntity(noticesDTO);
+        notices.setMembers(memberRepository.findByUsername(noticesDTO.getMembers_username()));
         notices.setMembers(members);
         noticesRepository.save(notices);
     }
@@ -42,7 +43,8 @@ public class NoticesServiceImpl implements NoticesService {
 
         Notices notices = noticesRepository.findByIdWithImages(noticeNum)
                 .orElse(null);
-        log.info("---------------------"+notices);
+        log.info("notices---------------------"+notices);
+        log.info("notices----getUsername-----------------"+notices.getMembers().getUsername());
         notices.updateHitcount();
         noticesRepository.save(notices);
         return entityToDto(notices);
@@ -78,13 +80,18 @@ public class NoticesServiceImpl implements NoticesService {
                 pageRequestDTO.getTypes(),
                 pageRequestDTO.getKeyword(),
                 pageable);
+        log.info("result :  "+result.getContent().get(0).getMembers().getUsername());
         if (result == null) {
            // throw new IllegalStateException("검색 결과가 없습니다.");
             return  null;
         }
 
         List<NoticesDTO> dtoList = result.stream()
-                .map(notices -> entityToDto(notices))
+                .map(notices -> {
+                    NoticesDTO dto = entityToDto(notices);
+                    dto.setMembers_username(notices.getMembers().getUsername());
+                    return dto;
+                })
                 .collect(Collectors.toList());
 
         return PageResponseDTO.<NoticesDTO>withAll()

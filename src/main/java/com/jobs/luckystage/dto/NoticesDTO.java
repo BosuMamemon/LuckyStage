@@ -22,7 +22,6 @@ public class NoticesDTO {
     private String content;
     @NotEmpty
     private String members_username;
-    private Members members;
     private int hitcount;
     private LocalDateTime regDate;
     private LocalDateTime updateDate;
