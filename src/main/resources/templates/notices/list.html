@@ -20,15 +20,17 @@
             <table class="notice-table">
                 <thead>
                 <tr>
+<!--                    <th sec:authorize="hasRole('ADMIN')">No</th>-->
                     <th>No</th>
-                    <th>제목</th>
-                    <th>작성자</th>
-                    <th>작성일</th>
-                    <th>조회수</th>
+                    <th style="width: 45%;">제목</th>
+                    <th style="width: 15%;">작성자</th>
+                    <th style="width: 20%;">작성일</th>
+                    <th style="width: 10%;">조회수</th>
                 </tr>
                 </thead>
                 <tbody th:with="link=${pageRequestDTO.getLink()}">
                 <tr th:each="notices:${responseDTO.dtoList}">
+<!--                    <td sec:authorize="hasRole('ADMIN')">[[${notices.noticeNum}]]</td>-->
                     <td>[[${notices.noticeNum}]]</td>
                     <td>
                         <a th:href="|@{/notices/read(noticeNum=${notices.noticeNum})}&${link}|"

@@ -1,60 +1,42 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org/"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
       layout:decorate="~{layout/layout.html}"
       lang="en">
 
 <div layout:fragment="content">
-  <div class="card" style="width: 85%;">
-    <div class="card-title">공지사항</div>
-    <div class="input-group mb-3">
-      <span class="input-group-text">No</span>
-      <input type="text" name="notice_num" class="form-control" th:value="${notices.noticeNum}" readonly>
-    </div>
-    <div class="input-group mb-3">
-      <span class="input-group-text">제목</span>
-      <input type="text" name="notice_title" class="form-control" th:value="${notices.title}">
-    </div>
-    <div class="input-group mb-3">
-      <span class="input-group-text">내용</span>
-      <textarea name="notice_content" class="form-control " rows="5">[[${notices.content}]]</textarea>
-    </div>
-    <div class="input-group mb-3">
-      <span class="input-group-text">첨부파일</span>
-      <div class="col" th:if="${notices.fileNames != null && notices.fileNames.size() > 0}">
-        <div class="container-fluid d-flex uploadResult" style="flex-wrap: wrap;">
-          <img class="m-3" th:each="fileName: ${notices.fileNames}"
-               th:src="|/notices/view/s_${fileName}|">
-        </div>
-      </div>
+  <h2 class="section-title">📢 공지사항</h2>
+
+  <div class="notice-read-container">
+
+    <!-- 작성일자 -->
+    <div class="notice-read-date" th:text="${#temporals.format(notices.regDate, 'yyyy.MM.dd HH:mm')}"></div>
+    <!-- 제목 -->
+    <h2 class="notice-read-title" th:text="${notices.title}"></h2>
+    <!-- 이미지 -->
+    <div class="notice-read-images" th:if="${notices.fileNames != null && notices.fileNames.size() > 0}">
+      <img class="notice-read-image" th:each="fileName : ${notices.fileNames}" th:src="|/notices/view/s_${fileName}|">
     </div>
 
-    <div class="input-group mb-3">
-      <span class="input-group-text">작성자</span>
-      <input type="text" name="members_username" class="form-controller" th:value="${#authentication.principal.username}"readonly>
-    </div>
+    <!-- 내용 -->
+    <div class="notice-read-content" th:text="${notices.content}">공지 내용</div>
 
-    <div class="input-group mb-3">
-      <span class="input-group-text">조회수</span>
-      <input type="text" name="readcount_faqs" class="form-controller" th:value="${notices.hitcount}" readonly>
-    </div>
-    <div class="input-group mb-3">
-      <span class="input-group-text">작성일</span>
-      <input type="text" name="members_reg_date" class="form-controller" th:value="${#temporals.format(notices.regDate, 'yyyy.MM.dd HH:mm')}"readonly>
-    </div>
-    <div class="input-group mb-3" th:with="link=${pageRequestDTO.getLink()}">
+    <!-- 버튼 -->
+    <div class="notice-read-buttons" th:with="link=${pageRequestDTO.getLink()}">
       <span sec:authorize="isAuthenticated()" th:if="${#authentication.principal.username == notices.getMembers_username()}">
         <a th:href="|@{/notices/modify(members_username)}&${link}|">
-          <button type="button" class="btn btn-primary">추가</button>
+          <button type="button" class="btn btn-success">수정</button>
         </a>
         <a th:href="@{/notices/remove(noticeNum=${notices.noticeNum})}">
-          <button type="button" class="btn btn-danger">remove</button>
+          <button type="button" class="btn btn-danger">삭제</button>
         </a>
-        </span>
-        <a th:href="|@{/notices/list}?${link}|">
-          <button type="button" class="btn btn-secondary">List</button>
-        </a>
+      </span>
+      <a th:href="|@{/notices/list}?${link}|">
+        <button type="button" class="btn btn-outline-secondary">목록</button>
+      </a>
     </div>
 
   </div>
 </div>
+
