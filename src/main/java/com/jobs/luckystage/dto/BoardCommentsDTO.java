@@ -23,6 +23,7 @@ public class BoardCommentsDTO {
     private String content;
     @NotEmpty
     private Members members;
+    private int readcount;
     private Date regDate;
     private Boards boards;
 }

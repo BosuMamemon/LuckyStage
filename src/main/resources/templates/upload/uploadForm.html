@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout.html}" lang="en">
+<div layout:fragment="content">
+  <form action="/upload" method="post" enctype="multipart/form-data">
+    제목: <input type="text" name="title"><br>
+    내용: <textarea name="content" rows="5" cols="30"></textarea><br>
+    작성자:<input type="text" name="members"><br>
+    <input type="file" name="files" multiple><br>
+    <input type="submit" value="파일업로드">
+  </form>
+</div>

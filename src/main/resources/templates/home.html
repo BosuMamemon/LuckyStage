@@ -12,17 +12,9 @@
     <div class="review-preview-section">
         <h2>LUCKYSTAGE에 오신것을 환영합니다. </h2>
         <div class="review-cards">
-            <div class="review-card">
-                <p class="review-content">[[${latestReviewList.get(0).content}]]</p>
-                <p class="review-meta">- [[${latestReviewList.get(0).nickname}]] [[${latestReviewList.get(0).getReviewStars()}]]</p>
-            </div>
-            <div class="review-card">
-                <p class="review-content">[[${latestReviewList.get(1).content}]]</p>
-                <p class="review-meta">- [[${latestReviewList.get(1).nickname}]] [[${latestReviewList.get(1).getReviewStars()}]]</p>
-            </div>
-            <div class="review-card">
-                <p class="review-content">[[${latestReviewList.get(2).content}]]</p>
-                <p class="review-meta">- [[${latestReviewList.get(2).nickname}]] [[${latestReviewList.get(2).getReviewStars()}]]</p>
+            <div class="review-card" th:each="review, stat : ${latestReviewList}" th:if="${stat.index < 3}">
+                <p class="review-content">[[${review.content}]]</p>
+                <p class="review-meta">- [[${review.nickname}]] [[${review.reviewStars}]]</p>
             </div>
             <a href="/review/list" class="view-all-reviews">후기 전체보기 ></a>
         </div>
