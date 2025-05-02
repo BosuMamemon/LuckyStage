@@ -20,6 +20,7 @@ public class BoardDTO {
     private String content;
     @NotEmpty
     private String members;
+    private String nickname;
     private int readcount;
     private LocalDateTime regDate;
     private LocalDateTime modDate;

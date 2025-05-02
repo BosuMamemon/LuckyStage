@@ -30,7 +30,8 @@
 
             <div class="form-group">
                 <label for="members" class="form-label">작성자</label>
-                <input type="text" id="members" name="members" class="form-control" placeholder="작성자를 입력하세요" required>
+                <input type="text" id="members" name="nickname" class="form-control" placeholder="작성자를 입력하세요" th:value="${#authentication.principal.member.nickname}" readonly>
+                <input type="hidden" name="members" th:value="${#authentication.principal.username}">
             </div>
 
             <div class="form-buttons">

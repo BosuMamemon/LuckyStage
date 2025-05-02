@@ -6,26 +6,32 @@ import com.jobs.luckystage.dto.PageRequestDTO;
 import com.jobs.luckystage.dto.PageResponseDTO;
 import com.jobs.luckystage.repository.BoardCommentRepository;
 import com.jobs.luckystage.repository.BoardRepository;
+import com.jobs.luckystage.repository.MemberRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @Log4j2
+@Transactional
 public class BoardServiceImpl implements BoardService {
     @Autowired
     private BoardRepository boardRepository;
+    @Autowired
+    private MemberRepository memberRepository;
     @Autowired
     private BoardCommentRepository boardCommentRepository;
 
     @Override
     public void registerBoard(BoardDTO boardDTO) {
-        Boards board=dtoToEntity(boardDTO);
+        Boards board = dtoToEntity(boardDTO);
+        board.setMembers(memberRepository.findByUsername(boardDTO.getMembers()));
         boardRepository.save(board);
     }
 
@@ -54,13 +60,12 @@ public class BoardServiceImpl implements BoardService {
     public PageResponseDTO<BoardDTO> list(PageRequestDTO pageRequestDTO) {
         Pageable pageable=pageRequestDTO.getPageable("boardNum");
 
-        Page<Boards> result=boardRepository
-                .searchTitle(pageRequestDTO.getKeyword(),pageable);
+        Page<Boards> result = boardRepository
+                .searchAll(pageRequestDTO.getTypes(), pageRequestDTO.getKeyword(), pageable);
 
         List<BoardDTO> dtoList=result.getContent().stream()
                 .map(boards -> entityToDto(boards))
                 .collect(Collectors.toList());
-//        log.info("dtoList:{}",dtoList.size());
 
         return PageResponseDTO.<BoardDTO>withAll()
                 .pageRequestDTO(pageRequestDTO)

@@ -115,7 +115,7 @@
               <div class="review-list-container" style="flex-grow: 1; ">
                 <!-- 리뷰가 있을 때 -->
                 <div style="overflow-y: auto; max-height: 120px;" th:if="${reviewList != null && reviewList.size() > 0}">
-                  <th:block th:each="i:${#numbers.sequence(0, T(java.lang.Math).min(2, reviewList.size() - 1))}">
+                  <th:block th:each="i:${#numbers.sequence(0, T(java.lang.Math).min(5, reviewList.size() - 1))}">
                     <div class="mb-3 p-2" style="background-color: #f8f9fa; border-radius: 8px;">
                       <div style="font-size: 14px; color: #555;">[[${reviewList.get(i).nickname}]]</div>
                       <div style="font-size: 14px; color: #555;">[[${reviewList.get(i).title}]]</div>
@@ -128,7 +128,7 @@
                 <div th:if="${reviewList == null || reviewList.size() <= 0}" class="text-center mt-3" style="color: #777;">
                   등록된 리뷰가 없습니다.
                 </div>
-                <a href="/review/list">
+                <a th:href="@{/review/list(keyword=${concert.title})}">
                   <button type="button"
                           class="btn w-100 btn-sm mt-4"
                           style="background-color: #006242; color: white; font-weight: bold; border-radius: 8px; padding: 6px 12px;">
