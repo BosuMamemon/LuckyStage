@@ -5,6 +5,7 @@ import com.jobs.luckystage.domain.Concerts;
 import com.jobs.luckystage.domain.Members;
 import com.jobs.luckystage.domain.Tickets;
 import com.jobs.luckystage.repository.ConcertRepository;
+import com.jobs.luckystage.repository.MemberRepository;
 import com.jobs.luckystage.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -26,6 +27,7 @@ public class TicketController {
 
     private final ConcertRepository concertsRepository;
     private final TicketRepository ticketRepository;
+    private final MemberRepository memberRepository;
 
 
     @PostMapping("/complete")
@@ -44,7 +46,7 @@ public class TicketController {
                 .orElseThrow(() -> new IllegalArgumentException("공연 정보 없음"));
 
         // 예약 정보 생성
-        Members member = principalDetails.getMember();
+        Members member = memberRepository.findByUsername(principalDetails.getUsername());
 
         // 중복 예약 체크
         boolean alreadyReserved = ticketRepository.existsByMembersAndConcerts(member, concert);

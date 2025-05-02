@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout.html}"
+      lang="en">
+
+
+<div layout:fragment="content">
+    <div class="admin-member-card">
+        <div class="card-title">회원 목록</div>
+
+        <table class="admin-member-table">
+            <thead>
+            <tr>
+                <th><a th:href="@{'/admin/members?page=1&sort=username'}">아이디</a></th>
+                <th><a th:href="@{'/admin/members?page=1&sort=name'}">이름</a></th>
+                <th>닉네임</th>
+                <th>주소</th>
+                <th>전화번호</th>
+                <th>이메일</th>
+                <th>권한</th>
+                <th>삭제</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="member : ${memberList}">
+                <td th:text="${member.username}"></td>
+                <td th:text="${member.name}"></td>
+                <td th:text="${member.nickname}"></td>
+                <td th:text="${member.address}"></td>
+                <td th:text="${member.tel}"></td>
+                <td th:text="${member.email}"></td>
+                <td th:text="${member.role}"></td>
+                <td>
+                    <form th:action="@{/admin/deleteMember}" method="post">
+                        <input type="hidden" name="username" th:value="${member.username}"/>
+                        <button type="submit" class="btn btn-danger">삭제</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <ul class="pagination">
+            <li th:if="${page > 1}">
+                <a th:href="@{|/admin/members?page=${page - 1}&sort=${sort}|}">Prev</a>
+            </li>
+            <li th:each="i : ${#numbers.sequence(1, totalPages)}"
+                th:classappend="${i} == ${page} ? 'active'">
+                <a th:href="@{|/admin/members?page=${i}&sort=${sort}|}" th:text="${i}"></a>
+            </li>
+            <li th:if="${page < totalPages}">
+                <a th:href="@{|/admin/members?page=${page + 1}&sort=${sort}|}">Next</a>
+            </li>
+        </ul>
+
+    </div>
+</div>
+</html>

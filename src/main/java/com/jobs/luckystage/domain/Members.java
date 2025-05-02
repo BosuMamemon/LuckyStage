@@ -34,4 +34,7 @@ public class Members {
     private String email;
 
     private String role;
+
+    @OneToMany(mappedBy = "members", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Tickets> tickets;
 }

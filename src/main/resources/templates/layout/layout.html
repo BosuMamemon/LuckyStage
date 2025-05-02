@@ -76,6 +76,10 @@
                         <li><a href="/instructions/instruction" >이용안내</a></li>
                         <li><a href="/board/list" >커뮤니티</a></li>
                         <li><a href="/mypage/mypage" >마이페이지</a></li>
+                        <!--관리자 전용 메뉴-->
+                        <li sec:authorize="hasAuthority('ADMIN')">
+                            <a href="/admin/members">회원관리</a>
+                        </li>
                     </ul>
                     <a class='menu-trigger'>
                         <span>Menu</span>

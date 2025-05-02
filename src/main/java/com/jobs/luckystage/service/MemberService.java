@@ -1,6 +1,5 @@
 package com.jobs.luckystage.service;
 
-import com.jobs.luckystage.config.auth.PrincipalDetails;
 import com.jobs.luckystage.domain.MemberConcertBookmark;
 import com.jobs.luckystage.domain.Members;
 import com.jobs.luckystage.domain.Reviews;
@@ -8,7 +7,8 @@ import com.jobs.luckystage.repository.MemberConcertBookmarkRepository;
 import com.jobs.luckystage.repository.MemberRepository;
 import com.jobs.luckystage.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,5 +53,15 @@ public class MemberService {
             concertNums.add(bookmark.getConcerts().getConcertNum());
         }
         return concertNums;
+    }
+
+    public Page<Members> getAllMembers(Pageable pageable) {
+        return memberRepository.findAll(pageable);
+    }
+    public void deleteMemberByUsername(String username) {
+        memberRepository.deleteById(username);
+    }
+    public Members findByUsername(String username) {
+        return memberRepository.findById(username).orElseThrow(() -> new RuntimeException("회원 없음"));
     }
 }
