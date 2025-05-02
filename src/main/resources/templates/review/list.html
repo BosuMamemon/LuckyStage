@@ -22,7 +22,7 @@
                    placeholder="공연 · 제목 · 내용 검색"
                    th:value="${pageRequestDTO.keyword}">
             <button type="submit" class="review-search-btn">검색</button>
-            <button type="button" class="myReview-btn ml-3" sec:authorize="isAuthenticated()">내가 쓴 리뷰만 보기</button>
+            <a href="/mypage/review"><button type="button" class="myReview-btn ml-3" sec:authorize="isAuthenticated()">내가 쓴 리뷰 보기</button></a>
         </form>
     </div>
 
@@ -51,6 +51,9 @@
                                 <a th:href="@{/review/delete(reviewNum=${review.reviewNum})}"><button type="button" class="btn btn-danger">리뷰 삭제</button></a>
                             </div>
                         </div>
+                    </div>
+                    <div th:if="${#lists.isEmpty(reviewList.dtoList)}" class="col text-center text-muted" style="padding: 100px;">
+                        리뷰가 없습니다.
                     </div>
                 </div>
             </div>
@@ -83,16 +86,6 @@
         let target = e.target;
         let num = target.getAttribute("data-num");
     })
-
-    if(document.querySelector(".myReview-btn") != null) {
-        document.querySelector(".myReview-btn").addEventListener("click", function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            let username = document.querySelector("#username").value;
-            document.querySelector(".review-search-form").innerHTML += `<input type="hidden" name="type" value="${username}">`;
-            document.querySelector(".review-search-form").submit();
-        })
-    }
 
     document.querySelector(".pagination").addEventListener("click",function (e){
         e.preventDefault()

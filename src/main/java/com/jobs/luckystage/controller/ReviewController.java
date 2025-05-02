@@ -70,9 +70,6 @@ public class ReviewController {
         PageResponseDTO<ReviewDTO> reviewList = reviewService.getAllReviews(pageRequestDTO);
         model.addAttribute("pageRequestDTO", pageRequestDTO);
         model.addAttribute("reviewList", reviewList);
-        log.info("pageRequestDTO: " + pageRequestDTO);
-        log.info("reviewList: " + reviewList);
-        log.info("dtoList: " + reviewList.getDtoList().size());
     }
 
     @GetMapping("/register")
