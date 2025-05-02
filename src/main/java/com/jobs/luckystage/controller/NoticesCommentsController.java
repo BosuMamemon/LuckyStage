@@ -22,11 +22,10 @@ import java.util.Map;
 public class NoticesCommentsController {
     @Autowired
     private NoticesCommentsService noticesCommentsService;
-
-
     @PostMapping(value="/", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, Long> register (@RequestBody NoticesComentsDTO noticesComentsDTO, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        log.info(noticesComentsDTO);
+    public Map<String, Long> register (@RequestBody NoticesComentsDTO noticesComentsDTO,
+                                       @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        log.info("notices---------"+noticesComentsDTO);
         Map<String, Long> map = new HashMap<>();
         Long noticeCommentNum = noticesCommentsService.register(noticesComentsDTO, principalDetails.getMember());
         map.put("noticeCommentNum", noticeCommentNum);

@@ -14,12 +14,12 @@
 
     <div class="input-group mb-3" >
       <span class="input-group-text">제목</span>
-      <input type="text" name="notice_title" class="form-control" th:value="${notices.title}"  >
+      <input type="text" name="notice_title" class="form-control" th:value="${notices.title}" readonly >
     </div>
 
     <div class="input-group mb-3">
       <span class="input-group-text">내용</span>
-      <textarea name="notice_content" class="form-control " rows="5">[[${notices.content}]]</textarea>
+      <textarea name="notice_content" class="form-control " rows="5" readonly>[[${notices.content}]]</textarea>
     </div>
 
     <div class="input-group mb-3">
@@ -66,8 +66,9 @@
   <div class="row mt-3">
     <div class="col-md-12">
       <div class="my-4">
-        <button class="btn btn-info addReplyBtn">ADD REPLY</button>
+        <button class="btn btn-info addReplyBtn" >ADD REPLY</button>
       </div>
+
       <ul class="list-group replyList">
       </ul>
     </div>
@@ -91,7 +92,7 @@
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text">Replyer</span>
-            <input type="text" class="form-control author" th:value="${notices.members_username}">
+            <input type="text" class="form-control author" th:value="${notices.noticeNum}">
           </div>
           <p>Modal body text goes here.</p>
         </div>
@@ -112,7 +113,7 @@
         </div>
         <div class="modal-body">
           <div class="input-group mb-3">
-            <span class="input-group-text">Reply Text</span>
+            <span class="input-group-text">댓글작성</span>
             <input type="text" class="form-control modifyText">
           </div>
         </div>
@@ -124,6 +125,7 @@
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
     <script src="/js/reply.js"></script>
   </div>
   <script layout:fragment="script" th:inline="javascript">
@@ -136,9 +138,9 @@
       if(dtoList && dtoList.length>0){
         for(let dto of dtoList){
           str += `<li class="list-group-item d-flex replyItem">
-                      <span class="col-2">${dto.rno}</span>
-                      <span class="col-6" data-rno="${dto.rno}">${dto.replyText}</span>
-                      <span class="col-2">${dto.author}</span>
+                      <span class="col-2">${dto.noticeCommentNum}</span>
+                      <span class="col-6" data-rno="${dto.noticeCommentNum}">${dto.content}</span>
+                      <span class="col-2">${dto.members_username}</span>
                       <span class="col-2">${dto.regDate} </span>
                     </li>`
         }
@@ -162,6 +164,19 @@
       }
       replyPaging.innerHTML = pageStr
     }
+
+    // ---------------------------------------------------
+
+    function printReplies(page, size, goLast){
+      getList({bno, page, size, goLast}).then(
+              data=>{
+                printList(data.dtoList)
+                printPages(data)
+              }
+      )
+    }
+
+
     printReplies(1,10, true)
 
     const registerModal=new bootstrap.Modal(document.querySelector(".registerModal"))
@@ -173,6 +188,7 @@
 
 
     document.querySelector(".addReplyBtn").addEventListener("click",function (e){
+      // alert('aa')
       registerModal.show()
     },false)
     closeBtn.addEventListener("click",function (e){
@@ -197,12 +213,12 @@
 
     registerBtn.addEventListener("click", function (e){
       const replyObj={
-        bno:bno,
-        replyText:replyText.value,
-        author:author.value
+        noticeNum:bno,
+        content:replyText.value,
+        members_username:author.value
       }
       addReply(replyObj).then(result=>{
-        alert(result.rno)
+        alert(result.noticeCommentNum)
         registerModal.hide()
         replyText.value=''
         author.value=''

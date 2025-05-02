@@ -15,8 +15,9 @@ public interface NoticesCommentsService {
 
     default NoticeComments dtoToEntity(NoticesComentsDTO noticesComentsDTO) {
         NoticeComments noticeComments = NoticeComments.builder()
-                .noticeCommentNum(noticesComentsDTO.getNoticeCommentNum())
+             //   .noticeCommentNum(noticesComentsDTO.getNoticeNum())
                 .content(noticesComentsDTO.getContent())
+                .title("title")
                 .build();
 
         return noticeComments;

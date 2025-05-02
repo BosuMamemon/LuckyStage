@@ -26,5 +26,6 @@ public class NoticeComments {
     private Members members;
     private LocalDateTime regDate;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="notice_num")
     private Notices notices;
 }
