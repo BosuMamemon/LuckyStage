@@ -34,12 +34,8 @@
             <td>[[${concert.title}]]</td>
           </tr>
           <tr>
-            <th class="table-success">공연 시작 날짜</th>
-            <td>[[${#dates.format(concert.startDate, 'yyyy-MM-dd')}]]</td>
-          </tr>
-          <tr>
-            <th class="table-success">공연 종료 날짜</th>
-            <td>[[${#dates.format(concert.endDate, 'yyyy-MM-dd')}]]</td>
+            <th class="table-success">공연 날짜</th>
+            <td>[[${#dates.format(concert.startDate, 'yyyy-MM-dd')}]] ~ [[${#dates.format(concert.endDate, 'yyyy-MM-dd')}]]</td>
           </tr>
           <tr>
             <th class="table-success">공연 시간</th>
@@ -56,6 +52,10 @@
           <tr>
             <th class="table-success">조회수</th>
             <td>[[${concert.hitcount}]]</td>
+          </tr>
+          <tr>
+            <th class="table-success">평균 평점</th>
+            <td>[[${concert.getReviewStars()}]]</td>
           </tr>
         </table>
 
@@ -112,15 +112,17 @@
               </div>
 
               <!-- 리뷰 리스트 -->
-              <div class="review-list-container" style="flex-grow: 1; overflow-y: auto; max-height: 320px;">
+              <div class="review-list-container" style="flex-grow: 1; ">
                 <!-- 리뷰가 있을 때 -->
-                <div th:if="${reviewList != null && reviewList.size() > 0}">
-                  <div class="mb-3 p-2" style="background-color: #f8f9fa; border-radius: 8px;">
-                    <div style="font-size: 14px; color: #555;">[[${reviewList.get(0).nickname}]]</div>
-                    <div style="font-size: 14px; color: #555;">[[${reviewList.get(0).content}]]</div>
-                    <div style="font-size: 13px; color: #999;">[[${#temporals.format(reviewList.get(0).regDate, 'yyyy-MM-dd')}]]</div>
-                    <div style="font-size: 15px; font-weight: bold;">[[${reviewList.get(0).getReviewStars()}]]</div>
-                  </div>
+                <div style="overflow-y: auto; max-height: 120px;" th:if="${reviewList != null && reviewList.size() > 0}">
+                  <th:block th:each="i:${#numbers.sequence(0, T(java.lang.Math).min(2, reviewList.size() - 1))}">
+                    <div class="mb-3 p-2" style="background-color: #f8f9fa; border-radius: 8px;">
+                      <div style="font-size: 14px; color: #555;">[[${reviewList.get(i).nickname}]]</div>
+                      <div style="font-size: 14px; color: #555;">[[${reviewList.get(i).content}]]</div>
+                      <div style="font-size: 13px; color: #999;">[[${#temporals.format(reviewList.get(i).regDate, 'yyyy-MM-dd')}]]</div>
+                      <div style="font-size: 15px; font-weight: bold;">[[${reviewList.get(i).getReviewStars()}]]</div>
+                    </div>
+                  </th:block>
                 </div>
                 <!-- 리뷰가 없을 때 -->
                 <div th:if="${reviewList == null || reviewList.size() <= 0}" class="text-center mt-3" style="color: #777;">
