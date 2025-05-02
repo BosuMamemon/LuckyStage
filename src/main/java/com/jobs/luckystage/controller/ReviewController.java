@@ -70,6 +70,9 @@ public class ReviewController {
         PageResponseDTO<ReviewDTO> reviewList = reviewService.getAllReviews(pageRequestDTO);
         model.addAttribute("pageRequestDTO", pageRequestDTO);
         model.addAttribute("reviewList", reviewList);
+        log.info("pageRequestDTO: " + pageRequestDTO);
+        log.info("reviewList: " + reviewList);
+        log.info("dtoList: " + reviewList.getDtoList().size());
     }
 
     @GetMapping("/register")
@@ -82,7 +85,7 @@ public class ReviewController {
     @PostMapping("/register")
     public String postRegister(UploadFileDTO uploadFileDTO, ReviewDTO reviewDTO) {
         List<String> filenameList = null;
-        if(uploadFileDTO.getFiles() != null && uploadFileDTO.getFiles().get(0).getOriginalFilename() != "") {
+        if(uploadFileDTO.getFiles() != null && !uploadFileDTO.getFiles().get(0).getOriginalFilename().equals("")) {
             filenameList = fileUpload(uploadFileDTO);
         }
 

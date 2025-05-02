@@ -88,8 +88,7 @@
 
                   <button type="submit"
                           class="btn btn-success w-100 mt-2"
-                          style="font-weight: bold; background-color: #006242; color: white; border-radius: 8px; padding: 10px;"
-                          sec:authorize="isAuthenticated()">
+                          style="font-weight: bold; background-color: #006242; color: white; border-radius: 8px; padding: 10px;">
                     예약하기
                   </button>
               </div>
@@ -106,8 +105,7 @@
                 <a th:href="@{/review/register(concertNum=${concert.concertNum})}">
                   <button type="button"
                           class="btn btn-sm"
-                          style="background-color: #006242; color: white; font-weight: bold; border-radius: 8px; padding: 6px 12px;"
-                          sec:authorize="isAuthenticated()">
+                          style="background-color: #006242; color: white; font-weight: bold; border-radius: 8px; padding: 6px 12px;">
                     리뷰 쓰기
                   </button>
                 </a>

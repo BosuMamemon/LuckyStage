@@ -14,14 +14,15 @@
 
     <div class="d-flex justify-content-end mb-4 px-5">
         <input type="hidden" id="username" th:value="${#authentication.principal.username}" sec:authorize="isAuthenticated()">
-        <button type="button" class="myReview-btn" sec:authorize="isAuthenticated()">내가 쓴 리뷰 보기</button>
         <form th:action="@{/review/list}" method="get" class="review-search-form">
+            <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
             <input type="text"
                    name="keyword"
                    class="review-search-input"
-                   placeholder="제목 또는 내용 검색"
+                   placeholder="공연 · 제목 · 내용 검색"
                    th:value="${pageRequestDTO.keyword}">
             <button type="submit" class="review-search-btn">검색</button>
+            <button type="button" class="myReview-btn ml-3" sec:authorize="isAuthenticated()">내가 쓴 리뷰만 보기</button>
         </form>
     </div>
 
@@ -57,8 +58,8 @@
         <div class="d-flex flex-column align-items-center mt-4">
             <nav>
                 <ul class="pagination justify-content-center">
-                    <li class="page-item disabled" th:if="${reviewList.prev}">
-                        <a class="page-link" th:data-num="${reviewList.start - 1}"><</a>
+                    <li class="page-item" th:if="${reviewList.prev}">
+                        <a class="page-link" th:data-num="${reviewList.start - 1}"> 이전 </a>
                     </li>
                     <th:block th:each="i : ${#numbers.sequence(reviewList.start, reviewList.end)}">
                         <li th:class="${reviewList.page == i} ? 'page-item active' : 'page-item'">
@@ -66,7 +67,7 @@
                         </li>
                     </th:block>
                     <li class="page-item" th:if="${reviewList.next}">
-                        <a class="page-link" th:data-num="${reviewList.end + 1}">></a>
+                        <a class="page-link" th:data-num="${reviewList.end + 1}"> 다음 </a>
                     </li>
                 </ul>
             </nav>
@@ -83,11 +84,26 @@
         let num = target.getAttribute("data-num");
     })
 
-    document.querySelector(".myReview-btn").addEventListener("click", function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        let username = document.querySelector("#username").value;
-        document.querySelector(".review-search-form").innerHTML += `<input type="hidden" name="type" value="${username}">`;
-        document.querySelector(".review-search-form").submit();
-    })
+    if(document.querySelector(".myReview-btn") != null) {
+        document.querySelector(".myReview-btn").addEventListener("click", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            let username = document.querySelector("#username").value;
+            document.querySelector(".review-search-form").innerHTML += `<input type="hidden" name="type" value="${username}">`;
+            document.querySelector(".review-search-form").submit();
+        })
+    }
+
+    document.querySelector(".pagination").addEventListener("click",function (e){
+        e.preventDefault()
+        e.stopPropagation()
+        const target=e.target
+        if(target.tagName!=='A'){
+            return
+        }
+        const num=target.getAttribute("data-num")
+        const formObj=document.querySelector(".review-search-form")
+        formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`
+        formObj.submit()
+    },false)
 </script>

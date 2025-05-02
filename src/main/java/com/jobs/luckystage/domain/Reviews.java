@@ -13,7 +13,6 @@ import java.util.Set;
 @Builder
 @Getter
 @Setter
-@ToString
 public class Reviews extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

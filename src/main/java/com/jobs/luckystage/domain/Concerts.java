@@ -16,7 +16,6 @@ import java.util.Set;
 @Builder
 @Getter
 @Setter
-@ToString
 public class Concerts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +29,7 @@ public class Concerts {
 
     private String posterFileName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String title;
 
     @Column(nullable = false)
