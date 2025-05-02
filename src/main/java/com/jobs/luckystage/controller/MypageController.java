@@ -4,10 +4,14 @@ import com.jobs.luckystage.config.auth.PrincipalDetails;
 import com.jobs.luckystage.domain.Members;
 import com.jobs.luckystage.domain.Tickets;
 import com.jobs.luckystage.dto.ConcertDTO;
+import com.jobs.luckystage.dto.PageRequestDTO;
+import com.jobs.luckystage.dto.PageResponseDTO;
+import com.jobs.luckystage.dto.ReviewDTO;
 import com.jobs.luckystage.repository.MemberRepository;
 import com.jobs.luckystage.repository.TicketRepository;
 import com.jobs.luckystage.service.ConcertService;
 import com.jobs.luckystage.service.MemberService;
+import com.jobs.luckystage.service.ReviewService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +39,7 @@ public class MypageController {
     private final PasswordEncoder passwordEncoder;
     private final TicketRepository ticketRepository;
     private final ConcertService concertService;
+    private final ReviewService reviewService;
 
     @GetMapping("/mypage")
     public String mypagePage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
@@ -147,5 +152,13 @@ public class MypageController {
         return "mypage/lottery";
     }
 
+//    내가 쓴 리뷰
+    @GetMapping("/review")
+    public void getReview(@AuthenticationPrincipal PrincipalDetails principalDetails, PageRequestDTO pageRequestDTO, Model model) {
+        pageRequestDTO.setSize(8);
+        PageResponseDTO<ReviewDTO> reviewList = reviewService.getAllReviewsByUsername(pageRequestDTO, principalDetails.getUsername());
+        model.addAttribute("pageRequestDTO", pageRequestDTO);
+        model.addAttribute("reviewList", reviewList);
+    }
 }
 

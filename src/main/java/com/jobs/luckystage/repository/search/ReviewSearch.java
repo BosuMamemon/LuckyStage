@@ -1,9 +1,10 @@
 package com.jobs.luckystage.repository.search;
 
 import com.jobs.luckystage.domain.Reviews;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface ReviewSearch {
-    List<Reviews> searchAll(String type, String searchWord);
+    Page<Reviews> searchAll(String type, String searchWord, Pageable pageable);
+    Page<Reviews> searchAllByUsername(String username, String type, String searchWord, Pageable pageable);
 }

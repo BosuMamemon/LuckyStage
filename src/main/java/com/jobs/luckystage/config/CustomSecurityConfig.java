@@ -39,7 +39,7 @@ public class CustomSecurityConfig {
                 .formLogin(httpSecurityFormLoginConfigurer -> httpSecurityFormLoginConfigurer
                         .loginPage("/member/login")
                         .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/", true)
+                        .successHandler(new CustomLoginSuccessHandler())
                         )
                 .logout(httpSecurityLogoutConfigurer -> httpSecurityLogoutConfigurer
                         .logoutSuccessUrl("/")

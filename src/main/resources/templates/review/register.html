@@ -5,7 +5,7 @@
 
 <div layout:fragment="content">
     <div class="container py-5 review-form-container">
-        <h2 class="form-title">리뷰 작성</h2>
+        <h2 class="form-title mt-5">리뷰 작성</h2>
         <form action="/review/register" method="post" enctype="multipart/form-data">
             <input type="hidden" name="concertNum" th:value="${concertNum}">
             <input type="hidden" name="username" th:value="${#authentication.principal.username}">

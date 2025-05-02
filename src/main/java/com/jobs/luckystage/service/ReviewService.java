@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 public interface ReviewService {
     void saveReview(ReviewDTO reviewDTO);
     PageResponseDTO<ReviewDTO> getAllReviews(PageRequestDTO pageRequestDTO);
+    PageResponseDTO<ReviewDTO> getAllReviewsByUsername(PageRequestDTO pageRequestDTO, String username);
     List<ReviewDTO> getAllReviewsByConcertNum(long concertNum);
     ReviewDTO getReview(Long reviewNum);
     void deleteReview(Long reviewNum);

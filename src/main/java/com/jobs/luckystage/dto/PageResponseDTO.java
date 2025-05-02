@@ -20,19 +20,20 @@ public class PageResponseDTO<E> {
     @Builder(builderMethodName = "withAll")
     public PageResponseDTO(PageRequestDTO pageRequestDTO,
                            List<E> dtoList, int total) {
-        if(total <=0){
+        if(total <= 0){
             return;
         }
-        this.page=pageRequestDTO.getPage();
-        this.size=pageRequestDTO.getSize();
-        this.total=total;
-        this.dtoList=dtoList;
-        this.end=(int)(Math.ceil(this.page/(double)size))*size;  //20
-        this.start=this.end-this.size+1;
-        int last=(int)(Math.ceil(total/(double)size));
-        this.end=end>last?last:end;  //마지막 블록은 last가 end가 되도록 설정
-        this.prev=this.start>1;
-        this.next=total>this.end * this.size;
+
+        this.page = pageRequestDTO.getPage();
+        this.size = pageRequestDTO.getSize();
+        this.total = total;
+        this.dtoList = dtoList;
+        this.end = (int)(Math.ceil(this.page / (double)size)) * size;  //20
+        this.start = this.end - this.size + 1;
+        int last = (int)(Math.ceil(total / (double)size));
+        this.end = end > last ? last : end;  //마지막 블록은 last가 end가 되도록 설정
+        this.prev = this.start > 1;
+        this.next = total > this.end * this.size;
 
     }
 }

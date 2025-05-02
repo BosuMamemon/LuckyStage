@@ -49,11 +49,11 @@
                     </thead>
                     <tbody th:with="link=${pageRequestDTO.getLink()}">
                     <tr th:each="board:${responseDTO.dtoList}">
-                        <td>[[${board.boardNum}]]</td>
+                        <td><a th:href="|@{/board/read(boardNum=${board.boardNum})}&${link}|" class="board-link">[[${board.boardNum}]]</a></td>
                         <td><a th:href="|@{/board/read(boardNum=${board.boardNum})}&${link}|" class="board-link">[[${board.title}]]</a></td>
-                        <td>[[${board.members}]]</td>
-                        <td>[[${board.regDate}]]</td>
-                        <td>[[${board.readcount}]]</td>
+                        <td><a th:href="|@{/board/read(boardNum=${board.boardNum})}&${link}|" class="board-link">[[${board.nickname}]]</a></td>
+                        <td><a th:href="|@{/board/read(boardNum=${board.boardNum})}&${link}|" class="board-link">[[${board.regDate}]]</a></td>
+                        <td><a th:href="|@{/board/read(boardNum=${board.boardNum})}&${link}|" class="board-link">[[${board.readcount}]]</a></td>
                     </tr>
                     </tbody>
                 </table>

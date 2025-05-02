@@ -16,7 +16,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +31,8 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public PageResponseDTO<ReviewDTO> getAllReviews(PageRequestDTO pageRequestDTO) {
         Pageable pageable = pageRequestDTO.getPageable("reviewNum");
-        Page<Reviews> pageableEntityList = new PageImpl<>(reviewRepository.searchAll(pageRequestDTO.getType(), pageRequestDTO.getKeyword()), pageable, reviewRepository.count());
-        List<ReviewDTO> dtoList = pageableEntityList.stream().map(reviews -> {
+        Page<Reviews> searchList = reviewRepository.searchAll(pageRequestDTO.getType(), pageRequestDTO.getKeyword(), pageable);
+        List<ReviewDTO> dtoList = searchList.stream().map(reviews -> {
             ReviewDTO dto = entityToDto(reviews);
             dto.setConcertTitle(reviews.getConcerts().getTitle());
             dto.setUsername(reviews.getMembers() != null ? reviews.getMembers().getUsername() : "Deleted User");
@@ -43,7 +42,24 @@ public class ReviewServiceImpl implements ReviewService {
             return dto;
         }).collect(Collectors.toList());
 
-        return PageResponseDTO.<ReviewDTO>withAll().dtoList(dtoList).pageRequestDTO(pageRequestDTO).total((int)pageableEntityList.getTotalElements()).build();
+        return PageResponseDTO.<ReviewDTO>withAll().dtoList(dtoList).pageRequestDTO(pageRequestDTO).total((int)searchList.getTotalElements()).build();
+    }
+
+    @Override
+    public PageResponseDTO<ReviewDTO> getAllReviewsByUsername(PageRequestDTO pageRequestDTO, String username) {
+        Pageable pageable = pageRequestDTO.getPageable("reviewNum");
+        Page<Reviews> searchList = reviewRepository.searchAllByUsername(username, pageRequestDTO.getType(), pageRequestDTO.getKeyword(), pageable);
+        List<ReviewDTO> dtoList = searchList.stream().map(reviews -> {
+            ReviewDTO dto = entityToDto(reviews);
+            dto.setConcertTitle(reviews.getConcerts().getTitle());
+            dto.setUsername(reviews.getMembers() != null ? reviews.getMembers().getUsername() : "Deleted User");
+            dto.setNickname(reviews.getMembers() != null ? reviews.getMembers().getNickname() : "Deleted User");
+            dto.setConcertFilename(reviews.getConcerts().getPosterFileName());
+            log.info(dto);
+            return dto;
+        }).collect(Collectors.toList());
+
+        return PageResponseDTO.<ReviewDTO>withAll().dtoList(dtoList).pageRequestDTO(pageRequestDTO).total((int)searchList.getTotalElements()).build();
     }
 
     @Override

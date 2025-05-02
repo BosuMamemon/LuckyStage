@@ -30,6 +30,8 @@ public interface BoardService {
                 .readcount(board.getReadcount())
                 .regDate(board.getRegDate())
                 .modDate(board.getModDate())
+                .members(board.getMembers().getUsername())
+                .nickname(board.getMembers().getNickname())
                 .build();
         return boardDTO;
     }

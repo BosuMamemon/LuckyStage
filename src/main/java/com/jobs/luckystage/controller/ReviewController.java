@@ -82,7 +82,7 @@ public class ReviewController {
     @PostMapping("/register")
     public String postRegister(UploadFileDTO uploadFileDTO, ReviewDTO reviewDTO) {
         List<String> filenameList = null;
-        if(uploadFileDTO.getFiles() != null && uploadFileDTO.getFiles().get(0).getOriginalFilename() != "") {
+        if(uploadFileDTO.getFiles() != null && !uploadFileDTO.getFiles().get(0).getOriginalFilename().equals("")) {
             filenameList = fileUpload(uploadFileDTO);
         }
 
