@@ -13,7 +13,7 @@
             <div class="container py-5">
                 <div class="d-flex justify-content-center mb-4 px-5">
                     <input type="hidden" id="username" th:value="${#authentication.principal.username}" sec:authorize="isAuthenticated()">
-                    <form th:action="@{/review/list}" method="get" class="review-search-form">
+                    <form th:action="@{/mypage/review}" method="get" class="review-search-form">
                         <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
                         <input type="text"
                                name="keyword"
