@@ -2,34 +2,33 @@ package com.jobs.luckystage.service;
 
 import com.jobs.luckystage.domain.Members;
 import com.jobs.luckystage.domain.NoticeComments;
-import com.jobs.luckystage.dto.NoticesComentsDTO;
+import com.jobs.luckystage.dto.NoticesCommentsDTO;
 import com.jobs.luckystage.dto.PageRequestDTO;
 import com.jobs.luckystage.dto.PageResponseDTO;
 
 public interface NoticesCommentsService {
-    Long register(NoticesComentsDTO noticesComentsDTO, Members member);
-    NoticesComentsDTO read(Long noticeCommentNum);
-    void modify(NoticesComentsDTO noticesComentsDTO);
+    Long register(NoticesCommentsDTO noticesCommentsDTO, Members member);
+    NoticesCommentsDTO read(Long noticeCommentNum);
+    void modify(NoticesCommentsDTO noticesCommentsDTO);
     void remove(Long noticeCommentNum);
-    PageResponseDTO<NoticesComentsDTO> getListOfNotices(Long noticeNum, PageRequestDTO pageRequestDTO);
+    PageResponseDTO<NoticesCommentsDTO> getListOfNotices(Long noticeNum, PageRequestDTO pageRequestDTO);
 
-    default NoticeComments dtoToEntity(NoticesComentsDTO noticesComentsDTO) {
+    default NoticeComments dtoToEntity(NoticesCommentsDTO noticesCommentsDTO) {
         NoticeComments noticeComments = NoticeComments.builder()
-             //   .noticeCommentNum(noticesComentsDTO.getNoticeNum())
-                .content(noticesComentsDTO.getContent())
-                .title("title")
+                .content(noticesCommentsDTO.getContent())
                 .build();
 
         return noticeComments;
     }
-    default NoticesComentsDTO entityToDto(NoticeComments noticeComments) {
-        NoticesComentsDTO noticesComentsDTO = NoticesComentsDTO.builder()
+    default NoticesCommentsDTO entityToDto(NoticeComments noticeComments) {
+        NoticesCommentsDTO noticesCommentsDTO = NoticesCommentsDTO.builder()
                 .noticeCommentNum(noticeComments.getNoticeCommentNum())
                 .content(noticeComments.getContent())
-//                .regDate(noticeComments.getRegDate())
+                .regDate(noticeComments.getRegDate())
+                .members_username(noticeComments.getMembers().getUsername())
+                .nickname(noticeComments.getMembers().getNickname())
                 .noticeNum(noticeComments.getNotices().getNoticeNum())
-
                 .build();
-        return noticesComentsDTO;
+        return noticesCommentsDTO;
     }
 }

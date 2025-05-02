@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org/"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout/layout.html}"
       lang="en">
 
 <div layout:fragment="content">
   <div class="notice-read-card">
     <div class="card-title">공지사항</div>
-    <div class="input-group mb-3">
-      <span class="input-group-text">No</span>
-      <input type="text" name="noticeNum" class="form-control" th:value="${notices.noticeNum}" readonly>
-    </div>
+    <input type="hidden" name="noticeNum" class="form-control noticeNum" th:value="${notices.noticeNum}">
+    <input type="hidden" class="username" sec:authorize="isAuthenticated()" th:value="${#authentication.principal.username}">
+    <input type="hidden" class="authorities" sec:authorize="isAuthenticated()" th:value="${#authentication.getAuthorities()}">
 
     <div class="input-group mb-3" >
       <span class="input-group-text">제목</span>
@@ -56,7 +56,7 @@
         </a>
         </span>
       <a th:href="|@{/notices/list}?${link}|">
-        <button type="button" class="btn btn-secondary">List</button>
+        <button type="button" class="btn btn-secondary">목록</button>
       </a>
       </div><div class="input-group uploadResult mb-3">
 
@@ -66,10 +66,15 @@
   <div class="row mt-3">
     <div class="col-md-12">
       <div class="my-4">
-        <button class="btn btn-info addReplyBtn" >ADD REPLY</button>
+        <button class="btn btn-info addReplyBtn">댓글 달기</button>
       </div>
 
       <ul class="list-group replyList">
+        <li class="list-group-item d-flex replyItem">
+          <span class="col-4"><strong>내용</strong></span>
+          <span class="col-2"><strong>작성자</strong></span>
+          <span class="col-2"><strong>날짜</strong></span>
+        </li>
       </ul>
     </div>
   </div>
@@ -82,23 +87,22 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Register reply</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <h5 class="modal-title">댓글 달기</h5>
         </div>
         <div class="modal-body">
           <div class="input-group mb-3">
-            <span class="input-group-text">Reply Text</span>
+            <span class="input-group-text">댓글</span>
             <input type="text" class="form-control replyText">
           </div>
           <div class="input-group mb-3">
-            <span class="input-group-text">Replyer</span>
-            <input type="text" class="form-control author" th:value="${notices.noticeNum}">
+            <span class="input-group-text">작성자</span>
+            <input type="text" class="form-control" sec:authorize="isAuthenticated()" th:value="${#authentication.principal.member.nickname}">
+            <input type="hidden" class="author" name="username" sec:authorize="isAuthenticated()" th:value="${#authentication.principal.username}">
           </div>
-          <p>Modal body text goes here.</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary registerBtn">Register</button>
-          <button type="button" class="btn btn-dark closeBtn">Close</button>
+          <button type="button" class="btn btn-primary registerBtn">작성</button>
+          <button type="button" class="btn btn-dark closeBtn">닫기</button>
         </div>
       </div>
     </div>
@@ -108,19 +112,18 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title replyHeader"></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <h5 class="modal-title">댓글 수정</h5>
+          <input type="hidden" name="replyHeader" class="replyHeader">
+          <input type="hidden" name="replyHeader2" class="replyHeader2">
         </div>
         <div class="modal-body">
           <div class="input-group mb-3">
-            <span class="input-group-text">댓글작성</span>
+            <span class="input-group-text">내용</span>
             <input type="text" class="form-control modifyText">
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary modifyBtn">Modify</button>
-          <button type="button" class="btn btn-danger removeBtn">Remove</button>
-          <button type="button" class="btn btn-dark closeModifyBtn">Close</button>
+        <div class="modal-footer buttonCase">
+          <button type="button" class="btn btn-dark closeModifyBtn">닫기</button>
         </div>
       </div>
     </div>
@@ -129,27 +132,27 @@
     <script src="/js/reply.js"></script>
   </div>
   <script layout:fragment="script" th:inline="javascript">
-    const bno=[[${notices.noticeNum}]]
-    const replyList=document.querySelector(".replyList")
-    const replyPaging=document.querySelector(".replyPaging")
+    const bno = [[${notices.noticeNum}]]
+    const replyList = document.querySelector(".replyList");
+    const replyPaging = document.querySelector(".replyPaging");
+
+    printReplies(1, 10, true)
 
     function printList(dtoList){
-      let str='';
-      if(dtoList && dtoList.length>0){
+      let str = '';
+      if(dtoList != null && dtoList.length > 0){
         for(let dto of dtoList){
           str += `<li class="list-group-item d-flex replyItem">
-                      <span class="col-2">${dto.noticeCommentNum}</span>
-                      <span class="col-6" data-rno="${dto.noticeCommentNum}">${dto.content}</span>
-                      <span class="col-2">${dto.members_username}</span>
-                      <span class="col-2">${dto.regDate} </span>
+                      <span class="col-4" data-rno="${dto.noticeCommentNum}">${dto.content}</span>
+                      <span class="col-2" data-rno="${dto.noticeCommentNum}">${dto.members_username}</span>
+                      <span class="col-2" data-rno="${dto.noticeCommentNum}">${dto.regDate}</span>
                     </li>`
         }
       }
-      replyList.innerHTML=str
+      replyList.innerHTML += str;
     }
 
     function printPages(data){
-
       let pageStr=''
       if(data.prev) {
         pageStr +=`<li class="page-item"><a class="page-link" data-page="${data.start-1}">PREV</a></li>`
@@ -169,15 +172,12 @@
     ////////
     function printReplies(page, size, goLast){
       getList({bno, page, size, goLast}).then(
-              data=>{
+              data => {
                 printList(data.dtoList)
                 printPages(data)
               }
       )
     }
-
-
-    printReplies(1,10, true)
 
     const registerModal=new bootstrap.Modal(document.querySelector(".registerModal"))
     const registerBtn=document.querySelector(".registerBtn")
@@ -185,15 +185,12 @@
     const author=document.querySelector(".author")
     const closeBtn=document.querySelector(".closeBtn")
 
-
-
-    document.querySelector(".addReplyBtn").addEventListener("click",function (e){
-      // alert('aa')
+    document.querySelector(".addReplyBtn").addEventListener("click",function(e){
       registerModal.show()
-    },false)
+    }, false)
     closeBtn.addEventListener("click",function (e){
       registerModal.hide()
-    },false)
+    }, false)
 
     let page=1
     let size=10
@@ -211,99 +208,111 @@
       printReplies(page, size)
     },false)
 
-    registerBtn.addEventListener("click", function (e){
+    registerBtn.addEventListener("click", function(e){
       const replyObj={
-        noticeNum:bno,
-        content:replyText.value,
-        members_username:author.value
+        noticeNum: bno,
+        content: replyText.value,
+        members_username: author.value
       }
       addReply(replyObj).then(result=>{
-        alert(result.noticeCommentNum)
         registerModal.hide()
         replyText.value=''
         author.value=''
         printReplies(1, 10, true)
-      }).catch(e=>{
+      }).catch(e => {
         alert("댓글 입력오류")
       }, false)
     })
 
     //modifyModal
     const modifyModal = new bootstrap.Modal(document.querySelector(".modifyModal"))
-
     const replyHeader = document.querySelector(".replyHeader")
+    const replyHeader2 = document.querySelector(".replyHeader2")
     const modifyText = document.querySelector(".modifyText")
-    const modifyBtn = document.querySelector(".modifyBtn")
-    const removeBtn = document.querySelector(".removeBtn")
+    let modifyBtn = document.querySelector(".modifyBtn")
+    let removeBtn = document.querySelector(".removeBtn")
     const closeModifyBtn = document.querySelector(".closeModifyBtn")
+    const buttonCase = document.querySelector(".buttonCase")
+    let username = null
+    if(document.querySelector(".username") != null) {
+      username = document.querySelector(".username").value
+    }
+    let authorities = null
+    if(document.querySelector(".authorities") != null) {
+      authorities = document.querySelector(".authorities").value
+    }
 
     replyList.addEventListener("click", function (e){
       e.preventDefault()
       e.stopPropagation()
-
-
       const target = e.target
-
       if(!target || target.tagName != 'SPAN'){
         return
       }
 
       const rno = target.getAttribute("data-rno")
-      alert(rno)
-
       if(!rno){
         return
       }
 
       getReply(rno).then(reply => { //댓글의 내용을 모달창에 채워서 보여주는
-
-        console.log(reply)
-        replyHeader.innerHTML = reply.rno
-        modifyText.value = reply.replyText
+        console.log("reply: ", reply.content);
+        replyHeader.value = reply.noticeCommentNum
+        replyHeader2.value = reply.members_username
+        modifyText.value = reply.content
+        if(username != null && authorities != null) {
+          buttonCase.innerHTML +=
+                  `<button type="button" class="btn btn-primary modifyBtn" th:if="${username == replyHeader2.value || authorities.contains('ADMIN')}">수정</button>
+            <button type="button" class="btn btn-danger removeBtn" th:if="${username == replyHeader2.value || authorities.contains('ADMIN')}">삭제</button>`
+          modifyBtn = document.querySelector(".modifyBtn")
+          removeBtn = document.querySelector(".removeBtn")
+        }
         modifyModal.show()
-
-      }).catch(e => alert('error'))
-
-    },false)
-
-    modifyBtn.addEventListener("click", function(e) {
-
-      const replyObj = {
-        rno:replyHeader.innerHTML,
-        replyText:modifyText.value}
-
-      modifyReply(replyObj).then(result => {
-        alert(result.rno+' 댓글이 수정되었습니다.')
-        replyText.value = ''
-        modifyModal.hide()
-        printReplies(page, size)
-
       }).catch(e => {
-        console.log(e)
+        alert(username)
+        alert(authorities)
+        alert("오류가 발생했습니다.")
       })
+
     },false)
 
-    removeBtn.addEventListener("click", function(e) {
+    if(modifyBtn != null) {
+      modifyBtn.addEventListener("click", function(e) {
+        const replyObj = {
+          rno:replyHeader.innerHTML,
+          replyText:modifyText.value}
 
-      removeReply(replyHeader.innerHTML).then(result => {
+        modifyReply(replyObj).then(result => {
+          alert(result.rno+' 댓글이 수정되었습니다.')
+          replyText.value = ''
+          modifyModal.hide()
+          printReplies(page, size)
 
-        alert(result.rno +' 댓글이 삭제되었습니다.')
-        replyText.value = ''
-        modifyModal.hide()
+        }).catch(e => {
+          console.log(e)
+        })
+      },false)
+    }
 
-        page = 1 // 이 부분이 없다면 원래 페이지로
+    if(removeBtn != null) {
+      removeBtn.addEventListener("click", function(e) {
+        removeReply(replyHeader.innerHTML).then(result => {
+          alert(result.rno +' 댓글이 삭제되었습니다.')
+          replyText.value = ''
+          modifyModal.hide()
 
-        printReplies(page, size)
+          page = 1 // 이 부분이 없다면 원래 페이지로
 
-      }).catch(e => {
-        console.log(e)
-      })
-    },false)
+          printReplies(page, size)
+
+        }).catch(e => {
+          console.log(e)
+        })
+      },false)
+    }
 
     closeModifyBtn.addEventListener("click", function(e){
-
       modifyModal.hide()
-
     }, false)
 
 

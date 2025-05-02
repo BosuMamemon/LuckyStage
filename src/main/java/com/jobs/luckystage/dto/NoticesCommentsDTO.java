@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.WithBy;
 
 import java.time.LocalDateTime;
 
@@ -13,16 +12,13 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class NoticesComentsDTO {
+public class NoticesCommentsDTO {
     private Long noticeCommentNum;
     @NotEmpty
     private String content;
     @NotEmpty
     private String members_username;
+    private String nickname;
     private Long noticeNum;
     private LocalDateTime regDate;
-
-
-
-
 }
