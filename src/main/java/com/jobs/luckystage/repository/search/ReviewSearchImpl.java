@@ -43,7 +43,6 @@ public class ReviewSearchImpl extends QuerydslRepositorySupport implements Revie
         List<Reviews> reviewList;
         BooleanBuilder builder = new BooleanBuilder();
 
-        builder.and(qReviews.members.username.eq(username));
 
         if(searchWord != null) {
             builder.or(qReviews.title.contains(searchWord));
@@ -51,6 +50,7 @@ public class ReviewSearchImpl extends QuerydslRepositorySupport implements Revie
             builder.or(qReviews.concerts.title.contains(searchWord));
         }
 
+        builder.and(qReviews.members.username.eq(username));
 
         query.where(builder);
         this.getQuerydsl().applyPagination(pageable, query);
