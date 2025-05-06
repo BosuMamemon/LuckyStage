@@ -31,8 +31,9 @@ public class CustomSecurityConfig {
                                 "/review/delete",
                                 "/noticesComments/"
                         ).authenticated()
-                        .requestMatchers(HttpMethod.DELETE, "/noticesComments/").authenticated()
-                        .requestMatchers(HttpMethod.PUT, "/noticesComments/").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/noticesComments/", "/replies/").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/noticesComments/", "/replies/").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/noticesComments/", "/replies/").authenticated()
                         .requestMatchers(
                                 "/notices/modify",
                                 "/notices/remove",

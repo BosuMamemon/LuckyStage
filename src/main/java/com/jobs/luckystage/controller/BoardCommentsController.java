@@ -18,10 +18,12 @@ import java.util.Map;
 public class BoardCommentsController {
     @Autowired
     private BoardCommentsService boardCommentsService;
+
     @GetMapping("/home")
     public String home() {
         return "Hello World";
     }
+
     @PostMapping(value="/", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map<String,Long> register(@RequestBody BoardCommentsDTO boardCommentsDTO) {
         log.info(boardCommentsDTO);
@@ -30,6 +32,7 @@ public class BoardCommentsController {
         map.put("boardCommentsNum",boardCommentsNum);
         return map;
     }
+
     @GetMapping("/{boardCommentsNum}")
     public BoardCommentsDTO read(@PathVariable("boardCommentsNum") Long boardCommentsNum) {
         BoardCommentsDTO boardCommentsDTO = boardCommentsService.read(boardCommentsNum);
