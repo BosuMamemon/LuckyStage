@@ -25,10 +25,11 @@ public class NoticesCommentsController {
     @PostMapping(value="/", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Long> register (@RequestBody NoticesCommentsDTO noticesCommentsDTO,
                                        @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        log.info("noticesCommentsDTO: "+ noticesCommentsDTO.toString());
+        log.info("controller / request / noticesCommentsDTO: "+ noticesCommentsDTO.toString());
         Map<String, Long> map = new HashMap<>();
         Long noticeCommentNum = noticesCommentsService.register(noticesCommentsDTO, principalDetails.getMember());
         map.put("noticeCommentNum", noticeCommentNum);
+        log.info("controller / response / map: " + map);
         return map;
     }
 

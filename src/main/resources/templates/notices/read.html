@@ -10,7 +10,7 @@
     <div class="card-title">공지사항</div>
     <input type="hidden" name="noticeNum" class="form-control noticeNum" th:value="${notices.noticeNum}">
     <input type="hidden" class="username" sec:authorize="isAuthenticated()" th:value="${#authentication.principal.username}">
-    <input type="hidden" class="authorities" sec:authorize="isAuthenticated()" th:value="${#authentication.getAuthorities()}">
+    <input type="hidden" class="authorities" sec:authorize="hasAuthority('ADMIN')" value="1">
 
     <div class="input-group mb-3" >
       <span class="input-group-text">제목</span>
@@ -96,7 +96,7 @@
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text">작성자</span>
-            <input type="text" class="form-control" sec:authorize="isAuthenticated()" th:value="${#authentication.principal.member.nickname}">
+            <input type="text" class="form-control" sec:authorize="isAuthenticated()" th:value="${#authentication.principal.member.nickname}" readonly>
             <input type="hidden" class="author" name="username" sec:authorize="isAuthenticated()" th:value="${#authentication.principal.username}">
           </div>
         </div>
@@ -113,8 +113,6 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">댓글 수정</h5>
-          <input type="hidden" name="replyHeader" class="replyHeader">
-          <input type="hidden" name="replyHeader2" class="replyHeader2">
         </div>
         <div class="modal-body">
           <div class="input-group mb-3">
@@ -122,7 +120,9 @@
             <input type="text" class="form-control modifyText">
           </div>
         </div>
-        <div class="modal-footer buttonCase">
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary modifyBtn">수정</button>
+          <button type="button" class="btn btn-danger removeBtn">삭제</button>
           <button type="button" class="btn btn-dark closeModifyBtn">닫기</button>
         </div>
       </div>
@@ -144,12 +144,12 @@
         for(let dto of dtoList){
           str += `<li class="list-group-item d-flex replyItem">
                       <span class="col-4" data-rno="${dto.noticeCommentNum}">${dto.content}</span>
-                      <span class="col-2" data-rno="${dto.noticeCommentNum}">${dto.members_username}</span>
+                      <span class="col-2" data-rno="${dto.noticeCommentNum}">${dto.nickname}</span>
                       <span class="col-2" data-rno="${dto.noticeCommentNum}">${dto.regDate}</span>
                     </li>`
         }
       }
-      replyList.innerHTML += str;
+      replyList.innerHTML = str;
     }
 
     function printPages(data){
@@ -209,12 +209,20 @@
     },false)
 
     registerBtn.addEventListener("click", function(e){
+      if(author == null) {
+        location.href = "/member/login";
+      }
       const replyObj={
         noticeNum: bno,
         content: replyText.value,
         members_username: author.value
       }
+      console.log("replyObj")
+      console.log(replyObj)
+
       addReply(replyObj).then(result=>{
+        console.log("result: ")
+        console.log(result)
         registerModal.hide()
         replyText.value=''
         author.value=''
@@ -229,91 +237,122 @@
     const replyHeader = document.querySelector(".replyHeader")
     const replyHeader2 = document.querySelector(".replyHeader2")
     const modifyText = document.querySelector(".modifyText")
-    let modifyBtn = document.querySelector(".modifyBtn")
-    let removeBtn = document.querySelector(".removeBtn")
-    const closeModifyBtn = document.querySelector(".closeModifyBtn")
-    const buttonCase = document.querySelector(".buttonCase")
+    const modifyBtn = document.querySelector(".modifyBtn")
+    const removeBtn = document.querySelector(".removeBtn")
+    const closeModifyBtn=document.querySelector(".closeModifyBtn")
     let username = null
     if(document.querySelector(".username") != null) {
       username = document.querySelector(".username").value
     }
-    let authorities = null
+    let adminFlag = false
     if(document.querySelector(".authorities") != null) {
-      authorities = document.querySelector(".authorities").value
+      adminFlag = true
     }
 
-    replyList.addEventListener("click", function (e){
+    replyList.addEventListener("click", function(e){
       e.preventDefault()
       e.stopPropagation()
       const target = e.target
       if(!target || target.tagName != 'SPAN'){
         return
       }
-
       const rno = target.getAttribute("data-rno")
       if(!rno){
         return
       }
-
       getReply(rno).then(reply => { //댓글의 내용을 모달창에 채워서 보여주는
         console.log("reply: ", reply.content);
         replyHeader.value = reply.noticeCommentNum
         replyHeader2.value = reply.members_username
         modifyText.value = reply.content
-        if(username != null && authorities != null) {
-          buttonCase.innerHTML +=
-                  `<button type="button" class="btn btn-primary modifyBtn" th:if="${username == replyHeader2.value || authorities.contains('ADMIN')}">수정</button>
-            <button type="button" class="btn btn-danger removeBtn" th:if="${username == replyHeader2.value || authorities.contains('ADMIN')}">삭제</button>`
-          modifyBtn = document.querySelector(".modifyBtn")
-          removeBtn = document.querySelector(".removeBtn")
-        }
         modifyModal.show()
+
       }).catch(e => {
         alert(username)
-        alert(authorities)
         alert("오류가 발생했습니다.")
       })
 
     },false)
 
-    if(modifyBtn != null) {
-      modifyBtn.addEventListener("click", function(e) {
-        const replyObj = {
-          rno:replyHeader.innerHTML,
-          replyText:modifyText.value}
+    modifyBtn.addEventListener("click", function(e) {
+      const replyObj = {
+        rno:replyHeader.innerHTML,
+        replyText:modifyText.value}
 
-        modifyReply(replyObj).then(result => {
-          alert(result.rno+' 댓글이 수정되었습니다.')
-          replyText.value = ''
-          modifyModal.hide()
-          printReplies(page, size)
+      console.log("modify replyObj")
+      console.log(replyObj)
 
-        }).catch(e => {
-          console.log(e)
-        })
-      },false)
-    }
+      modifyReply(replyObj).then(result => {
+        alert(result.rno+' 댓글이 수정되었습니다.')
+        replyText.value = ''
+        modifyModal.hide()
+        printReplies(page, size)
 
-    if(removeBtn != null) {
-      removeBtn.addEventListener("click", function(e) {
-        removeReply(replyHeader.innerHTML).then(result => {
-          alert(result.rno +' 댓글이 삭제되었습니다.')
-          replyText.value = ''
-          modifyModal.hide()
+      }).catch(e => {
+        console.log(e)
+      })
+    },false)
 
-          page = 1 // 이 부분이 없다면 원래 페이지로
+    removeBtn.addEventListener("click", function(e) {
+      removeReply(replyHeader.innerHTML).then(result => {
+        alert(result.rno +' 댓글이 삭제되었습니다.')
+        replyText.value = ''
+        modifyModal.hide()
 
-          printReplies(page, size)
+        page = 1 // 이 부분이 없다면 원래 페이지로
 
-        }).catch(e => {
-          console.log(e)
-        })
-      },false)
-    }
+        printReplies(page, size)
+
+      }).catch(e => {
+        console.log(e)
+      })
+    },false)
 
     closeModifyBtn.addEventListener("click", function(e){
       modifyModal.hide()
     }, false)
+
+    // if(modifyBtn != null) {
+    //   modifyBtn.addEventListener("click", function(e) {
+    //     const replyObj = {
+    //       rno:replyHeader.innerHTML,
+    //       replyText:modifyText.value}
+    //
+    //     console.log("modify replyObj")
+    //     console.log(replyObj)
+    //
+    //     modifyReply(replyObj).then(result => {
+    //       alert(result.rno+' 댓글이 수정되었습니다.')
+    //       replyText.value = ''
+    //       modifyModal.hide()
+    //       printReplies(page, size)
+    //
+    //     }).catch(e => {
+    //       console.log(e)
+    //     })
+    //   },false)
+    // }
+    //
+    // if(removeBtn != null) {
+    //   removeBtn.addEventListener("click", function(e) {
+    //     removeReply(replyHeader.innerHTML).then(result => {
+    //       alert(result.rno +' 댓글이 삭제되었습니다.')
+    //       replyText.value = ''
+    //       modifyModal.hide()
+    //
+    //       page = 1 // 이 부분이 없다면 원래 페이지로
+    //
+    //       printReplies(page, size)
+    //
+    //     }).catch(e => {
+    //       console.log(e)
+    //     })
+    //   },false)
+    // }
+    //
+    // closeModifyBtn.addEventListener("click", function(e){
+    //   modifyModal.hide()
+    // }, false)
 
 
   </script>

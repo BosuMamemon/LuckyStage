@@ -8,6 +8,7 @@ import com.jobs.luckystage.dto.PageResponseDTO;
 import com.jobs.luckystage.repository.NoticesCommentsRepository;
 import com.jobs.luckystage.repository.NoticesRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class NoticesCommentsServiceImpl implements NoticesCommentsService {
     private final NoticesCommentsRepository noticesCommentsRepository;
     private final NoticesRepository noticesRepository;
@@ -24,11 +26,13 @@ public class NoticesCommentsServiceImpl implements NoticesCommentsService {
 
     @Override
     public Long register(NoticesCommentsDTO noticeCommentsDTO, Members members) {
+        log.info("service / noticeCommentsDTO: " + noticeCommentsDTO);
         NoticeComments noticeComments = dtoToEntity(noticeCommentsDTO);
-        noticeComments.setNotices(noticesRepository.findById(noticeCommentsDTO.getNoticeNum()).get());
+        noticeComments.setNotices(noticesRepository.findById(noticeCommentsDTO.getNoticeNum()).orElse(null));
         noticeComments.setMembers(members);
+        NoticeComments savedComments = noticesCommentsRepository.save(noticeComments);
 
-        return noticesCommentsRepository.save(noticeComments).getNoticeCommentNum();
+        return savedComments.getNoticeCommentNum();
     }
 
     @Override

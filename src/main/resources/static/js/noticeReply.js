@@ -17,11 +17,12 @@ async function removeReply(rno){
 }
 async function getList({bno, page, size, goLast}){
     console.log("page: ", page)
-    const response=await axios.get(`/noticesComments/list/${bno}`,{params:{page, size}})
+    let response = await axios.get(`/noticesComments/list/${bno}`, {params : {page, size}})
     if(goLast){
         const total = response.data.total
         const lastPage=parseInt(Math.ceil(total/size))
-        return getList({bno:bno, page:lastPage, size:size})
+        // return getList({bno:bno, page:lastPage, size:size})
+        response = await axios.get(`/noticesComments/list/${bno}`, {params : {lastPage, size}})
     }
     return response.data
 }
