@@ -16,8 +16,6 @@ public interface BoardCommentsService {
 
     default BoardComments dtoToEntity(BoardCommentsDTO boardCommentsDTO) {
         BoardComments boardComments = BoardComments.builder()
-                .boardCommentNum(boardCommentsDTO.getBoardCommentNum())
-                .title(boardCommentsDTO.getTitle())
                 .content(boardCommentsDTO.getContent())
                 .build();
         return boardComments;
@@ -25,9 +23,11 @@ public interface BoardCommentsService {
     default BoardCommentsDTO entityToDto(BoardComments boardComments) {
         BoardCommentsDTO boardCommentsDTO=BoardCommentsDTO.builder()
                 .boardCommentNum(boardComments.getBoardCommentNum())
-                .title(boardComments.getTitle())
                 .content(boardComments.getContent())
                 .regDate(boardComments.getRegDate())
+                .boardNum(boardComments.getBoards().getBoardNum())
+                .members(boardComments.getMembers().getUsername())
+                .nickname(boardComments.getMembers().getNickname())
                 .build();
         return boardCommentsDTO;
     }

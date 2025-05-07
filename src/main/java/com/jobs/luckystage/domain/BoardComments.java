@@ -10,17 +10,14 @@ import java.util.Date;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Entity
-public class BoardComments {
+public class BoardComments extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long boardCommentNum;
     @Column(nullable = false)
-    private String title;
-    @Column(nullable = false)
     private String content;
     @ManyToOne(fetch = FetchType.LAZY)
     private Members members;
-    private Date regDate;
     @ManyToOne(fetch = FetchType.LAZY)
     private Boards boards;
 }

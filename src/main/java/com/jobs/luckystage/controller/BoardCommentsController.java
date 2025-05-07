@@ -25,11 +25,11 @@ public class BoardCommentsController {
     }
 
     @PostMapping(value="/", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String,Long> register(@RequestBody BoardCommentsDTO boardCommentsDTO) {
-        log.info(boardCommentsDTO);
-        Map<String,Long> map = new HashMap<>();
-        Long boardCommentsNum=boardCommentsService.register(boardCommentsDTO);
-        map.put("boardCommentsNum",boardCommentsNum);
+    public Map<String, Long> register(@RequestBody BoardCommentsDTO boardCommentsDTO) {
+        log.info("boardCommentsDTO: " + boardCommentsDTO);
+        Map<String, Long> map = new HashMap<>();
+        Long boardCommentsNum = boardCommentsService.register(boardCommentsDTO);
+        map.put("boardCommentsNum", boardCommentsNum);
         return map;
     }
 
@@ -38,11 +38,15 @@ public class BoardCommentsController {
         BoardCommentsDTO boardCommentsDTO = boardCommentsService.read(boardCommentsNum);
         return boardCommentsDTO;
     }
-    @GetMapping("/list/{boardNum}")
+    @GetMapping(value = "/list/{boardNum}")
+    @ResponseBody
     public PageResponseDTO<BoardCommentsDTO> getReplies(
             @PathVariable("boardNum") Long boardNum, PageRequestDTO pageRequest) {
+        log.info("controller / request / boardNum: " + boardNum);
+        log.info("controller / request / pageRequest: " + pageRequest);
         PageResponseDTO<BoardCommentsDTO> responseDTO=
                 boardCommentsService.getListOfBoard(boardNum,pageRequest);
+        log.info("controller / response / responseDTO: " + responseDTO);
         return responseDTO;
     }
     @DeleteMapping("/{boardCommentsNum}")

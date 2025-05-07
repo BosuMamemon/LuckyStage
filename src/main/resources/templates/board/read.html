@@ -3,6 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout/layout.html}" lang="en">
+
 <div layout:fragment="content">
     <div class="card" style="width: 85%;">
 
@@ -84,11 +85,11 @@
                 <div class="modal-body">
                     <div class="input-group mb-3">
                         <span class="input-group-text">댓글 내용</span>
-                        <input type="text" class="form-control replyText">
+                        <input type="text" class="form-control content">
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text">댓글작성자</span>
-                        <input type="text" class="form-control author" th:value="${#authentication.principal.username}" sec:authorize="isAuthenticated()" readonly>
+                        <input type="text" class="form-control member" th:value="${#authentication.principal.username}" sec:authorize="isAuthenticated()" readonly>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -104,12 +105,14 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title replyHeader"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="input-group mb-3">
                         <span class="input-group-text">댓글작성</span>
                         <input type="text" class="form-control modifyText">
+                        <input type="text" class="form-control nickname">
+                        <input type="hidden" name="replyHeader" class="replyHeaderUsername">
+                        <input type="hidden" name="replyHeader2" class="replyHeader2">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -126,17 +129,16 @@
 </div>
 <script layout:fragment="script" th:inline="javascript">
     const boardNum = [[${board.boardNum}]];
-    const replyList=document.querySelector(".replyList")
-    const replyPaging=document.querySelector(".replyPaging")
+    const replyList=document.querySelector(".replyList");
+    const replyPaging=document.querySelector(".replyPaging");
 
     function printList(dtoList){
         let str='';
         if(dtoList && dtoList.length>0){
             for(let dto of dtoList){
                 str+=`<li class="list-group-item d-flex replyItem">
-                        <span class="col-2">${dto.boardCommentNum}</span>
                         <span class="col-6" data-boardCommentNum="${dto.boardCommentNum}">${dto.content}</span>
-                        <span class="col-2">${dto.members}</span>
+                        <span class="col-2">${dto.nickname}</span>
                         <span class="col-2">${dto.regDate}</span>
                      </li>`
             }
@@ -174,7 +176,7 @@
     const registerModal=new bootstrap.Modal(document.querySelector(".registerModal"))
     const registerBtn=document.querySelector(".registerBtn")
     const content=document.querySelector(".content")
-    const members=document.querySelector(".members")
+    const member=document.querySelector(".member")
     const closeBtn=document.querySelector(".closeBtn")
 
 
@@ -203,17 +205,25 @@
     },false)
 
     registerBtn.addEventListener("click", function (e){
-        const replyObj={
-            boardNum:boardNum,
-            content:replyText.value,
-            members:author.value
+        if(member == null) {
+            location.href = "/member/login";
         }
 
+        const replyObj={
+            boardNum:boardNum,
+            content:content.value,
+            members:member.value
+        }
+
+        console.log("replyObj: ");
+        console.log(replyObj);
+
         addReply(replyObj).then(result=>{
-            alert(result.boardCommentNum)
+            console.log(result);
+            alert("댓글이 등록되었습니다.")
             registerModal.hide()
-            replyText.value=''
-            author.value=''
+            content.value=''
+            member.value=''
             printReplies(1, 10, true)
         }).catch(e=>{
             alert("댓글 입력오류")
@@ -272,7 +282,7 @@
         }
         modifyReply(replyObj).then(result=>{
                 alert(result.boardCommentNum+"댓글이 수정됨")
-                replyText.value=''
+                content.value=''
                 modifyModal.hide()
                 printReplies(page, size)
             }).catch(e=>{
@@ -283,7 +293,7 @@
         removeBtn.addEventListener("click", function (e){
             removeReply(replyHeader.innerHTML).then(result=>{
                 alert(result.boardCommentNum+' 댓글이 삭제됨')
-                replyText.value=''
+                content.value=''
                 modifyModal.hide()
 
                 page=1

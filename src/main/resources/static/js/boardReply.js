@@ -1,6 +1,7 @@
 async function addReply(replyObj){
     const response=await axios.post(`/replies/`, replyObj)
-    console.log(response)
+    console.log("response:");
+    console.log(response);
     return response.data
 }
 async function getReply(boardCommentsNum){
@@ -18,11 +19,15 @@ async function removeReply(boardCommentsNum){
 async function getList({boardNum, page, size, goLast}){
     console.log("boardNum: ", boardNum)
     console.log("page: ", page)
-    const response=await axios.get(`/replies/list/${boardNum}`, {params : {page, size}})
+    let response = await axios.get(`/replies/list/${boardNum}`, {params : {page, size}});
     if(goLast){
         const total = response.data.total
-        const lastPage=parseInt(Math.ceil(total/size+1))
-        return getList({boardNum:boardNum, page:lastPage, size:size})
+        const lastPage = parseInt(Math.ceil(total/size+1))
+        response = await axios.get(`/replies/list/${boardNum}`, {params : {lastPage, size}});
+        return response.data
     }
+    console.log("response:")
+    console.log(response)
+    console.log(response.data)
     return response.data
 }

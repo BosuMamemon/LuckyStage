@@ -8,8 +8,10 @@ import com.jobs.luckystage.dto.PageRequestDTO;
 import com.jobs.luckystage.dto.PageResponseDTO;
 import com.jobs.luckystage.repository.BoardCommentRepository;
 import com.jobs.luckystage.repository.BoardRepository;
+import com.jobs.luckystage.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,16 +22,19 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class BoardCommentsServiceImpl implements BoardCommentsService {
     private final BoardCommentRepository boardCommentRepository;
     private final BoardRepository boardRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     public Long register(BoardCommentsDTO boardCommentsDTO) {
         BoardComments boardComments = dtoToEntity(boardCommentsDTO);
         Boards boards = boardRepository
-                .findById(boardCommentsDTO.getBoards().getBoardNum()).get();
+                .findById(boardCommentsDTO.getBoardNum()).orElse(null);
         boardComments.setBoards(boards);
+        boardComments.setMembers(memberRepository.findByUsername(boardCommentsDTO.getMembers()));
         Long boardCommentNum = boardCommentRepository.save(boardComments).getBoardCommentNum();
         return boardCommentNum;
     }
@@ -61,10 +66,14 @@ public class BoardCommentsServiceImpl implements BoardCommentsService {
                 .map(boardComments -> entityToDto(boardComments))
                 .collect(Collectors.toList());
 
-        return PageResponseDTO.<BoardCommentsDTO>withAll()
+        log.info("service / dtoList: " + dtoList);
+
+        PageResponseDTO<BoardCommentsDTO> pageResponseDTO = PageResponseDTO.<BoardCommentsDTO>withAll()
                 .pageRequestDTO(pageRequestDTO)
                 .dtoList(dtoList)
                 .total((int)result.getTotalElements())
                 .build();
+        log.info("service / pageResponseDTO: " + pageResponseDTO);
+        return pageResponseDTO;
     }
 }

@@ -18,12 +18,12 @@ import java.util.Date;
 public class BoardCommentsDTO {
     private Long boardCommentNum;
     @NotEmpty
-    private String title;
-    @NotEmpty
     private String content;
     @NotEmpty
-    private Members members;
+    private String members;
+    private String nickname;
     private int readcount;
-    private Date regDate;
-    private Boards boards;
+    private LocalDateTime regDate;
+    @NotEmpty
+    private long boardNum;
 }
