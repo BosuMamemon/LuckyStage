@@ -29,8 +29,8 @@
             </div>
 
             <div class="board-dates">
-                <span th:text="${board.regDate}"></span>
-                <span th:text="' / ' + ${board.modDate}"></span>
+                <span th:text="${#temporals.format(board.regDate, 'yyyy-MM-dd HH:mm')}"></span>
+                <span th:text="' / ' + ${#temporals.format(board.modDate, 'yyyy-MM-dd HH:mm')}"></span>
             </div>
 
             <div class="board-buttons" th:with="link=${pageRequestDTO.getLink()}">
